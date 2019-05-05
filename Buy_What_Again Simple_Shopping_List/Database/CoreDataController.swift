@@ -40,13 +40,14 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     }
     
     //TODO: 1 validation required, check for CoreData #01 task in trello
-    func addList(name: String, type: String, deadLine: Date) -> ShoppingList {
+    func addList(name: String, type: String, deadLine: Date?) -> ShoppingList {
         let list = NSEntityDescription.insertNewObject(forEntityName: "ShoppingList", into: persistantContainer.viewContext) as! ShoppingList
         list.name = name
         list.type = type
         if deadLine != nil {
-            list.deadline = deadLine as! NSDate
-        } else {
+            list.deadline = deadLine! as NSDate
+        }
+        else {
             list.deadline = nil
         }
 

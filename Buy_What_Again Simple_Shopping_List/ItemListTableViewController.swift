@@ -10,7 +10,7 @@ import UIKit
 
 class ItemListTableViewController: UITableViewController {
     
-    var myList: [ItemList] = []
+    var myList: [ShoppingList] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +40,7 @@ class ItemListTableViewController: UITableViewController {
         
         let list = myList[indexPath.row]
 
-        listCell.textLabel?.text = list.listName
+        listCell.textLabel?.text = list.name
         return listCell
     }
     

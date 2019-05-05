@@ -9,13 +9,20 @@
 import UIKit
 
 class ListBarController: UITabBarController {
-
+    
+    @IBOutlet weak var listTabBar: UITabBar!
+    
+    override func awakeFromNib() {
+        
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        listTabBar.items![2].title = "Shopping List"
+        
     }
-    
 
     /*
     // MARK: - Navigation

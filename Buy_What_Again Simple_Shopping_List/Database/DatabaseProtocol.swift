@@ -31,7 +31,7 @@ protocol DatabaseListener: AnyObject {
 }
 
 protocol DatabaseProtocol: AnyObject {
-    func addList(name: String, type: String, deadLine: Date) -> ShoppingList
+    func addList(name: String, type: String, deadLine: Date?) -> ShoppingList
     func addItem(name: String) -> Item
     func addGrocery(_ name: String, _ quantity: Float, _ unit: String) -> Grocery
     func addItemToGrocery(_ item: Item, _ grocery: Grocery) -> Bool
@@ -40,4 +40,7 @@ protocol DatabaseProtocol: AnyObject {
     func removeItem(item: Item)
     func removeGrocery(_ grocery: Grocery)
     func removeGroceryFromList(grocery: Grocery, list: ShoppingList)
+    func addListener(listener: DatabaseListener)
+    func removeListener(listener: DatabaseListener)
+    func saveContext()
 }

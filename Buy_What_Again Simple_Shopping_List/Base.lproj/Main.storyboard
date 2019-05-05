@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xIQ-kk-P5W">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xIQ-kk-P5W">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Tab Bar Controller-->
+        <!--List Bar Controller-->
         <scene sceneID="whw-9y-pDF">
             <objects>
-                <tabBarController id="xIQ-kk-P5W" sceneMemberID="viewController">
+                <tabBarController id="xIQ-kk-P5W" customClass="ListBarController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="llU-W3-p4D">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
+                        <outlet property="listTabBar" destination="llU-W3-p4D" id="rzF-Ez-HRv"/>
                         <segue destination="Vc5-md-xTp" kind="relationship" relationship="viewControllers" id="at7-UH-aRR"/>
-                        <segue destination="Tv2-Tb-fGD" kind="relationship" relationship="viewControllers" id="mXH-H0-nCD"/>
                         <segue destination="ATO-Gv-ozM" kind="relationship" relationship="viewControllers" id="kjd-gq-2pb"/>
+                        <segue destination="Tv2-Tb-fGD" kind="relationship" relationship="viewControllers" id="511-DQ-kgS"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hgY-ms-588" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -51,7 +53,7 @@
                             <outlet property="delegate" destination="8KY-7G-KEA" id="3Ui-4A-Ami"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="kH4-8r-vki"/>
+                    <navigationItem key="navigationItem" title="Shop List" id="kH4-8r-vki"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e1t-GT-qtl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -60,19 +62,46 @@
         <!--Shopping List Index Page-->
         <scene sceneID="qCb-LD-eNe">
             <objects>
-                <tableViewController title="Shopping List Index Page" id="PTR-Jr-fTm" sceneMemberID="viewController">
+                <tableViewController title="Shopping List Index Page" id="PTR-Jr-fTm" customClass="ShoppingListTableViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Q5H-Fy-P9b">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="OKC-DF-ybn">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="listCell" rowHeight="70" id="OKC-DF-ybn" customClass="ShoppingListTableViewCell" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="320" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OKC-DF-ybn" id="NIQ-4i-mSe">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="69.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="nameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CxW-Pk-6c4">
+                                            <rect key="frame" x="16" y="11" width="84" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yig-ab-uCy">
+                                            <rect key="frame" x="16" y="44" width="29" height="15"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="dateLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Bk-S1-BQv">
+                                            <rect key="frame" x="53" y="44" width="171" height="15"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="dateLabel" destination="8Bk-S1-BQv" id="xRM-Ta-Xgi"/>
+                                    <outlet property="nameLabel" destination="CxW-Pk-6c4" id="Idc-MR-Y0x"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -81,12 +110,107 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Your Item List" id="Ed2-iP-bmK">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="N6S-sF-Csc"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="N6S-sF-Csc">
+                            <connections>
+                                <segue destination="sQZ-0T-FCn" kind="show" identifier="addShoppingListSegue" id="ANb-gl-WJO"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vaL-9Y-m2f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5565" y="-867.25352112676057"/>
+        </scene>
+        <!--Add New Shopping List Page-->
+        <scene sceneID="HoF-nc-6NC">
+            <objects>
+                <viewController title="Add New Shopping List Page" hidesBottomBarWhenPushed="YES" id="sQZ-0T-FCn" customClass="AddShoppingListViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="v7R-ER-eLr">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name for the list:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RnS-O4-3Zo">
+                                <rect key="frame" x="16" y="80" width="131" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="List type:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="43P-kB-6BC">
+                                <rect key="frame" x="16" y="163" width="71" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="DtF-ep-vxx">
+                                <rect key="frame" x="0.0" y="352" width="320" height="216"/>
+                                <date key="date" timeIntervalSinceReferenceDate="578744056.27198601">
+                                    <!--2019-05-05 10:14:16 +0000-->
+                                </date>
+                            </datePicker>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Need a deadline?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qGG-T6-RGp">
+                                <rect key="frame" x="16" y="244" width="133" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uO5-Kz-JUH">
+                                <rect key="frame" x="16" y="117" width="288" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Fkk-yn-V26">
+                                <rect key="frame" x="169" y="241" width="51" height="31"/>
+                                <connections>
+                                    <action selector="onActivated:" destination="sQZ-0T-FCn" eventType="valueChanged" id="Xho-n7-vyt"/>
+                                </connections>
+                            </switch>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="WGX-Db-JaE">
+                                <rect key="frame" x="16" y="200" width="288" height="29"/>
+                                <segments>
+                                    <segment title="Regular"/>
+                                    <segment title="Temproary"/>
+                                </segments>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="43P-kB-6BC" firstAttribute="top" secondItem="uO5-Kz-JUH" secondAttribute="bottom" constant="16" id="546-fk-blt"/>
+                            <constraint firstItem="DtF-ep-vxx" firstAttribute="bottom" secondItem="idu-gi-efB" secondAttribute="bottom" id="5Fs-xg-1vT"/>
+                            <constraint firstItem="Fkk-yn-V26" firstAttribute="top" secondItem="WGX-Db-JaE" secondAttribute="bottom" constant="13" id="7QE-oZ-9Ys"/>
+                            <constraint firstItem="Fkk-yn-V26" firstAttribute="leading" secondItem="qGG-T6-RGp" secondAttribute="trailing" constant="20" id="B0k-1v-dXj"/>
+                            <constraint firstItem="qGG-T6-RGp" firstAttribute="top" secondItem="WGX-Db-JaE" secondAttribute="bottom" constant="16" id="CCk-mq-IiR"/>
+                            <constraint firstItem="RnS-O4-3Zo" firstAttribute="leading" secondItem="idu-gi-efB" secondAttribute="leading" constant="16" id="JrN-UY-jCw"/>
+                            <constraint firstItem="qGG-T6-RGp" firstAttribute="leading" secondItem="idu-gi-efB" secondAttribute="leading" constant="16" id="Khl-8e-0nc"/>
+                            <constraint firstItem="uO5-Kz-JUH" firstAttribute="top" secondItem="RnS-O4-3Zo" secondAttribute="bottom" constant="16" id="U0a-hk-ffS"/>
+                            <constraint firstItem="idu-gi-efB" firstAttribute="trailing" secondItem="uO5-Kz-JUH" secondAttribute="trailing" constant="16" id="YUg-56-WKu"/>
+                            <constraint firstItem="WGX-Db-JaE" firstAttribute="top" secondItem="43P-kB-6BC" secondAttribute="bottom" constant="16" id="drT-eN-egv"/>
+                            <constraint firstItem="43P-kB-6BC" firstAttribute="leading" secondItem="idu-gi-efB" secondAttribute="leading" constant="16" id="fjc-aR-rWd"/>
+                            <constraint firstItem="RnS-O4-3Zo" firstAttribute="top" secondItem="idu-gi-efB" secondAttribute="top" constant="16" id="fzv-ut-tEH"/>
+                            <constraint firstItem="idu-gi-efB" firstAttribute="trailing" secondItem="WGX-Db-JaE" secondAttribute="trailing" constant="16" id="jRZ-ee-eRX"/>
+                            <constraint firstItem="DtF-ep-vxx" firstAttribute="leading" secondItem="idu-gi-efB" secondAttribute="leading" id="mMU-KQ-Dcd"/>
+                            <constraint firstItem="uO5-Kz-JUH" firstAttribute="leading" secondItem="idu-gi-efB" secondAttribute="leading" constant="16" id="ou4-Rx-827"/>
+                            <constraint firstItem="WGX-Db-JaE" firstAttribute="leading" secondItem="idu-gi-efB" secondAttribute="leading" constant="16" id="tfr-aD-g0Q"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="idu-gi-efB"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="New Shopping List" id="ITh-eM-gG1">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="wc0-vG-6uj">
+                            <connections>
+                                <action selector="onAddShoppingList:" destination="sQZ-0T-FCn" id="ZhT-fd-O9j"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="deadlinePicker" destination="DtF-ep-vxx" id="uSU-lQ-cni"/>
+                        <outlet property="killSwitch" destination="Fkk-yn-V26" id="VrK-AZ-Xxm"/>
+                        <outlet property="listTypeSegment" destination="WGX-Db-JaE" id="d6u-Q2-Xd3"/>
+                        <outlet property="nameTextField" destination="uO5-Kz-JUH" id="gYq-g6-U7q"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qSj-jU-znD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6488" y="-867"/>
         </scene>
         <!--Item List Index Page-->
         <scene sceneID="4bb-Bg-Yg9">
@@ -111,17 +235,17 @@
                             <outlet property="delegate" destination="pLb-x2-Nlk" id="o9E-xR-SyT"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="rCr-wE-RFr"/>
+                    <navigationItem key="navigationItem" title="Item List" id="rCr-wE-RFr"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TAJ-Xg-eVi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4571.25" y="561.97183098591552"/>
         </scene>
-        <!--Item-->
+        <!--Item List-->
         <scene sceneID="9oQ-cu-eyE">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Vc5-md-xTp" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="RVF-Jc-0oM"/>
+                    <tabBarItem key="tabBarItem" title="Item List" image="ItemListIcon" selectedImage="ItemListIcon" id="RVF-Jc-0oM"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yrN-Uw-uEu">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -136,11 +260,11 @@
             </objects>
             <point key="canvasLocation" x="3573.75" y="561.97183098591552"/>
         </scene>
-        <!--Item-->
+        <!--Shopping List-->
         <scene sceneID="LUe-AB-JHO">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Tv2-Tb-fGD" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="BlP-Y3-he3"/>
+                    <tabBarItem key="tabBarItem" title="Shopping List" image="ShoppingListIcon" selectedImage="ShoppingListIcon" id="BlP-Y3-he3"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="crI-oR-TYL">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -155,11 +279,11 @@
             </objects>
             <point key="canvasLocation" x="4567.5" y="-867.25352112676057"/>
         </scene>
-        <!--Item-->
+        <!--Shop List-->
         <scene sceneID="Rfw-5V-sZP">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ATO-Gv-ozM" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="MvI-56-21q"/>
+                    <tabBarItem key="tabBarItem" title="Shop List" image="ShopListIcon" selectedImage="ShopListIcon" id="MvI-56-21q"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="btB-Zj-OpO">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -175,4 +299,9 @@
             <point key="canvasLocation" x="4567.5" y="-155.28169014084509"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ItemListIcon" width="34.5" height="34.5"/>
+        <image name="ShopListIcon" width="36" height="36"/>
+        <image name="ShoppingListIcon" width="37.5" height="37.5"/>
+    </resources>
 </document>
