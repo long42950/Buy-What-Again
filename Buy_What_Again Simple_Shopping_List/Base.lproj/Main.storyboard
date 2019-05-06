@@ -33,7 +33,7 @@
         <!--Shop List Index Page-->
         <scene sceneID="g2x-Px-4xX">
             <objects>
-                <tableViewController title="Shop List Index Page" id="8KY-7G-KEA" sceneMemberID="viewController">
+                <tableViewController title="Shop List Index Page" id="8KY-7G-KEA" customClass="ShopListTableViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="f8K-56-T9D">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -53,11 +53,45 @@
                             <outlet property="delegate" destination="8KY-7G-KEA" id="3Ui-4A-Ami"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Shop List" id="kH4-8r-vki"/>
+                    <navigationItem key="navigationItem" title="Shop List" id="kH4-8r-vki">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Naf-YK-yLz">
+                            <connections>
+                                <action selector="onBeingLazy:" destination="8KY-7G-KEA" id="yxi-ax-zJn"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e1t-GT-qtl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5565" y="-155.28169014084509"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="S3K-J9-6Sg">
+            <objects>
+                <tableViewController id="ECw-FH-7Uv" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="U5w-Sw-Mlf">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="PcH-6E-UFi">
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PcH-6E-UFi" id="epD-7K-tpg">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ECw-FH-7Uv" id="fHR-1s-ooz"/>
+                            <outlet property="delegate" destination="ECw-FH-7Uv" id="ddL-Bw-jCX"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zbq-kq-RGa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5565" y="-1682"/>
         </scene>
         <!--Shopping List Index Page-->
         <scene sceneID="qCb-LD-eNe">
@@ -215,7 +249,7 @@
         <!--Item List Index Page-->
         <scene sceneID="4bb-Bg-Yg9">
             <objects>
-                <tableViewController title="Item List Index Page" id="pLb-x2-Nlk" sceneMemberID="viewController">
+                <tableViewController title="Item List Index Page" id="pLb-x2-Nlk" customClass="ItemListTableViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="dqM-w0-H4d">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -235,7 +269,20 @@
                             <outlet property="delegate" destination="pLb-x2-Nlk" id="o9E-xR-SyT"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Item List" id="rCr-wE-RFr"/>
+                    <navigationItem key="navigationItem" title="Item List" id="rCr-wE-RFr">
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="T3L-mu-CWm">
+                                <connections>
+                                    <action selector="onBeingLazy:" destination="pLb-x2-Nlk" id="Ezw-C5-10M"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="huh" id="6HK-oL-bpz">
+                                <connections>
+                                    <action selector="onBeingLazyAgain:" destination="pLb-x2-Nlk" id="b7e-mx-rfo"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TAJ-Xg-eVi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -303,5 +350,6 @@
         <image name="ItemListIcon" width="34.5" height="34.5"/>
         <image name="ShopListIcon" width="36" height="36"/>
         <image name="ShoppingListIcon" width="37.5" height="37.5"/>
+        <image name="huh" width="37.5" height="37.5"/>
     </resources>
 </document>

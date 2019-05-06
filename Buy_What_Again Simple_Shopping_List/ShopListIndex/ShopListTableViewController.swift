@@ -1,16 +1,14 @@
 //
-//  ItemListTableViewController.swift
+//  ShopListTableViewController.swift
 //  Buy_What_Again Simple_Shopping_List
 //
-//  Created by Chak Lee on 3/5/19.
+//  Created by Chak Lee on 6/5/19.
 //  Copyright © 2019 Chak Lee. All rights reserved.
 //
 
 import UIKit
 
-class ItemListTableViewController: UITableViewController {
-    
-    var myList: [ShoppingList] = []
+class ShopListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,12 +22,6 @@ class ItemListTableViewController: UITableViewController {
     
     @IBAction func onBeingLazy(_ sender: Any) {
         self.displayMessage(title: "Oops by bad", message: "This feature will be available soon!")
-        
-    }
-    
-    @IBAction func onBeingLazyAgain(_ sender: Any) {
-        self.displayMessage(title: "Oops by bad", message: "This feature will be available soon!")
-        
     }
     
 
@@ -37,24 +29,23 @@ class ItemListTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return myList.count
+        return 0
     }
 
-    
+    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let listCell = tableView.dequeueReusableCell(withIdentifier: "listCell", for: indexPath)
-        
-        let list = myList[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        listCell.textLabel?.text = list.name
-        return listCell
+        // Configure the cell...
+
+        return cell
     }
-    
+    */
 
     /*
     // Override to support conditional editing of the table view.
@@ -66,7 +57,7 @@ class ItemListTableViewController: UITableViewController {
 
     /*
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -100,5 +91,12 @@ class ItemListTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    func displayMessage(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Understood master!", style:
+            UIAlertAction.Style.default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
 }
