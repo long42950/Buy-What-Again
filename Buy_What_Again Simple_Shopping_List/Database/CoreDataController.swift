@@ -27,6 +27,10 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
         
         super.init()
+        
+        if fetchAllItem().count == 0 {
+            createDefaultitem()
+        }
     }
     
     func saveContext() {
@@ -216,6 +220,16 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
                 }
             }
         }
+    }
+    
+    func createDefaultitem() {
+        let _ = addItem(name: "Apple")
+        let _ = addItem(name: "Apple Pie")
+        let _ = addItem(name: "Bread")
+        let _ = addItem(name: "Canned fish")
+        let _ = addItem(name: "Dog food")
+        let _ = addItem(name: "Mountain Dew")
+        self.saveContext()
     }
     
 }

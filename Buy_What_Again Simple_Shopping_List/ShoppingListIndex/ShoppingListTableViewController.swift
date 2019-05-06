@@ -13,19 +13,12 @@ class ShoppingListTableViewController: UITableViewController, DatabaseListener {
     var allList: [ShoppingList] = []
     weak var databaseController: DatabaseProtocol?
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.tabBarItem.image = UIImage(named: "mostViewed")
-        self.tabBarItem.title = "Shopping List"
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         databaseController = appDelegate.databaseController
         
-        self.hidesBottomBarWhenPushed = false
         self.tableView.rowHeight = 70
     }
     
@@ -44,15 +37,14 @@ class ShoppingListTableViewController: UITableViewController, DatabaseListener {
     
     func onShoppingListChange(change: DatabaseChange, shoppList: [ShoppingList]) {
         allList = shoppList
-        print(shoppList.count)
     }
     
     func onItemListChange(change: DatabaseChange, itemList: [Item]) {
-        
+        //not used
     }
     
     func onGroceriesListChange(change: DatabaseChange, groceriesList: [Grocery]) {
-        
+        //not used
     }
 
     // MARK: - Table view data source

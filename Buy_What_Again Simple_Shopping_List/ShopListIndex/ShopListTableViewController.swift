@@ -21,7 +21,7 @@ class ShopListTableViewController: UITableViewController {
     }
     
     @IBAction func onBeingLazy(_ sender: Any) {
-        self.displayMessage(title: "Oops by bad", message: "This feature will be available soon!")
+        self.displayMessage(title: "Well... 🤦🏻", message: "This feature will be available soon!")
     }
     
 

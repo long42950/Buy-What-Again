@@ -21,9 +21,9 @@
                     </tabBar>
                     <connections>
                         <outlet property="listTabBar" destination="llU-W3-p4D" id="rzF-Ez-HRv"/>
+                        <segue destination="Tv2-Tb-fGD" kind="relationship" relationship="viewControllers" id="511-DQ-kgS"/>
                         <segue destination="Vc5-md-xTp" kind="relationship" relationship="viewControllers" id="at7-UH-aRR"/>
                         <segue destination="ATO-Gv-ozM" kind="relationship" relationship="viewControllers" id="kjd-gq-2pb"/>
-                        <segue destination="Tv2-Tb-fGD" kind="relationship" relationship="viewControllers" id="511-DQ-kgS"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hgY-ms-588" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -65,16 +65,16 @@
             </objects>
             <point key="canvasLocation" x="5565" y="-155.28169014084509"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Shopping List Info Page-->
         <scene sceneID="S3K-J9-6Sg">
             <objects>
-                <tableViewController id="ECw-FH-7Uv" sceneMemberID="viewController">
+                <tableViewController title="Shopping List Info Page" id="ECw-FH-7Uv" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="U5w-Sw-Mlf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="PcH-6E-UFi">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="groceryCell" id="PcH-6E-UFi">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PcH-6E-UFi" id="epD-7K-tpg">
@@ -88,10 +88,48 @@
                             <outlet property="delegate" destination="ECw-FH-7Uv" id="ddL-Bw-jCX"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="listName" id="O50-Pp-q8h">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="goX-oa-sld">
+                            <connections>
+                                <segue destination="evO-iz-APo" kind="show" id="dR9-JV-RQN"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zbq-kq-RGa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5565" y="-1682"/>
+            <point key="canvasLocation" x="5565" y="-1698"/>
+        </scene>
+        <!--Picked Grocery List Page-->
+        <scene sceneID="oYE-wL-e3G">
+            <objects>
+                <tableViewController title="Picked Grocery List Page" hidesBottomBarWhenPushed="YES" id="evO-iz-APo" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="cja-vI-pjb">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="2Vx-hn-eqO">
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2Vx-hn-eqO" id="myn-Gq-Q52">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="evO-iz-APo" id="g9q-fM-hvE"/>
+                            <outlet property="delegate" destination="evO-iz-APo" id="Lly-3e-uAr"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Pick what you need" id="lGk-Rn-tF7">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="tYC-Fa-Tww"/>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hOn-od-H3a" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6488" y="-1699"/>
         </scene>
         <!--Shopping List Index Page-->
         <scene sceneID="qCb-LD-eNe">
@@ -135,6 +173,7 @@
                                 <connections>
                                     <outlet property="dateLabel" destination="8Bk-S1-BQv" id="xRM-Ta-Xgi"/>
                                     <outlet property="nameLabel" destination="CxW-Pk-6c4" id="Idc-MR-Y0x"/>
+                                    <segue destination="ECw-FH-7Uv" kind="show" id="Ion-Qt-OYB"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -255,7 +294,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="7us-lo-bOm">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="itemCell" id="7us-lo-bOm">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7us-lo-bOm" id="h1r-K6-XTW">

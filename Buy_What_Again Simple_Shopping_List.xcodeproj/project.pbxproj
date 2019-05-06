@@ -24,7 +24,6 @@
 		FA92E63F22422A5C00EF363C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA92E63D22422A5C00EF363C /* Main.storyboard */; };
 		FA92E64122422A6000EF363C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA92E64022422A6000EF363C /* Assets.xcassets */; };
 		FA92E64422422A6000EF363C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA92E64222422A6000EF363C /* LaunchScreen.storyboard */; };
-		FADE9013227C117300BCAE33 /* ItemListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADE9012227C117300BCAE33 /* ItemListTableViewController.swift */; };
 		FADE9019227C1A8200BCAE33 /* ListBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADE9018227C1A8200BCAE33 /* ListBarController.swift */; };
 		FADE901D227C215100BCAE33 /* ItemListBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADE901C227C215100BCAE33 /* ItemListBarItem.swift */; };
 		FADE9024227C3F8100BCAE33 /* ShoppingLists.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FADE9022227C3F8100BCAE33 /* ShoppingLists.xcdatamodeld */; };
@@ -53,7 +52,6 @@
 		FA92E64022422A6000EF363C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA92E64322422A6000EF363C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA92E64522422A6000EF363C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FADE9012227C117300BCAE33 /* ItemListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListTableViewController.swift; sourceTree = "<group>"; };
 		FADE9018227C1A8200BCAE33 /* ListBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListBarController.swift; sourceTree = "<group>"; };
 		FADE901C227C215100BCAE33 /* ItemListBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListBarItem.swift; sourceTree = "<group>"; };
 		FADE9023227C3F8100BCAE33 /* ShoppingLists.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ShoppingLists.xcdatamodel; sourceTree = "<group>"; };
@@ -113,7 +111,6 @@
 				FA92E64022422A6000EF363C /* Assets.xcassets */,
 				FA92E64222422A6000EF363C /* LaunchScreen.storyboard */,
 				FA92E64522422A6000EF363C /* Info.plist */,
-				FADE9012227C117300BCAE33 /* ItemListTableViewController.swift */,
 				FADE9018227C1A8200BCAE33 /* ListBarController.swift */,
 				FADE901C227C215100BCAE33 /* ItemListBarItem.swift */,
 				FA3D8EE5227EEDCE000B0F23 /* addNewStuffDelegate.swift */,
@@ -253,7 +250,6 @@
 				FA3D8EC6227EA5B2000B0F23 /* CoreDataController.swift in Sources */,
 				FA3D8ED4227EBAE2000B0F23 /* ShoppingList+CoreDataProperties.swift in Sources */,
 				FA3D8ED3227EBAE2000B0F23 /* ShoppingList+CoreDataClass.swift in Sources */,
-				FADE9013227C117300BCAE33 /* ItemListTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
