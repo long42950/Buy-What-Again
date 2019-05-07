@@ -17,6 +17,7 @@ class AddShoppingListViewController: UIViewController {
     @IBOutlet weak var deadlinePicker: UIDatePicker!
     @IBOutlet weak var killSwitch: UISwitch!
     
+    let TODAY = Date()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,8 @@ class AddShoppingListViewController: UIViewController {
         databaseController = appDelegate.databaseController
         
         deadlinePicker.isHidden = true
+        
+        deadlinePicker.minimumDate = TODAY
     }
     
     @IBAction func onActivated(_ sender: Any) {
@@ -51,6 +54,18 @@ class AddShoppingListViewController: UIViewController {
             
             navigationController?.popViewController(animated: true)
             return
+        } else if listTypeSegment.selectedSegmentIndex == 1 {
+            let name = "Temporary List"
+            let listType = listTypeSegment.titleForSegment(at: listTypeSegment.selectedSegmentIndex)
+            var deadline: Date? = nil
+            if killSwitch.isOn {
+                deadline = deadlinePicker.date
+            }
+            let _ = databaseController!.addList(name: name, type: listType!, deadLine: deadline)
+            databaseController!.saveContext()
+            
+            navigationController?.popViewController(animated: true)
+            
         } else {
             displayMessage(title: "Error", message: "You need a name for your regular list")
         }

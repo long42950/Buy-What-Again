@@ -11,6 +11,7 @@ import UIKit
 class ShoppingListTableViewController: UITableViewController, DatabaseListener {
 
     var allList: [ShoppingList] = []
+    var chosenList: String?
     weak var databaseController: DatabaseProtocol?
     
     override func viewDidLoad() {
@@ -135,7 +136,10 @@ class ShoppingListTableViewController: UITableViewController, DatabaseListener {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        if segue.identifier == "chooseListSegue" {
+            let destination = segue.destination as! PickedGroceryListTableViewController
+            destination.shoppingList = allList[self.tableView.indexPathForSelectedRow!.row]
+        }
 
         
     }

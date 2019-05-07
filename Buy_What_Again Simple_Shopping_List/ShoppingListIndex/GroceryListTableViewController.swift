@@ -1,40 +1,32 @@
 //
-//  ItemListTableViewController.swift
+//  GroceryListTableViewController.swift
 //  Buy_What_Again Simple_Shopping_List
 //
-//  Created by Chak Lee on 3/5/19.
+//  Created by Chak Lee on 6/5/19.
 //  Copyright © 2019 Chak Lee. All rights reserved.
 //
 
 import UIKit
 
-class ItemListTableViewController: UITableViewController, DatabaseListener {
+class GroceryListTableViewController: UITableViewController, DatabaseListener {
+    
+    var shoppingList: ShoppingList?
     
     var allItem: [Item] = []
     weak var databaseController: DatabaseProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         databaseController = appDelegate.databaseController
-        
-    }
-    
-    @IBAction func onBeingLazy(_ sender: Any) {
-        self.displayMessage(title: "Oops my bad 🤷🏻‍♂️", message: "This feature will be available soon!")
-        
-    }
-    
-    @IBAction func onBeingLazyAgain(_ sender: Any) {
-        self.displayMessage(title: "Sorry 🙄", message: "This feature will be available soon!")
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         databaseController?.addListener(listener: self)
-        tableView.reloadData()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -56,6 +48,7 @@ class ItemListTableViewController: UITableViewController, DatabaseListener {
         //not used
     }
 
+
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -73,26 +66,12 @@ class ItemListTableViewController: UITableViewController, DatabaseListener {
         let itemCell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath)
         
         let list = allItem[indexPath.row]
-
+        
         itemCell.textLabel?.text = list.name
         return itemCell
     }
     
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        //TODO - Remember to validate no groceries is referencing this item before deleting it
-        let delete = UITableViewRowAction(style: .normal, title: "delete", handler: {action, index in
-//            let deleteItem = self.allItem[indexPath.row]
-//            self.allItem.remove(at: indexPath.row)
-//            tableView.beginUpdates()
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//            tableView.endUpdates()
-//            let _ = self.databaseController?.removeItem(item: deleteItem)
-        })
-        
-        delete.backgroundColor = .red
-        
-        return [delete]
-    }
+
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -103,7 +82,7 @@ class ItemListTableViewController: UITableViewController, DatabaseListener {
 
     /*
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -128,21 +107,17 @@ class ItemListTableViewController: UITableViewController, DatabaseListener {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "addGrocerySegue" {
+            let destination = segue.destination as! QuantityViewController
+            destination.shoppingList = self.shoppingList
+            destination.item = allItem[tableView.indexPathForSelectedRow!.row]
+        }
     }
-    */
     
-    func displayMessage(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        alertController.addAction(UIAlertAction(title: "Understood master!", style:
-            UIAlertAction.Style.default, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
-    }
 
 }

@@ -68,7 +68,7 @@
         <!--Shopping List Info Page-->
         <scene sceneID="S3K-J9-6Sg">
             <objects>
-                <tableViewController title="Shopping List Info Page" id="ECw-FH-7Uv" sceneMemberID="viewController">
+                <tableViewController title="Shopping List Info Page" id="ECw-FH-7Uv" customClass="PickedGroceryListTableViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="U5w-Sw-Mlf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -88,10 +88,10 @@
                             <outlet property="delegate" destination="ECw-FH-7Uv" id="ddL-Bw-jCX"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="listName" id="O50-Pp-q8h">
+                    <navigationItem key="navigationItem" title="This should not exist" id="O50-Pp-q8h">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="goX-oa-sld">
                             <connections>
-                                <segue destination="evO-iz-APo" kind="show" id="dR9-JV-RQN"/>
+                                <segue destination="evO-iz-APo" kind="show" identifier="chooseGrocerySegue" id="dR9-JV-RQN"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -100,22 +100,77 @@
             </objects>
             <point key="canvasLocation" x="5565" y="-1698"/>
         </scene>
-        <!--Picked Grocery List Page-->
+        <!--Quantity View Controller-->
+        <scene sceneID="gca-GB-KCu">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="fTZ-sp-x38" customClass="QuantityViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Qml-xy-nqL">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IeZ-MR-RJc">
+                                <rect key="frame" x="16" y="80" width="288" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Imh-4X-Dvc">
+                                <rect key="frame" x="16" y="126" width="288" height="29"/>
+                                <segments>
+                                    <segment title="Kg"/>
+                                    <segment title="Pack"/>
+                                </segments>
+                            </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e4P-m4-5Ns">
+                                <rect key="frame" x="16" y="170" width="288" height="30"/>
+                                <state key="normal" title="Add to list"/>
+                                <connections>
+                                    <action selector="onAddGrocery:" destination="fTZ-sp-x38" eventType="touchUpInside" id="hRH-pT-YT2"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="W7P-i2-xrR" firstAttribute="trailing" secondItem="Imh-4X-Dvc" secondAttribute="trailing" constant="16" id="1yp-U0-5Mx"/>
+                            <constraint firstItem="IeZ-MR-RJc" firstAttribute="top" secondItem="W7P-i2-xrR" secondAttribute="top" constant="16" id="8rU-d5-4K3"/>
+                            <constraint firstItem="e4P-m4-5Ns" firstAttribute="leading" secondItem="W7P-i2-xrR" secondAttribute="leading" constant="16" id="BSr-vc-S6O"/>
+                            <constraint firstItem="W7P-i2-xrR" firstAttribute="trailing" secondItem="e4P-m4-5Ns" secondAttribute="trailing" constant="16" id="Hdr-jn-VJ1"/>
+                            <constraint firstItem="W7P-i2-xrR" firstAttribute="trailing" secondItem="IeZ-MR-RJc" secondAttribute="trailing" constant="16" id="Og7-oZ-Al3"/>
+                            <constraint firstItem="e4P-m4-5Ns" firstAttribute="top" secondItem="Imh-4X-Dvc" secondAttribute="bottom" constant="16" id="eRb-wm-pdP"/>
+                            <constraint firstItem="Imh-4X-Dvc" firstAttribute="leading" secondItem="W7P-i2-xrR" secondAttribute="leading" constant="16" id="gwu-pd-qVa"/>
+                            <constraint firstItem="IeZ-MR-RJc" firstAttribute="leading" secondItem="W7P-i2-xrR" secondAttribute="leading" constant="16" id="kr9-6s-xS0"/>
+                            <constraint firstItem="Imh-4X-Dvc" firstAttribute="top" secondItem="IeZ-MR-RJc" secondAttribute="bottom" constant="16" id="p43-Ie-VvA"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="W7P-i2-xrR"/>
+                    </view>
+                    <connections>
+                        <outlet property="quantityTextField" destination="IeZ-MR-RJc" id="DP2-S3-KzN"/>
+                        <outlet property="unitSegment" destination="Imh-4X-Dvc" id="MbL-JU-pa6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lPI-Bp-EGB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6488" y="-2462"/>
+        </scene>
+        <!--Select New Grocery Page-->
         <scene sceneID="oYE-wL-e3G">
             <objects>
-                <tableViewController title="Picked Grocery List Page" hidesBottomBarWhenPushed="YES" id="evO-iz-APo" sceneMemberID="viewController">
+                <tableViewController title="Select New Grocery Page" hidesBottomBarWhenPushed="YES" id="evO-iz-APo" customClass="GroceryListTableViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="cja-vI-pjb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="2Vx-hn-eqO">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="itemCell" id="2Vx-hn-eqO">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2Vx-hn-eqO" id="myn-Gq-Q52">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="fTZ-sp-x38" kind="show" identifier="addGrocerySegue" id="soc-HQ-p0r"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -124,12 +179,115 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Pick what you need" id="lGk-Rn-tF7">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="tYC-Fa-Tww"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="tYC-Fa-Tww">
+                            <connections>
+                                <segue destination="4Eh-9a-ARB" kind="show" id="KWe-gk-uYY"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hOn-od-H3a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6488" y="-1699"/>
+        </scene>
+        <!--Add custom item-->
+        <scene sceneID="cz4-x3-9xc">
+            <objects>
+                <viewController id="6i2-o9-DOq" customClass="CustomItemViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xBr-9Y-DHJ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PWC-Ip-tK1">
+                                <rect key="frame" x="16" y="117" width="288" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kyl-9G-6J9">
+                                <rect key="frame" x="16" y="80" width="52" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y3i-VJ-IYs">
+                                <rect key="frame" x="137" y="177" width="46" height="30"/>
+                                <state key="normal" title="Create"/>
+                                <connections>
+                                    <action selector="onAddCustomItem:" destination="6i2-o9-DOq" eventType="touchUpInside" id="LSJ-BN-Uoy"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Kyl-9G-6J9" firstAttribute="leading" secondItem="aRo-9D-aZQ" secondAttribute="leading" constant="16" id="4LY-gD-tq7"/>
+                            <constraint firstItem="PWC-Ip-tK1" firstAttribute="top" secondItem="Kyl-9G-6J9" secondAttribute="bottom" constant="16" id="6Qr-na-Rwr"/>
+                            <constraint firstItem="y3i-VJ-IYs" firstAttribute="leading" secondItem="aRo-9D-aZQ" secondAttribute="leading" constant="137" id="BYM-1w-ZoY"/>
+                            <constraint firstItem="aRo-9D-aZQ" firstAttribute="trailing" secondItem="PWC-Ip-tK1" secondAttribute="trailing" constant="16" id="Fxq-Bn-Hj3"/>
+                            <constraint firstItem="aRo-9D-aZQ" firstAttribute="trailing" secondItem="y3i-VJ-IYs" secondAttribute="trailing" constant="137" id="M2V-HJ-cP6"/>
+                            <constraint firstItem="Kyl-9G-6J9" firstAttribute="top" secondItem="aRo-9D-aZQ" secondAttribute="top" constant="16" id="TqM-D5-hpX"/>
+                            <constraint firstItem="PWC-Ip-tK1" firstAttribute="leading" secondItem="aRo-9D-aZQ" secondAttribute="leading" constant="16" id="lwe-ps-GJY"/>
+                            <constraint firstItem="y3i-VJ-IYs" firstAttribute="top" secondItem="PWC-Ip-tK1" secondAttribute="bottom" constant="30" id="tEx-t0-aZA"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="aRo-9D-aZQ"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add custom item" id="zfW-hs-nWc"/>
+                    <connections>
+                        <outlet property="nameTextField" destination="PWC-Ip-tK1" id="qIt-AE-Q7S"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dDO-QL-LRj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5565" y="562"/>
+        </scene>
+        <!--Create Custom Item Page-->
+        <scene sceneID="VEa-eW-zV5">
+            <objects>
+                <viewController title="Create Custom Item Page" hidesBottomBarWhenPushed="YES" id="4Eh-9a-ARB" customClass="MapViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aM0-Qt-qxB">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="vM6-fl-zdp">
+                                <rect key="frame" x="16" y="189" width="288" height="359"/>
+                            </mapView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xxF-bK-IjW">
+                                <rect key="frame" x="16" y="80" width="288" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xqx-mo-BIC">
+                                <rect key="frame" x="16" y="126" width="288" height="30"/>
+                                <state key="normal" title="Show me da way"/>
+                                <connections>
+                                    <action selector="showMe:" destination="4Eh-9a-ARB" eventType="touchUpInside" id="Jky-4T-gZh"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ejK-Y0-cqT" firstAttribute="trailing" secondItem="vM6-fl-zdp" secondAttribute="trailing" constant="16" id="2bf-4c-djr"/>
+                            <constraint firstItem="ejK-Y0-cqT" firstAttribute="trailing" secondItem="xxF-bK-IjW" secondAttribute="trailing" constant="16" id="CUH-2a-c5x"/>
+                            <constraint firstItem="xqx-mo-BIC" firstAttribute="top" secondItem="xxF-bK-IjW" secondAttribute="bottom" constant="16" id="GNX-76-YsH"/>
+                            <constraint firstItem="xxF-bK-IjW" firstAttribute="top" secondItem="ejK-Y0-cqT" secondAttribute="top" constant="16" id="VHM-E9-8mA"/>
+                            <constraint firstItem="vM6-fl-zdp" firstAttribute="leading" secondItem="ejK-Y0-cqT" secondAttribute="leading" constant="16" id="Yco-cR-y9V"/>
+                            <constraint firstItem="xqx-mo-BIC" firstAttribute="leading" secondItem="ejK-Y0-cqT" secondAttribute="leading" constant="16" id="eh8-hf-Y4d"/>
+                            <constraint firstItem="ejK-Y0-cqT" firstAttribute="bottom" secondItem="vM6-fl-zdp" secondAttribute="bottom" constant="20" id="oUe-Dv-GCK"/>
+                            <constraint firstItem="ejK-Y0-cqT" firstAttribute="trailing" secondItem="xqx-mo-BIC" secondAttribute="trailing" constant="16" id="pTy-F4-Ixy"/>
+                            <constraint firstItem="vM6-fl-zdp" firstAttribute="top" secondItem="xqx-mo-BIC" secondAttribute="bottom" constant="33" id="rC0-Q7-mhr"/>
+                            <constraint firstItem="xxF-bK-IjW" firstAttribute="leading" secondItem="ejK-Y0-cqT" secondAttribute="leading" constant="16" id="s4h-Oc-a90"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ejK-Y0-cqT"/>
+                    </view>
+                    <connections>
+                        <outlet property="locationTextField" destination="xxF-bK-IjW" id="LEP-jL-rF7"/>
+                        <outlet property="mapView" destination="vM6-fl-zdp" id="Jn9-OC-b3y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Te4-zt-eax" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8160" y="-155.28169014084509"/>
         </scene>
         <!--Shopping List Index Page-->
         <scene sceneID="qCb-LD-eNe">
@@ -147,9 +305,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="69.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="nameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CxW-Pk-6c4">
-                                            <rect key="frame" x="16" y="11" width="84" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="nameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CxW-Pk-6c4">
+                                            <rect key="frame" x="16" y="11" width="288" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -169,11 +326,16 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="CxW-Pk-6c4" firstAttribute="top" secondItem="NIQ-4i-mSe" secondAttribute="topMargin" id="18w-HR-HpK"/>
+                                        <constraint firstItem="CxW-Pk-6c4" firstAttribute="leading" secondItem="NIQ-4i-mSe" secondAttribute="leadingMargin" id="Dnw-9L-3bn"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="CxW-Pk-6c4" secondAttribute="trailing" id="vl1-BA-7eH"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="dateLabel" destination="8Bk-S1-BQv" id="xRM-Ta-Xgi"/>
                                     <outlet property="nameLabel" destination="CxW-Pk-6c4" id="Idc-MR-Y0x"/>
-                                    <segue destination="ECw-FH-7Uv" kind="show" id="Ion-Qt-OYB"/>
+                                    <segue destination="ECw-FH-7Uv" kind="show" identifier="chooseListSegue" id="Ion-Qt-OYB"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -312,7 +474,7 @@
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="T3L-mu-CWm">
                                 <connections>
-                                    <action selector="onBeingLazy:" destination="pLb-x2-Nlk" id="Ezw-C5-10M"/>
+                                    <segue destination="6i2-o9-DOq" kind="show" id="DuV-BB-P3D"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem image="huh" id="6HK-oL-bpz">
