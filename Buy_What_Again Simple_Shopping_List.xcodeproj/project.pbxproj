@@ -19,6 +19,7 @@
 		FA3D8EE3227EEA53000B0F23 /* ShoppingListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3D8EE2227EEA53000B0F23 /* ShoppingListTableViewCell.swift */; };
 		FA3D8EE6227EEDCE000B0F23 /* addNewStuffDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3D8EE5227EEDCE000B0F23 /* addNewStuffDelegate.swift */; };
 		FA3D8EE8227EF3F9000B0F23 /* AddShoppingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3D8EE7227EF3F9000B0F23 /* AddShoppingListViewController.swift */; };
+		FA53DA27228AB8FD00952547 /* KeyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA53DA26228AB8FD00952547 /* KeyCode.swift */; };
 		FA73209E2281841D00F1F193 /* QuantityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA73209D2281841D00F1F193 /* QuantityViewController.swift */; };
 		FA7320A0228197A900F1F193 /* CustomItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA73209F228197A900F1F193 /* CustomItemViewController.swift */; };
 		FA92E63A22422A5C00EF363C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92E63922422A5C00EF363C /* AppDelegate.swift */; };
@@ -51,6 +52,7 @@
 		FA3D8EE2227EEA53000B0F23 /* ShoppingListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListTableViewCell.swift; sourceTree = "<group>"; };
 		FA3D8EE5227EEDCE000B0F23 /* addNewStuffDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addNewStuffDelegate.swift; sourceTree = "<group>"; };
 		FA3D8EE7227EF3F9000B0F23 /* AddShoppingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddShoppingListViewController.swift; sourceTree = "<group>"; };
+		FA53DA26228AB8FD00952547 /* KeyCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCode.swift; sourceTree = "<group>"; };
 		FA73209D2281841D00F1F193 /* QuantityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityViewController.swift; sourceTree = "<group>"; };
 		FA73209F228197A900F1F193 /* CustomItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomItemViewController.swift; sourceTree = "<group>"; };
 		FA92E63622422A5C00EF363C /* Buy_What_Again Simple_Shopping_List.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Buy_What_Again Simple_Shopping_List.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,6 +133,7 @@
 				FADE901C227C215100BCAE33 /* ItemListBarItem.swift */,
 				FA3D8EE5227EEDCE000B0F23 /* addNewStuffDelegate.swift */,
 				FAF029C422805F9900F26883 /* LocationAnnotation.swift */,
+				FA53DA26228AB8FD00952547 /* KeyCode.swift */,
 			);
 			path = "Buy_What_Again Simple_Shopping_List";
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 				FA3D8ED5227EBAE2000B0F23 /* Grocery+CoreDataClass.swift in Sources */,
 				FADE901D227C215100BCAE33 /* ItemListBarItem.swift in Sources */,
 				FAF029BB22803D6200F26883 /* ShopListTableViewController.swift in Sources */,
+				FA53DA27228AB8FD00952547 /* KeyCode.swift in Sources */,
 				FA3D8ED6227EBAE2000B0F23 /* Grocery+CoreDataProperties.swift in Sources */,
 				FA3D8EE3227EEA53000B0F23 /* ShoppingListTableViewCell.swift in Sources */,
 				FA3D8EC8227EA738000B0F23 /* MulticastDelegate.swift in Sources */,

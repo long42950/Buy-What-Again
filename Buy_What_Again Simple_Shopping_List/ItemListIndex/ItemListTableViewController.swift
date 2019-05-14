@@ -21,14 +21,12 @@ class ItemListTableViewController: UITableViewController, DatabaseListener {
         
     }
     
-    @IBAction func onBeingLazy(_ sender: Any) {
-        self.displayMessage(title: "Oops my bad 🤷🏻‍♂️", message: "This feature will be available soon!")
-        
-    }
-    
-    @IBAction func onBeingLazyAgain(_ sender: Any) {
-        self.displayMessage(title: "Sorry 🙄", message: "This feature will be available soon!")
-        
+
+    @IBAction func onBackupList(_ sender: Any) {
+        let keyCode = KeyCode()
+        keyCode.generateKeyCode()
+        let keyString = keyCode.toString()
+        displayMessage(title: "Your Key Code", message: keyString)
     }
     
     override func viewWillAppear(_ animated: Bool) {

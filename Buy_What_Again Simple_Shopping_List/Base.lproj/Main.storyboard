@@ -479,7 +479,7 @@
                             </barButtonItem>
                             <barButtonItem image="huh" id="6HK-oL-bpz">
                                 <connections>
-                                    <action selector="onBeingLazyAgain:" destination="pLb-x2-Nlk" id="b7e-mx-rfo"/>
+                                    <action selector="onBackupList:" destination="pLb-x2-Nlk" id="E9b-b6-cZt"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
