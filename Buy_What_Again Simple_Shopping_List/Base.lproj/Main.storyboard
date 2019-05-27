@@ -68,7 +68,7 @@
         <!--Shopping List Info Page-->
         <scene sceneID="S3K-J9-6Sg">
             <objects>
-                <tableViewController title="Shopping List Info Page" id="ECw-FH-7Uv" customClass="PickedGroceryListTableViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Shopping List Info Page" hidesBottomBarWhenPushed="YES" id="ECw-FH-7Uv" customClass="PickedGroceryListTableViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="U5w-Sw-Mlf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -100,7 +100,7 @@
             </objects>
             <point key="canvasLocation" x="5565" y="-1698"/>
         </scene>
-        <!--Quantity View Controller-->
+        <!--New Grocery-->
         <scene sceneID="gca-GB-KCu">
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="fTZ-sp-x38" customClass="QuantityViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
@@ -121,28 +121,71 @@
                                     <segment title="Pack"/>
                                 </segments>
                             </segmentedControl>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e4P-m4-5Ns">
-                                <rect key="frame" x="16" y="170" width="288" height="30"/>
-                                <state key="normal" title="Add to list"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Any perferred shop?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jme-8a-NiV">
+                                <rect key="frame" x="16" y="170" width="157" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <pickerView contentMode="top" translatesAutoresizingMaskIntoConstraints="NO" id="WIH-Mv-lQE">
+                                <rect key="frame" x="0.0" y="199" width="320" height="216"/>
+                            </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where will you buy this?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BXd-D3-nL0">
+                                <rect key="frame" x="16" y="431" width="185" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7RT-x4-D5C">
+                                <rect key="frame" x="227" y="468" width="77" height="30"/>
+                                <state key="normal" title="Looks for it"/>
                                 <connections>
-                                    <action selector="onAddGrocery:" destination="fTZ-sp-x38" eventType="touchUpInside" id="hRH-pT-YT2"/>
+                                    <segue destination="0jC-8d-B7K" kind="show" id="n6W-2X-Y4b"/>
                                 </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Shop Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kJt-mh-ImD">
+                                <rect key="frame" x="16" y="514" width="288" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WZI-f0-3SD">
+                                <rect key="frame" x="16" y="468" width="96" height="30"/>
+                                <state key="normal" title="Neariest shop"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="W7P-i2-xrR" firstAttribute="trailing" secondItem="Imh-4X-Dvc" secondAttribute="trailing" constant="16" id="1yp-U0-5Mx"/>
+                            <constraint firstItem="BXd-D3-nL0" firstAttribute="leading" secondItem="W7P-i2-xrR" secondAttribute="leading" constant="16" id="3pn-Hf-F8h"/>
                             <constraint firstItem="IeZ-MR-RJc" firstAttribute="top" secondItem="W7P-i2-xrR" secondAttribute="top" constant="16" id="8rU-d5-4K3"/>
-                            <constraint firstItem="e4P-m4-5Ns" firstAttribute="leading" secondItem="W7P-i2-xrR" secondAttribute="leading" constant="16" id="BSr-vc-S6O"/>
-                            <constraint firstItem="W7P-i2-xrR" firstAttribute="trailing" secondItem="e4P-m4-5Ns" secondAttribute="trailing" constant="16" id="Hdr-jn-VJ1"/>
+                            <constraint firstItem="WIH-Mv-lQE" firstAttribute="trailing" secondItem="W7P-i2-xrR" secondAttribute="trailing" id="Acv-xQ-VeL"/>
+                            <constraint firstItem="W7P-i2-xrR" firstAttribute="trailing" secondItem="kJt-mh-ImD" secondAttribute="trailing" constant="16" id="Mwy-s0-pfl"/>
                             <constraint firstItem="W7P-i2-xrR" firstAttribute="trailing" secondItem="IeZ-MR-RJc" secondAttribute="trailing" constant="16" id="Og7-oZ-Al3"/>
-                            <constraint firstItem="e4P-m4-5Ns" firstAttribute="top" secondItem="Imh-4X-Dvc" secondAttribute="bottom" constant="16" id="eRb-wm-pdP"/>
+                            <constraint firstItem="WIH-Mv-lQE" firstAttribute="top" secondItem="jme-8a-NiV" secondAttribute="bottom" constant="8" id="TlS-zD-oF2"/>
+                            <constraint firstItem="WIH-Mv-lQE" firstAttribute="leading" secondItem="W7P-i2-xrR" secondAttribute="leading" id="Tld-a0-GG2"/>
+                            <constraint firstItem="WZI-f0-3SD" firstAttribute="top" secondItem="BXd-D3-nL0" secondAttribute="bottom" constant="16" id="Toj-zo-cgv"/>
+                            <constraint firstItem="W7P-i2-xrR" firstAttribute="trailing" secondItem="7RT-x4-D5C" secondAttribute="trailing" constant="16" id="auI-Yf-9Kw"/>
                             <constraint firstItem="Imh-4X-Dvc" firstAttribute="leading" secondItem="W7P-i2-xrR" secondAttribute="leading" constant="16" id="gwu-pd-qVa"/>
+                            <constraint firstItem="kJt-mh-ImD" firstAttribute="leading" secondItem="W7P-i2-xrR" secondAttribute="leading" constant="16" id="hbc-qe-dW4"/>
+                            <constraint firstItem="jme-8a-NiV" firstAttribute="leading" secondItem="W7P-i2-xrR" secondAttribute="leading" constant="16" id="iFP-6e-BHn"/>
+                            <constraint firstItem="WZI-f0-3SD" firstAttribute="leading" secondItem="W7P-i2-xrR" secondAttribute="leading" constant="16" id="iLW-pd-rPn"/>
+                            <constraint firstItem="BXd-D3-nL0" firstAttribute="top" secondItem="WIH-Mv-lQE" secondAttribute="bottom" constant="16" id="iPz-J0-iGB"/>
                             <constraint firstItem="IeZ-MR-RJc" firstAttribute="leading" secondItem="W7P-i2-xrR" secondAttribute="leading" constant="16" id="kr9-6s-xS0"/>
+                            <constraint firstItem="jme-8a-NiV" firstAttribute="top" secondItem="Imh-4X-Dvc" secondAttribute="bottom" constant="16" id="nHH-as-7n0"/>
                             <constraint firstItem="Imh-4X-Dvc" firstAttribute="top" secondItem="IeZ-MR-RJc" secondAttribute="bottom" constant="16" id="p43-Ie-VvA"/>
+                            <constraint firstItem="7RT-x4-D5C" firstAttribute="top" secondItem="BXd-D3-nL0" secondAttribute="bottom" constant="16" id="ycj-nZ-4gB"/>
+                            <constraint firstItem="kJt-mh-ImD" firstAttribute="top" secondItem="WZI-f0-3SD" secondAttribute="bottom" constant="16" id="zeH-Xm-Hlv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="W7P-i2-xrR"/>
                     </view>
+                    <navigationItem key="navigationItem" title="New Grocery" id="ltA-ip-hcn">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="qdn-Jx-BPc">
+                            <connections>
+                                <action selector="onAddGrocery:" destination="fTZ-sp-x38" id="3jw-Mt-rZU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="quantityTextField" destination="IeZ-MR-RJc" id="DP2-S3-KzN"/>
                         <outlet property="unitSegment" destination="Imh-4X-Dvc" id="MbL-JU-pa6"/>
@@ -151,6 +194,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lPI-Bp-EGB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6488" y="-2462"/>
+        </scene>
+        <!--Search Location Table View Controller-->
+        <scene sceneID="7t6-0O-mnR">
+            <objects>
+                <tableViewController hidesBottomBarWhenPushed="YES" id="0jC-8d-B7K" customClass="SearchLocationTableViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Q1x-av-Bjw">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="locationCell" id="O9N-fV-kYL">
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="O9N-fV-kYL" id="fAB-Tb-TE3">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="0jC-8d-B7K" id="HIL-of-deP"/>
+                            <outlet property="delegate" destination="0jC-8d-B7K" id="dLC-ix-N3F"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VxW-Rx-KJw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7286" y="-2462"/>
         </scene>
         <!--Select New Grocery Page-->
         <scene sceneID="oYE-wL-e3G">
@@ -193,7 +264,7 @@
         <!--Add custom item-->
         <scene sceneID="cz4-x3-9xc">
             <objects>
-                <viewController id="6i2-o9-DOq" customClass="CustomItemViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="6i2-o9-DOq" customClass="CustomItemViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xBr-9Y-DHJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
