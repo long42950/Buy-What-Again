@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import GooglePlaces
 
 class MapViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -17,6 +18,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     var locationManager: CLLocationManager = CLLocationManager()
     var currentLocation: CLLocationCoordinate2D?
+    var text: String?
+    var placesClient = GMSPlacesClient()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,11 +33,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         
         mapView.showsUserLocation = true
         
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         locationManager.startUpdatingLocation()
+        
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -43,13 +49,26 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location = locations.last!
-        currentLocation = location.coordinate
+        //let location = locations.last!
+        //currentLocation = location.coordinate
         
-        var newLocation = LocationAnnotation(newTitle: "Your Location", newSubtitle: "You are here", lat: currentLocation!.latitude, long: currentLocation!.longitude)
-        self.focusOn(annotation: newLocation)
-        self.mapView.addAnnotation(newLocation)
+        //var newLocation = LocationAnnotation(newTitle: "Your Location", newSubtitle: "You are here", lat: currentLocation!.latitude, long: currentLocation!.longitude)
+        //self.focusOn(annotation: newLocation)
+        //self.mapView.addAnnotation(newLocation)
         
+        if let text = text {
+            let fields = GMSPlaceField(rawValue: UInt(GMSPlaceField.coordinate.rawValue))!
+            placesClient.fetchPlace(fromPlaceID: text, placeFields: fields, sessionToken: nil, callback: {(place: GMSPlace?, error: Error?) in
+                if let error = error {
+                    print("Error: \(error.localizedDescription)")
+                }
+                if let place = place {
+                    var newLocation = LocationAnnotation(newTitle: "Shop", newSubtitle: "yourShop", lat: place.coordinate.latitude, long: place.coordinate.longitude)
+                    self.focusOn(annotation: newLocation)
+                    self.mapView.addAnnotation(newLocation)
+                }
+            })
+        }
     }
     
     @IBAction func showMe(_ sender: Any) {

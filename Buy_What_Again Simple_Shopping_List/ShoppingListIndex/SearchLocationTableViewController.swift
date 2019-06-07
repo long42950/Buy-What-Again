@@ -40,16 +40,17 @@ class SearchLocationTableViewController: UITableViewController, UISearchBarDeleg
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        guard let searchText = searchBar.text, searchText.count > 0 else {
+        guard searchText.count > 0 else {
             return;
         }
         
         //indicator.startAnimating()
         //indicator.backgroundColor = UIColor.white
         
-        //var _ = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc&input=hongkong&inputtype=textquery"
+        //var _ = "https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc&placeid=ChIJOZG7315OqEcRVs8ZP5sx0mQ"
+        //[0]    String    "ChIJOZG7315OqEcRVs8ZP5sx0mQ"
         //TODO - auto query places address
-        placesClient.findAutocompletePredictions(fromQuery: searchBar.text!, bounds: nil, boundsMode: GMSAutocompleteBoundsMode.bias, filter: filter, sessionToken: token, callback: {(results, error) in
+        placesClient.findAutocompletePredictions(fromQuery: searchText, bounds: nil, boundsMode: GMSAutocompleteBoundsMode.bias, filter: filter, sessionToken: token, callback: {(results, error) in
             if let error = error {
                 print("Autocomplete error: \(error)")
                 return
@@ -64,6 +65,7 @@ class SearchLocationTableViewController: UITableViewController, UISearchBarDeleg
         })
         
         self.tableView.reloadData()
+        
     }
 
     // MARK: - Table view data source
@@ -81,8 +83,7 @@ class SearchLocationTableViewController: UITableViewController, UISearchBarDeleg
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath)
-        let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.name.rawValue) |
-        UInt(GMSPlaceField.placeID.rawValue))!
+        let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.name.rawValue))!
 
         //TODO - fill in text label with address from address array
         let address = addresses[indexPath.row]
@@ -101,20 +102,6 @@ class SearchLocationTableViewController: UITableViewController, UISearchBarDeleg
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //TODO - show location on map
-        
-        let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.name.rawValue) |
-            UInt(GMSPlaceField.placeID.rawValue))!
-
-        let address = addresses[indexPath.row]
-        placesClient.fetchPlace(fromPlaceID: address, placeFields: fields, sessionToken: nil, callback: {(place: GMSPlace?, error: Error?) in
-            if let error = error {
-                print("Error: \(error.localizedDescription)")
-            }
-            if let place = place {
-                self.displayMessage(title: "DeBug", message: "\(place)")
-                //print(place)
-            }
-        })
         
     }
 
@@ -162,6 +149,19 @@ class SearchLocationTableViewController: UITableViewController, UISearchBarDeleg
         // Pass the selected object to the new view controller.
     }
     */
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "viewLocationSegue" {
+            let destination = segue.destination as! MapViewController
+            let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.coordinate.rawValue))!
+            
+            //TODO - fill in text label with address from address array
+            destination.text = addresses[tableView.indexPathForSelectedRow!.row]
+            
+
+        }
+    }
+ 
     
     func displayMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)

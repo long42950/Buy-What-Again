@@ -21,6 +21,7 @@
 		FA3D8EE6227EEDCE000B0F23 /* addNewStuffDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3D8EE5227EEDCE000B0F23 /* addNewStuffDelegate.swift */; };
 		FA3D8EE8227EF3F9000B0F23 /* AddShoppingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3D8EE7227EF3F9000B0F23 /* AddShoppingListViewController.swift */; };
 		FA53DA27228AB8FD00952547 /* KeyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA53DA26228AB8FD00952547 /* KeyCode.swift */; };
+		FA5D350A229D354700F4A301 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5D3509229D354700F4A301 /* SearchViewController.swift */; };
 		FA73209E2281841D00F1F193 /* QuantityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA73209D2281841D00F1F193 /* QuantityViewController.swift */; };
 		FA7320A0228197A900F1F193 /* CustomItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA73209F228197A900F1F193 /* CustomItemViewController.swift */; };
 		FA92E63A22422A5C00EF363C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92E63922422A5C00EF363C /* AppDelegate.swift */; };
@@ -58,6 +59,7 @@
 		FA3D8EE5227EEDCE000B0F23 /* addNewStuffDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addNewStuffDelegate.swift; sourceTree = "<group>"; };
 		FA3D8EE7227EF3F9000B0F23 /* AddShoppingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddShoppingListViewController.swift; sourceTree = "<group>"; };
 		FA53DA26228AB8FD00952547 /* KeyCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCode.swift; sourceTree = "<group>"; };
+		FA5D3509229D354700F4A301 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		FA73209D2281841D00F1F193 /* QuantityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityViewController.swift; sourceTree = "<group>"; };
 		FA73209F228197A900F1F193 /* CustomItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomItemViewController.swift; sourceTree = "<group>"; };
 		FA92E63622422A5C00EF363C /* Buy_What_Again Simple_Shopping_List.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Buy_What_Again Simple_Shopping_List.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +114,7 @@
 		FA3D8EE4227EEA63000B0F23 /* ShoppingListIndex */ = {
 			isa = PBXGroup;
 			children = (
+				FA5D3508229D331E00F4A301 /* test */,
 				FA3D8EE0227EDF55000B0F23 /* ShoppingListTableViewController.swift */,
 				FA3D8EE2227EEA53000B0F23 /* ShoppingListTableViewCell.swift */,
 				FA3D8EE7227EF3F9000B0F23 /* AddShoppingListViewController.swift */,
@@ -122,6 +125,14 @@
 				FAF33407229B9FC800F05612 /* SearchLocationTableViewController.swift */,
 			);
 			path = ShoppingListIndex;
+			sourceTree = "<group>";
+		};
+		FA5D3508229D331E00F4A301 /* test */ = {
+			isa = PBXGroup;
+			children = (
+				FA5D3509229D354700F4A301 /* SearchViewController.swift */,
+			);
+			path = test;
 			sourceTree = "<group>";
 		};
 		FA92E62D22422A5C00EF363C = {
@@ -357,6 +368,7 @@
 				FA3D8ED3227EBAE2000B0F23 /* ShoppingList+CoreDataClass.swift in Sources */,
 				FAF029C1228054F300F26883 /* GroceryListTableViewController.swift in Sources */,
 				FAF029C522805F9900F26883 /* LocationAnnotation.swift in Sources */,
+				FA5D350A229D354700F4A301 /* SearchViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
