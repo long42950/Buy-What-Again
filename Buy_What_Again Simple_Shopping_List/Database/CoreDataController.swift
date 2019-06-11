@@ -67,8 +67,21 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         return item
     }
     
-    func editList() -> Bool {
-        return true
+    func editList(name: String, type: String, deadLine: Date?, list: ShoppingList) -> (Bool, Error?) {
+        do {
+            var oldList = try persistantContainer.viewContext.existingObject(with: list.objectID) as! ShoppingList
+            oldList.name = name
+            oldList.type = type
+            if let deadline = deadLine {
+                oldList.deadline = deadline as NSDate
+            } else {
+                oldList.deadline = nil
+            }
+            return (true, nil)
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+            return (false, error)
+        }
     }
     
     func test() {}

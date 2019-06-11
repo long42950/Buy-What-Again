@@ -47,7 +47,8 @@ class SearchLocationTableViewController: UITableViewController, UISearchBarDeleg
         //indicator.startAnimating()
         //indicator.backgroundColor = UIColor.white
         
-        //var _ = "https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc&placeid=ChIJOZG7315OqEcRVs8ZP5sx0mQ"
+            //https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc&placeid=ChIJOZG7315OqEcRVs8ZP5sx0mQ
+            //https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc&input=McDonald%2C%2079%20Blackburn%20Road%2C%20Doncaster%20East&inputtype=textquery
         //[0]    String    "ChIJOZG7315OqEcRVs8ZP5sx0mQ"
         //TODO - auto query places address
         placesClient.findAutocompletePredictions(fromQuery: searchText, bounds: nil, boundsMode: GMSAutocompleteBoundsMode.bias, filter: filter, sessionToken: token, callback: {(results, error) in

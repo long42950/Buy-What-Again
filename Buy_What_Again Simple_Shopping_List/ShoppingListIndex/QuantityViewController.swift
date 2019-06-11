@@ -106,6 +106,43 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
     }
     
     @IBAction func onSearchNearShop(_ sender: Any) {
+        var fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.placeID.rawValue) | UInt(GMSPlaceField.formattedAddress.rawValue))!
+        placesClient.findPlaceLikelihoodsFromCurrentLocation(withPlaceFields: fields, callback: {
+            (placeLikelihoodList: Array<GMSPlaceLikelihood>?, error: Error?) in
+            if let error = error {
+                print("An error occurred: \(error.localizedDescription)")
+                return
+            }
+            
+            if let placeLikelihoodList = placeLikelihoodList {
+                let place = placeLikelihoodList[0].place
+                let searchString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc&input=McDonald%2C%2079%20Blackburn%20Road%2C%20Doncaster%20East&inputtype=textquery"
+                let jsonURL = URL(string: searchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
+                let task = URLSession.shared.dataTask(with: jsonURL!) {
+                    (data, response, error) in
+                    
+                    if let error = error {
+                        self.displayMessage(title: "Error", message: error.localizedDescription)
+                    }
+                    
+                    do {
+                        let decoder = JSONDecoder()
+                        let candidateData = try decoder.decode(CandidateData.self, from: data!)
+                        if let placeIDs = candidateData.placeIDs {
+                            if placeIDs.count > 0 {
+                                self.placeID = placeIDs[0].placeID
+                            }
+                        } else {
+                            self.placeID = nil
+                        }
+                        self.updateMap(neariest: true)
+                    } catch let error {
+                        print(error.localizedDescription)
+                    }
+                }
+                task.resume()
+            }
+        })
     }
     
     @IBAction func onSearchLocation(_ sender: Any) {
@@ -138,23 +175,40 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
     }
     
     private func updateMap(neariest: Bool) {
-        
         if (mapView.annotations.count > 0) {
             mapView.removeAnnotations(mapView.annotations)
             self.annotations = []
         }
-        for place in self.places {
-            let location = place.coordinate
-            let annotation = LocationAnnotation(newTitle: place.name ?? "your shop", newSubtitle: "", lat: location.latitude, long: location.longitude)
-            self.annotations.append(annotation)
+        
+        if neariest {
+            if let placeID = self.placeID {
+                let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.coordinate.rawValue) | UInt(GMSPlaceField.name.rawValue))!
+                self.placesClient.fetchPlace(fromPlaceID: placeID, placeFields: fields, sessionToken: nil, callback: {
+                    (place, error) in
+                    if let place = place {
+                        let annotation = LocationAnnotation(newTitle: place.name ?? "neariest shop", newSubtitle: "", lat: place.coordinate.latitude, long: place.coordinate.longitude)
+                        self.annotations.append(annotation)
+                    }
+                    
+                    if let error = error {
+                        print("\(error.localizedDescription)")
+                        return
+                    }
+                })
+                
+            }
+        } else {
+            for place in self.places {
+                let location = place.coordinate
+                let annotation = LocationAnnotation(newTitle: place.name ?? "your shop", newSubtitle: "", lat: location.latitude, long: location.longitude)
+                self.annotations.append(annotation)
+            }
         }
+        
         self.mapView.addAnnotations(self.annotations)
-        if neariest, let _ = self.currentLocation {
-            //TODO - focus on user location instead
-        }
-        else {
-            self.focusOn(annotation: self.annotations[0])
-        }
+
+        self.focusOn(annotation: self.annotations[0])
+        
         
         
         

@@ -12,6 +12,7 @@ class ShoppingListTableViewController: UITableViewController, DatabaseListener {
 
     var allList: [ShoppingList] = []
     var chosenList: String?
+    var editRow: Int = -1
     weak var databaseController: DatabaseProtocol?
     
     override func viewDidLoad() {
@@ -26,6 +27,7 @@ class ShoppingListTableViewController: UITableViewController, DatabaseListener {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         databaseController?.addListener(listener: self)
+        self.editRow = -1
         self.tableView.reloadData()
     }
     
@@ -93,7 +95,14 @@ class ShoppingListTableViewController: UITableViewController, DatabaseListener {
         
         delete.backgroundColor = .red
         
-        return [delete]
+        let edit = UITableViewRowAction(style: .normal, title: "edit", handler: {action, index in
+            self.editRow = indexPath.row
+            self.performSegue(withIdentifier: "addShoppingListSegue", sender: nil)
+        })
+        
+        edit.backgroundColor = .blue
+        
+        return [delete, edit]
     }
     
 
@@ -140,6 +149,9 @@ class ShoppingListTableViewController: UITableViewController, DatabaseListener {
         if segue.identifier == "chooseListSegue" {
             let destination = segue.destination as! PickedGroceryListTableViewController
             destination.shoppingList = allList[self.tableView.indexPathForSelectedRow!.row]
+        } else if segue.identifier == "addShoppingListSegue" && self.editRow != -1 {
+            let destination = segue.destination as! AddShoppingListViewController
+            destination.list = self.allList[editRow]
         }
 
         
