@@ -66,6 +66,12 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
 
         return item
     }
+    
+    func editList() -> Bool {
+        return true
+    }
+    
+    func test() {}
 
     func addGroceryToList(list: ShoppingList, quantity: Float, unit: String, item: Item) -> Bool {
         let grocery = addGrocery(item.name!, quantity, unit)
@@ -82,6 +88,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         grocery.name = name
         grocery.quantity = quantity
         grocery.unit = unit
+        grocery.isBought = false
         
         return grocery
     }
@@ -108,7 +115,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     //TODO: 1 validation required, check for CoreData #03 task in trello
     func removeGroceryFromList(grocery: Grocery, list: ShoppingList) {
         list.removeFromGroceries(grocery)
-        //removeGrocery(grocery)
+        removeGrocery(grocery)
     }
     
     func addListener(listener: DatabaseListener) {

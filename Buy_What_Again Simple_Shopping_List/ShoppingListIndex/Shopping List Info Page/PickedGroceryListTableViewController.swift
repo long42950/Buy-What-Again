@@ -54,7 +54,12 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
     }
     
     func onGroceriesListChange(change: DatabaseChange, groceriesList: [Grocery]) {
-        groceryList = groceriesList
+        self.groceryList = []
+        for grocery in groceriesList {
+            if grocery.shoppinglists!.isEqual(self.shoppingList!) {
+                groceryList.append(grocery)
+            }
+        }
         tableView.reloadData()
     }
     
@@ -64,14 +69,63 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let groceryCell = tableView.dequeueReusableCell(withIdentifier: "groceryCell", for: indexPath)
+        let groceryCell = tableView.dequeueReusableCell(withIdentifier: "groceryCell", for: indexPath) as! GroceryTableViewCell
 
-        groceryCell.textLabel?.text = groceryList[indexPath.row].name
+        let grocery = groceryList[indexPath.row]
+        if grocery.isBought {
+            let attrString = NSAttributedString(string: grocery.name!, attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue])
+            groceryCell.groceryLabel.attributedText = attrString
+            groceryCell.quantityLabel.text = "Bought!"
+        }
+        else {
+            groceryCell.groceryLabel.attributedText = nil
+            groceryCell.groceryLabel.text = grocery.name
+            groceryCell.quantityLabel.text = "\(grocery.quantity) \(grocery.unit!)"
+        }
+        
 
         return groceryCell
         
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        displayMessage(title: "debug", message: "\(groceryList[indexPath.row].quantity)")
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .normal, title: "delete", handler: {action, index in
+            let deleteGrocery = self.groceryList[indexPath.row]
+            self.groceryList.remove(at: indexPath.row)
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.endUpdates()
+            let _ = self.databaseController?.removeGroceryFromList(grocery: deleteGrocery, list: self.shoppingList!)
+            self.databaseController?.saveContext()
+        })
+        
+        delete.backgroundColor = .red
+        
+        let done = UITableViewRowAction(style: .normal, title: "done", handler: {action, index in
+            let broughtGrocery = self.groceryList[indexPath.row]
+            broughtGrocery.isBought =  true
+            self.databaseController?.saveContext()
+        })
+        
+        done.backgroundColor = .blue
+        
+        let undo = UITableViewRowAction(style: .normal, title: "un-do", handler: {action, index in
+            let broughtGrocery = self.groceryList[indexPath.row]
+            broughtGrocery.isBought =  false
+            self.databaseController?.saveContext()
+        })
+        
+        undo.backgroundColor = .darkGray
+        if groceryList[indexPath.row].isBought {
+            return [delete, undo]
+        }
+        
+        return [delete, done]
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -119,5 +173,10 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
         }
     }
     
+    func displayMessage(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
 
 }

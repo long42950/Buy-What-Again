@@ -88,6 +88,7 @@ class ShoppingListTableViewController: UITableViewController, DatabaseListener {
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()
             let _ = self.databaseController?.removeList(list: deleteList)
+            self.databaseController?.saveContext()
         })
         
         delete.backgroundColor = .red

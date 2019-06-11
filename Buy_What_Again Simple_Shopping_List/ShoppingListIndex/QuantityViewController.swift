@@ -16,7 +16,7 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
     @IBOutlet weak var quantityTextField: UITextField!
     @IBOutlet weak var unitSegment: UISegmentedControl!
     @IBOutlet weak var shopPicker: UIPickerView!
-    @IBOutlet weak var addressTextField: UITextField!
+    @IBOutlet weak var addressTextView: UITextView!
     @IBOutlet weak var mapView: MKMapView!
     
     var autocompleteViewController = GMSAutocompleteViewController()
@@ -64,7 +64,7 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
     }
     
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        self.addressTextField.text = place.formattedAddress
+        self.addressTextView.text = "Address: " + place.formattedAddress!
         if (self.placeID != place.placeID) {
             self.placeID = place.placeID
             self.places = [place]
@@ -113,16 +113,28 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
     }
     
     @IBAction func onAddGrocery(_ sender: Any) {
-        let _ = databaseController?.addGroceryToList(list: shoppingList!, quantity: 1, unit: unitSegment.titleForSegment(at: unitSegment.selectedSegmentIndex)!, item: item!)
-        databaseController!.saveContext()
-        
-        navigationController?.popViewController(animated: true)
+        let quantity = Float(self.quantityTextField.text!)
+        if quantity != nil && quantity != 0{
+            let _ = databaseController?.addGroceryToList(list: shoppingList!, quantity: quantity!, unit: unitSegment.titleForSegment(at: unitSegment.selectedSegmentIndex)!, item: item!)
+            databaseController!.saveContext()
+            
+            navigationController?.popViewController(animated: true)
+        }
+        else {
+            displayMessage(title: "Error", message: "Invalid quantity!")
+        }
         
     }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
+    }
+    
+    func displayMessage(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
     
     private func updateMap(neariest: Bool) {
@@ -154,6 +166,7 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
         let zoomRegion = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
         mapView.setRegion(mapView.regionThatFits(zoomRegion), animated: true)
     }
+    
     
 
 }

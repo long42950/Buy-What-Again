@@ -32,6 +32,7 @@ protocol DatabaseListener: AnyObject {
 
 protocol DatabaseProtocol: AnyObject {
     func addList(name: String, type: String, deadLine: Date?) -> ShoppingList
+    func editList() -> Bool
     func addItem(name: String) -> Item
     func addGrocery(_ name: String, _ quantity: Float, _ unit: String) -> Grocery
     func addItemToGrocery(_ item: Item, _ grocery: Grocery) -> Bool
