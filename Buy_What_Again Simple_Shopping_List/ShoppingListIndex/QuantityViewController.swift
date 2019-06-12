@@ -116,18 +116,27 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
             
             if let placeLikelihoodList = placeLikelihoodList {
                 let place = placeLikelihoodList[0].place
-                let searchString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc&input=McDonald%2C%2079%20Blackburn%20Road%2C%20Doncaster%20East&inputtype=textquery"
+                let searchString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc&input=mcdonalds, \(place.formattedAddress!)&inputtype=textquery"
+                self.addressTextView.text = "Address: \(place.formattedAddress!)"
                 let jsonURL = URL(string: searchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
                 let task = URLSession.shared.dataTask(with: jsonURL!) {
                     (data, response, error) in
                     
                     if let error = error {
                         self.displayMessage(title: "Error", message: error.localizedDescription)
+                        return
                     }
                     
                     do {
                         let decoder = JSONDecoder()
+                        print("\(data!)")
                         let candidateData = try decoder.decode(CandidateData.self, from: data!)
+                        if candidateData.status! == "ZERO_RESULTS" {
+                            DispatchQueue.main.async {
+                                self.displayMessage(title: "Sorry", message: "What you're looking for doesn't exist near your location.")
+                            }
+                            
+                        }
                         if let placeIDs = candidateData.placeIDs {
                             if placeIDs.count > 0 {
                                 self.placeID = placeIDs[0].placeID
@@ -183,11 +192,14 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
         if neariest {
             if let placeID = self.placeID {
                 let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.coordinate.rawValue) | UInt(GMSPlaceField.name.rawValue))!
-                self.placesClient.fetchPlace(fromPlaceID: placeID, placeFields: fields, sessionToken: nil, callback: {
+                placesClient.fetchPlace(fromPlaceID: placeID, placeFields: fields, sessionToken: nil, callback: {
                     (place, error) in
                     if let place = place {
                         let annotation = LocationAnnotation(newTitle: place.name ?? "neariest shop", newSubtitle: "", lat: place.coordinate.latitude, long: place.coordinate.longitude)
                         self.annotations.append(annotation)
+                        self.mapView.addAnnotations(self.annotations)
+                        
+                        self.focusOn(annotation: self.annotations[0])
                     }
                     
                     if let error = error {
@@ -202,12 +214,11 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
                 let location = place.coordinate
                 let annotation = LocationAnnotation(newTitle: place.name ?? "your shop", newSubtitle: "", lat: location.latitude, long: location.longitude)
                 self.annotations.append(annotation)
+                self.mapView.addAnnotations(self.annotations)
+                
+                self.focusOn(annotation: self.annotations[0])
             }
         }
-        
-        self.mapView.addAnnotations(self.annotations)
-
-        self.focusOn(annotation: self.annotations[0])
         
         
         

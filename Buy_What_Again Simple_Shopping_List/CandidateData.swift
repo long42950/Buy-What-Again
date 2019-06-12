@@ -10,8 +10,10 @@ import Foundation
 
 class CandidateData: NSObject, Decodable {
     var placeIDs: [PlaceData]?
+    var status: String?
     
     private enum CodingKeys: String, CodingKey {
         case placeIDs = "candidates"
+        case status
     }
 }

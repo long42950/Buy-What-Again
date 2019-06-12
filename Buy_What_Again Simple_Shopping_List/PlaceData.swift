@@ -11,17 +11,12 @@ import Foundation
 class PlaceData: NSObject, Decodable {
     var placeID: String
     
-    private enum RootKeys: String, CodingKey {
-        case candidates
-    }
-    
     private enum PlaceKeys: String, CodingKey {
         case placeID = "place_id"
     }
     
     required init(from decoder: Decoder) throws {
-        let rootContainer = try decoder.container(keyedBy: RootKeys.self)
-        let placeContainer = try rootContainer.nestedContainer(keyedBy: PlaceKeys.self, forKey: .candidates)
+        let placeContainer = try decoder.container(keyedBy: PlaceKeys.self)
         self.placeID = try placeContainer.decode(String.self, forKey: .placeID)
     }
 }
