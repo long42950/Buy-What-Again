@@ -116,10 +116,16 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
             
             if let placeLikelihoodList = placeLikelihoodList {
                 let place = placeLikelihoodList[0].place
-                let searchString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc&input=mcdonalds, \(place.formattedAddress!)&inputtype=textquery"
+                var searchString = "\(place.formattedAddress!)"
                 self.addressTextView.text = "Address: \(place.formattedAddress!)"
-                let jsonURL = URL(string: searchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
-                let task = URLSession.shared.dataTask(with: jsonURL!) {
+                searchString = searchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+                searchString = searchString.replacingOccurrences(of: ",", with: "%2C", options: .literal, range: .none)
+                searchString = searchString.replacingOccurrences(of: "&", with: "%26", options: .literal, range: .none)
+                let jsonString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc&input=mcdonalds%2C%20\(searchString)&inputtype=textquery"
+                print(jsonString)
+                let jsonURL = URL(string: jsonString)
+                let request = URLRequest(url: jsonURL!)
+                let task = URLSession.shared.dataTask(with: request) {
                     (data, response, error) in
                     
                     if let error = error {
