@@ -66,6 +66,10 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
     func onShoppingListChange(change: DatabaseChange, shoppList: [ShoppingList]) {
         //not used
     }
+    
+    func onShopListChange(change: DatabaseChange, shopList: [Shop]) {
+        //not used
+    }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -2,7 +2,7 @@
 //  Grocery+CoreDataProperties.swift
 //  Buy_What_Again Simple_Shopping_List
 //
-//  Created by Chak Lee on 11/6/19.
+//  Created by Chak Lee on 14/6/19.
 //  Copyright © 2019 Chak Lee. All rights reserved.
 //
 //
@@ -21,7 +21,10 @@ extension Grocery {
     @NSManaged public var name: String?
     @NSManaged public var quantity: Float
     @NSManaged public var unit: String?
+    @NSManaged public var shopPlaceId: String?
+    @NSManaged public var shopAddress: String?
     @NSManaged public var items: Item?
     @NSManaged public var shoppinglists: ShoppingList?
+    @NSManaged public var shops: Shop?
 
 }

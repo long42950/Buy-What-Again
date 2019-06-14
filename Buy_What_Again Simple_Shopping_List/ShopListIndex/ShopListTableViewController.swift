@@ -8,45 +8,89 @@
 
 import UIKit
 
-class ShopListTableViewController: UITableViewController {
+class ShopListTableViewController: UITableViewController, DatabaseListener {
+    
+    var allShop: [Shop] = []
+    weak var databaseController: DatabaseProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        databaseController = appDelegate.databaseController
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        databaseController?.addListener(listener: self)
+        tableView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        databaseController?.removeListener(listener: self)
     }
     
     @IBAction func onBeingLazy(_ sender: Any) {
         self.displayMessage(title: "Well... 🤦🏻", message: "This feature will be available soon!")
     }
     
-
+    var listenerType = ListenerType.shop
+    
+    func onItemListChange(change: DatabaseChange, itemList: [Item]) {
+        //not used
+    }
+    
+    func onGroceriesListChange(change: DatabaseChange, groceriesList: [Grocery]) {
+        //not used
+    }
+    
+    func onShoppingListChange(change: DatabaseChange, shoppList: [ShoppingList]) {
+        //not used
+    }
+    
+    func onShopListChange(change: DatabaseChange, shopList: [Shop]) {
+        self.allShop = shopList
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return allShop.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let shopCell = tableView.dequeueReusableCell(withIdentifier: "shopCell", for: indexPath)
 
-        // Configure the cell...
+        shopCell.textLabel?.text = allShop[indexPath.row].name
 
-        return cell
+        return shopCell
     }
-    */
+    
 
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .normal, title: "delete", handler: {action, index in
+            let deleteShop = self.allShop[indexPath.row]
+            self.allShop.remove(at: indexPath.row)
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.endUpdates()
+            let _ = self.databaseController?.removeShop(shop: deleteShop)
+            self.databaseController?.saveContext()
+        })
+        
+        delete.backgroundColor = .red
+        
+        return [delete]
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

@@ -1,17 +1,17 @@
 //
-//  CustomItemViewController.swift
+//  AddNewShopViewController.swift
 //  Buy_What_Again Simple_Shopping_List
 //
-//  Created by Chak Lee on 7/5/19.
+//  Created by Chak Lee on 14/6/19.
 //  Copyright © 2019 Chak Lee. All rights reserved.
 //
 
 import UIKit
 
-class CustomItemViewController: UIViewController, DatabaseListener {
+class AddNewShopViewController: UIViewController, DatabaseListener {
     
     weak var databaseController: DatabaseProtocol?
-    
+
     @IBOutlet weak var nameTextField: UITextField!
     
     override func viewDidLoad() {
@@ -21,15 +21,16 @@ class CustomItemViewController: UIViewController, DatabaseListener {
         databaseController = appDelegate.databaseController
     }
     
-    @IBAction func onAddCustomItem(_ sender: Any) {
-        let name = nameTextField.text!
-        if (name != "") {
-            let _ = databaseController?.addItem(name: name)
+    @IBAction func onAddShop(_ sender: Any) {
+        let name = nameTextField.text
+        if name != "" {
+            let _ = databaseController?.addShop(name: name!)
             databaseController!.saveContext()
             navigationController?.popViewController(animated: true)
         } else {
-            displayMessage(title: "Error", message: "You need a name for your item!")
+            self.displayMessage(title: "Error", message: "Invalid shop name")
         }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,7 +44,7 @@ class CustomItemViewController: UIViewController, DatabaseListener {
         databaseController?.removeListener(listener: self)
     }
     
-    var listenerType = ListenerType.item
+    var listenerType = ListenerType.shop
     
     func onItemListChange(change: DatabaseChange, itemList: [Item]) {
         //not used
@@ -77,5 +78,5 @@ class CustomItemViewController: UIViewController, DatabaseListener {
             UIAlertAction.Style.default, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
-    
+
 }

@@ -4,13 +4,20 @@
         <attribute name="isBought" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="quantity" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="shopAddress" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shopPlaceId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="unit" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="items" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Item" inverseName="groceries" inverseEntity="Item" syncable="YES"/>
         <relationship name="shoppinglists" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ShoppingList" inverseName="groceries" inverseEntity="ShoppingList" syncable="YES"/>
+        <relationship name="shops" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Shop" inverseName="groceries" inverseEntity="Shop" syncable="YES"/>
     </entity>
     <entity name="Item" representedClassName="Item" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="groceries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Grocery" inverseName="items" inverseEntity="Grocery" syncable="YES"/>
+    </entity>
+    <entity name="Shop" representedClassName="Shop" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="groceries" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Grocery" inverseName="shops" inverseEntity="Grocery" syncable="YES"/>
     </entity>
     <entity name="ShoppingList" representedClassName="ShoppingList" syncable="YES">
         <attribute name="deadline" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -20,8 +27,9 @@
         <relationship name="groceries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Grocery" inverseName="shoppinglists" inverseEntity="Grocery" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Grocery" positionX="-36" positionY="36" width="128" height="135"/>
+        <element name="Grocery" positionX="-36" positionY="36" width="128" height="180"/>
         <element name="Item" positionX="-18" positionY="54" width="128" height="75"/>
+        <element name="Shop" positionX="-36" positionY="63" width="128" height="75"/>
         <element name="ShoppingList" positionX="-54" positionY="-9" width="128" height="120"/>
     </elements>
 </model>

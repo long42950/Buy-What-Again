@@ -170,7 +170,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Buy_What_Again Simple_Shopping_List/ShoppingListIndex/Shopping List Info Page/PickedGroceryListTableViewController.swift"
-            timestampString = "581981436.9978369"
+            timestampString = "582202302.077078"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "62"
@@ -186,7 +186,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Buy_What_Again Simple_Shopping_List/ShoppingListIndex/Shopping List Info Page/PickedGroceryListTableViewController.swift"
-            timestampString = "581981436.997879"
+            timestampString = "582202302.077126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "64"
@@ -202,7 +202,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Buy_What_Again Simple_Shopping_List/ShoppingListIndex/Shopping List Info Page/PickedGroceryListTableViewController.swift"
-            timestampString = "581981436.997914"
+            timestampString = "582202302.077163"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "63"
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Buy_What_Again Simple_Shopping_List/ShoppingListIndex/QuantityViewController.swift"
-            timestampString = "582085553.815191"
+            timestampString = "582210207.16065"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "onSearchNearShop(_:)"
             landmarkType = "7">
             <Locations>
@@ -298,12 +298,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Buy_What_Again Simple_Shopping_List/ShoppingListIndex/QuantityViewController.swift"
-            timestampString = "582085553.815307"
+            timestampString = "582210207.161108"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "onSearchNearShop(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Buy_What_Again Simple_Shopping_List/ShopListIndex/ShopListTableViewController.swift"
+            timestampString = "582210207.161553"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -10,7 +10,9 @@ import UIKit
 import MapKit
 import GooglePlaces
 
-class QuantityViewController: UIViewController, DatabaseListener, GMSAutocompleteViewControllerDelegate, CLLocationManagerDelegate {
+class QuantityViewController: UIViewController, DatabaseListener, GMSAutocompleteViewControllerDelegate, CLLocationManagerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    
     
     
     @IBOutlet weak var quantityTextField: UITextField!
@@ -27,9 +29,13 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
     var annotations: [LocationAnnotation] = []
     var placesClient = GMSPlacesClient()
     var placeID: String?
+    var address: String?
     
     var shoppingList: ShoppingList?
     var item: Item?
+    var shopList: [Shop] = []
+    
+    var shopData: UIPickerViewDataSource?
 
     
     
@@ -49,12 +55,17 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
         self.locationManager.requestAlwaysAuthorization()
         
         self.mapView.showsUserLocation = true
+        
+        self.shopPicker.delegate = self
+        self.shopPicker.dataSource = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         databaseController?.addListener(listener: self)
         locationManager.startUpdatingLocation()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -68,6 +79,7 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
         if (self.placeID != place.placeID) {
             self.placeID = place.placeID
             self.places = [place]
+            self.address = place.formattedAddress!
             self.updateMap(neariest: false)
         }
         dismiss(animated: true, completion: nil)
@@ -91,7 +103,20 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
 
     }
     
-    var listenerType = ListenerType.grocery
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return self.shopList.count + 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        //print(self.shopList[row].name)
+        return row == 0 ? "Select A Shop" : self.shopList[row - 1].name
+    }
+    
+    var listenerType = ListenerType.shop
     
     func onShoppingListChange(change: DatabaseChange, shoppList: [ShoppingList]) {
         //not used
@@ -103,6 +128,11 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
     
     func onItemListChange(change: DatabaseChange, itemList: [Item]) {
         //not used
+    }
+    
+    func onShopListChange(change: DatabaseChange, shopList: [Shop]) {
+        self.shopList = shopList
+        
     }
     
     @IBAction func onSearchNearShop(_ sender: Any) {
@@ -167,7 +197,7 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
     @IBAction func onAddGrocery(_ sender: Any) {
         let quantity = Float(self.quantityTextField.text!)
         if quantity != nil && quantity != 0{
-            let _ = databaseController?.addGroceryToList(list: shoppingList!, quantity: quantity!, unit: unitSegment.titleForSegment(at: unitSegment.selectedSegmentIndex)!, item: item!)
+            let _ = databaseController?.addGroceryToList(list: shoppingList!, quantity: quantity!, unit: unitSegment.titleForSegment(at: unitSegment.selectedSegmentIndex)!, item: item!, shopPlaceId: self.placeID!, shopAddress: self.address!)
             databaseController!.saveContext()
             
             navigationController?.popViewController(animated: true)
@@ -197,10 +227,11 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
         
         if neariest {
             if let placeID = self.placeID {
-                let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.coordinate.rawValue) | UInt(GMSPlaceField.name.rawValue))!
+                let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.coordinate.rawValue) | UInt(GMSPlaceField.name.rawValue) | UInt(GMSPlaceField.formattedAddress.rawValue))!
                 placesClient.fetchPlace(fromPlaceID: placeID, placeFields: fields, sessionToken: nil, callback: {
                     (place, error) in
                     if let place = place {
+                        self.address = place.formattedAddress
                         let annotation = LocationAnnotation(newTitle: place.name ?? "neariest shop", newSubtitle: "", lat: place.coordinate.latitude, long: place.coordinate.longitude)
                         self.annotations.append(annotation)
                         self.mapView.addAnnotations(self.annotations)

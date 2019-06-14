@@ -17,6 +17,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     var allListsFetchedResultsController: NSFetchedResultsController<ShoppingList>?
     var allGroceriesFetchedResultsController: NSFetchedResultsController<Grocery>?
     var allItemFetchedResultsController: NSFetchedResultsController<Item>?
+    var allShopFetchedResultsController: NSFetchedResultsController<Shop>?
     
     override init() {
         persistantContainer = NSPersistentContainer(name: "ShoppingLists")
@@ -86,8 +87,8 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     
     func test() {}
 
-    func addGroceryToList(list: ShoppingList, quantity: Float, unit: String, item: Item) -> Bool {
-        let grocery = addGrocery(item.name!, quantity, unit)
+    func addGroceryToList(list: ShoppingList, quantity: Float, unit: String, item: Item, shopPlaceId: String, shopAddress: String) -> Bool {
+        let grocery = addGrocery(item.name!, quantity, unit, shopPlaceId, shopAddress)
         saveContext()
         let _ = addItemToGrocery(item, grocery)
         saveContext()
@@ -95,15 +96,24 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         return true
     }
     
-    internal func addGrocery(_ name: String, _ quantity: Float, _ unit: String) -> Grocery {
+    internal func addGrocery(_ name: String, _ quantity: Float, _ unit: String, _ shopPlaceId: String, _ shopAddress: String) -> Grocery {
         let grocery = NSEntityDescription.insertNewObject(forEntityName: "Grocery", into:
             persistantContainer.viewContext) as! Grocery
         grocery.name = name
         grocery.quantity = quantity
         grocery.unit = unit
         grocery.isBought = false
+        grocery.shopPlaceId = shopPlaceId
+        grocery.shopAddress = shopAddress
         
         return grocery
+    }
+    
+    func addShop(name: String) -> Shop {
+        let shop = NSEntityDescription.insertNewObject(forEntityName: "Shop", into: persistantContainer.viewContext) as! Shop
+        shop.name = name
+        
+        return shop
     }
     
     internal func addItemToGrocery(_ item: Item, _ grocery: Grocery) -> Bool {
@@ -125,6 +135,10 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         persistantContainer.viewContext.delete(grocery)
     }
     
+    func removeShop(shop: Shop) {
+        persistantContainer.viewContext.delete(shop)
+    }
+    
     //TODO: 1 validation required, check for CoreData #03 task in trello
     func removeGroceryFromList(grocery: Grocery, list: ShoppingList) {
         list.removeFromGroceries(grocery)
@@ -141,6 +155,8 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
             listener.onGroceriesListChange(change: .update, groceriesList: fetchAllGrocery())
         case .item:
             listener.onItemListChange(change: .update, itemList: fetchAllItem())
+        case .shop:
+            listener.onShopListChange(change: .update, shopList: fetchAllShop())
         }
     }
     
@@ -215,6 +231,29 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
         
         return items
+    }
+    
+    func fetchAllShop() -> [Shop] {
+        if allShopFetchedResultsController == nil {
+            let fetchRequest: NSFetchRequest<Shop> = Shop.fetchRequest()
+            let nameSortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+            fetchRequest.sortDescriptors = [nameSortDescriptor]
+            allShopFetchedResultsController = NSFetchedResultsController<Shop>(fetchRequest: fetchRequest, managedObjectContext: persistantContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+            allShopFetchedResultsController?.delegate = self
+            
+            do {
+                try allShopFetchedResultsController?.performFetch()
+            } catch {
+                print("Fetch Request failed: \(error)")
+            }
+        }
+        
+        var shops = [Shop]()
+        if allShopFetchedResultsController?.fetchedObjects != nil {
+            shops = (allShopFetchedResultsController?.fetchedObjects)!
+        }
+        
+        return shops
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

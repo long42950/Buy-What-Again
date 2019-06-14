@@ -53,6 +53,10 @@ class ItemListTableViewController: UITableViewController, DatabaseListener {
     func onGroceriesListChange(change: DatabaseChange, groceriesList: [Grocery]) {
         //not used
     }
+    
+    func onShopListChange(change: DatabaseChange, shopList: [Shop]) {
+        //not used
+    }
 
     // MARK: - Table view data source
 

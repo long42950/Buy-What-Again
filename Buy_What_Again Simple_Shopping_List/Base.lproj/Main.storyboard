@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xIQ-kk-P5W">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xIQ-kk-P5W">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -39,7 +39,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="giD-e4-MzY">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="shopCell" id="giD-e4-MzY">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="giD-e4-MzY" id="hU4-Lz-qeX">
@@ -56,7 +56,7 @@
                     <navigationItem key="navigationItem" title="Shop List" id="kH4-8r-vki">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Naf-YK-yLz">
                             <connections>
-                                <action selector="onBeingLazy:" destination="8KY-7G-KEA" id="yxi-ax-zJn"/>
+                                <segue destination="u22-2Q-fnD" kind="show" id="dHO-RW-f3C"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -64,6 +64,48 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e1t-GT-qtl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5565" y="-155.28169014084509"/>
+        </scene>
+        <!--New Shop-->
+        <scene sceneID="4ng-T5-CWH">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="u22-2Q-fnD" customClass="AddNewShopViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Cua-E2-Urf">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Shop name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dH2-Jm-F8e">
+                                <rect key="frame" x="16" y="80" width="288" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Swn-Sh-F3B">
+                                <rect key="frame" x="121" y="126" width="79" height="30"/>
+                                <state key="normal" title="Create"/>
+                                <connections>
+                                    <action selector="onAddShop:" destination="u22-2Q-fnD" eventType="touchUpInside" id="1dA-oX-Lwv"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Swn-Sh-F3B" firstAttribute="leading" secondItem="f49-MX-Sgz" secondAttribute="leading" constant="121" id="1Zn-sm-V1l"/>
+                            <constraint firstItem="dH2-Jm-F8e" firstAttribute="leading" secondItem="f49-MX-Sgz" secondAttribute="leading" constant="16" id="6Th-Sp-el2"/>
+                            <constraint firstItem="dH2-Jm-F8e" firstAttribute="top" secondItem="f49-MX-Sgz" secondAttribute="top" constant="16" id="GLr-eF-wMM"/>
+                            <constraint firstItem="f49-MX-Sgz" firstAttribute="trailing" secondItem="Swn-Sh-F3B" secondAttribute="trailing" constant="120" id="WLY-9u-hYx"/>
+                            <constraint firstItem="f49-MX-Sgz" firstAttribute="trailing" secondItem="dH2-Jm-F8e" secondAttribute="trailing" constant="16" id="mkf-Ti-fid"/>
+                            <constraint firstItem="Swn-Sh-F3B" firstAttribute="top" secondItem="dH2-Jm-F8e" secondAttribute="bottom" constant="16" id="vEG-LY-hep"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="f49-MX-Sgz"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="New Shop" id="cov-Vt-CTw"/>
+                    <connections>
+                        <outlet property="nameTextField" destination="dH2-Jm-F8e" id="gc0-db-dOk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EfJ-xs-DqA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6487.5" y="-155.28169014084509"/>
         </scene>
         <!--Shopping List Info Page-->
         <scene sceneID="S3K-J9-6Sg">
@@ -696,9 +738,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ItemListIcon" width="23" height="23"/>
-        <image name="ShopListIcon" width="24" height="24"/>
-        <image name="ShoppingListIcon" width="25" height="25"/>
-        <image name="huh" width="25" height="25"/>
+        <image name="ItemListIcon" width="34.5" height="34.5"/>
+        <image name="ShopListIcon" width="36" height="36"/>
+        <image name="ShoppingListIcon" width="37.5" height="37.5"/>
+        <image name="huh" width="37.5" height="37.5"/>
     </resources>
 </document>

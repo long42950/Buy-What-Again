@@ -18,6 +18,7 @@ enum ListenerType {
     case item
     case grocery
     case list
+    case shop
 }
 
 protocol DatabaseListener: AnyObject {
@@ -28,18 +29,22 @@ protocol DatabaseListener: AnyObject {
     func onGroceriesListChange(change: DatabaseChange, groceriesList: [Grocery])
     //This fetch all the selectable items in the item list
     func onItemListChange(change: DatabaseChange, itemList: [Item])
+    
+    func onShopListChange(change: DatabaseChange, shopList: [Shop])
 }
 
 protocol DatabaseProtocol: AnyObject {
     func addList(name: String, type: String, deadLine: Date?) -> ShoppingList
     func editList(name: String, type: String, deadLine: Date?, list: ShoppingList) -> (Bool, Error?)
     func addItem(name: String) -> Item
-    func addGrocery(_ name: String, _ quantity: Float, _ unit: String) -> Grocery
+    func addGrocery(_ name: String, _ quantity: Float, _ unit: String, _ shopPlaceId: String, _ shopAddress: String) -> Grocery
+    func addShop(name: String) -> Shop
     func addItemToGrocery(_ item: Item, _ grocery: Grocery) -> Bool
-    func addGroceryToList(list: ShoppingList, quantity: Float, unit: String, item: Item) -> Bool
+    func addGroceryToList(list: ShoppingList, quantity: Float, unit: String, item: Item, shopPlaceId: String, shopAddress: String) -> Bool
     func removeList(list: ShoppingList)
     func removeItem(item: Item)
     func removeGrocery(_ grocery: Grocery)
+    func removeShop(shop: Shop)
     func removeGroceryFromList(grocery: Grocery, list: ShoppingList)
     func addListener(listener: DatabaseListener)
     func removeListener(listener: DatabaseListener)

@@ -1,5 +1,5 @@
 //
-//  Grocery+CoreDataClass.swift
+//  Shop+CoreDataClass.swift
 //  Buy_What_Again Simple_Shopping_List
 //
 //  Created by Chak Lee on 14/6/19.
@@ -10,7 +10,7 @@
 import Foundation
 import CoreData
 
-@objc(Grocery)
-public class Grocery: NSManagedObject {
+@objc(Shop)
+public class Shop: NSManagedObject {
 
 }
