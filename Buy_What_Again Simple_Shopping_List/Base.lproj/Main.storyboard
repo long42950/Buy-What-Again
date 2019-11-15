@@ -3,7 +3,7 @@
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -177,27 +177,32 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="groceryCell" id="PcH-6E-UFi" customClass="GroceryTableViewCell" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PcH-6E-UFi" id="epD-7K-tpg">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="grocery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zOZ-c7-14f">
-                                            <rect key="frame" x="16" y="11" width="163" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="grocery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zOZ-c7-14f">
+                                            <rect key="frame" x="24" y="11" width="59" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="unit" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QDu-dL-whq">
-                                            <rect key="frame" x="187" y="12" width="117" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="unit" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QDu-dL-whq">
+                                            <rect key="frame" x="281" y="11" width="29" height="21.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="QDu-dL-whq" firstAttribute="top" secondItem="epD-7K-tpg" secondAttribute="top" constant="11" id="3W2-Oc-qhE"/>
+                                        <constraint firstItem="zOZ-c7-14f" firstAttribute="top" secondItem="epD-7K-tpg" secondAttribute="topMargin" id="B0h-1S-JaA"/>
+                                        <constraint firstItem="zOZ-c7-14f" firstAttribute="leading" secondItem="epD-7K-tpg" secondAttribute="leadingMargin" constant="8" id="HEt-j2-RCk"/>
+                                        <constraint firstAttribute="trailing" secondItem="QDu-dL-whq" secondAttribute="trailing" constant="10" id="aKg-c1-99I"/>
+                                        <constraint firstAttribute="bottom" secondItem="QDu-dL-whq" secondAttribute="bottom" constant="11.5" id="pGJ-2H-pdc"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="groceryLabel" destination="zOZ-c7-14f" id="dlK-sD-vwq"/>
@@ -212,19 +217,15 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="This should not exist" id="O50-Pp-q8h">
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="goX-oa-sld">
-                                <connections>
-                                    <segue destination="evO-iz-APo" kind="show" identifier="chooseGrocerySegue" id="dR9-JV-RQN"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Reset" id="yij-gI-NAm">
-                                <connections>
-                                    <action selector="onReset:" destination="ECw-FH-7Uv" id="nBq-RR-0BI"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="action" id="1U6-xu-6at">
+                            <connections>
+                                <action selector="onShowSelection:" destination="ECw-FH-7Uv" id="wEh-OP-RnU"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="evO-iz-APo" kind="show" identifier="chooseGrocerySegue" id="ok0-Vf-Pde"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zbq-kq-RGa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -641,14 +642,11 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                                 <segue destination="wpl-1F-9Ku" kind="show" identifier="showAboutSegue" id="xC4-tX-5o4"/>
                             </connections>
                         </barButtonItem>
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="T3L-mu-CWm">
-                                <connections>
-                                    <segue destination="6i2-o9-DOq" kind="show" id="DuV-BB-P3D"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem image="huh" id="6HK-oL-bpz"/>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="T3L-mu-CWm">
+                            <connections>
+                                <segue destination="6i2-o9-DOq" kind="show" id="DuV-BB-P3D"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TAJ-Xg-eVi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -774,11 +772,10 @@ limitations under the License.</string>
         <image name="ItemListIcon" width="23" height="23"/>
         <image name="ShopListIcon" width="24" height="24"/>
         <image name="ShoppingListIcon" width="25" height="25"/>
-        <image name="huh" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="xC4-tX-5o4"/>
+        <segue reference="Jim-XG-Y6w"/>
         <segue reference="DuV-BB-P3D"/>
-        <segue reference="soc-HQ-p0r"/>
+        <segue reference="Fwn-zZ-Rzv"/>
     </inferredMetricsTieBreakers>
 </document>

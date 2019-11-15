@@ -30,6 +30,10 @@ class AddShoppingListViewController: UIViewController {
         
         deadlinePicker.minimumDate = TODAY
         
+        let tap = UITapGestureRecognizer(target: self, action: "hideKeyboard")
+        
+        view.addGestureRecognizer(tap)
+        
         //Fill the details of the ShoppingList to be edited
         if let list = self.list {
             self.nameTextField.text = list.name
@@ -46,6 +50,10 @@ class AddShoppingListViewController: UIViewController {
                 self.deadlinePicker.isHidden = true
             }
         }
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
     }
     
     //Show and hide the data picker
@@ -103,7 +111,7 @@ class AddShoppingListViewController: UIViewController {
     //Show user a message with the alert message box
     func displayMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        alertController.addAction(UIAlertAction(title: "Understood master!", style:
+        alertController.addAction(UIAlertAction(title: "Dismiss", style:
             UIAlertAction.Style.default, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }

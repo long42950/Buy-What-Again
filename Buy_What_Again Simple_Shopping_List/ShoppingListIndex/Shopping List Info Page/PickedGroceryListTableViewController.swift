@@ -44,8 +44,25 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
         databaseController?.removeListener(listener: self)
     }
     
+    
+    @IBAction func onShowSelection(_ sender: Any) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        alertController.addAction(UIAlertAction(title: "Reset List", style: .destructive) { _ in
+            self.onReset()
+        })
+        
+        alertController.addAction(UIAlertAction(title: "Add Grocery", style: .default) { _ in
+            self.performSegue(withIdentifier: "chooseGrocerySegue", sender: nil)
+        })
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(alertController, animated: true)
+    }
+    
     //Reset the status of all Groceries, only if all Groceries have been bought
-    @IBAction func onReset(_ sender: Any) {
+    func onReset() {
         for grocery in self.groceryList {
             if !grocery.isBought {
                 self.displayMessage(title: "Warning", message: "You still have grocery to buy!")
