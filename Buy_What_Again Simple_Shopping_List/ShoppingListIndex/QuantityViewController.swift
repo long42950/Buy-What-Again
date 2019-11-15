@@ -6,6 +6,20 @@
 //  Copyright © 2019 Chak Lee. All rights reserved.
 //
 
+//Copyright 2019 Google
+//
+//Licensed under the Apache License, Version 2.0 (the "License");
+//you may not use this file except in compliance with the License.
+//You may obtain a copy of the License at
+//
+//http://www.apache.org/licenses/LICENSE-2.0
+//
+//Unless required by applicable law or agreed to in writing, software
+//distributed under the License is distributed on an "AS IS" BASIS,
+//WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//See the License for the specific language governing permissions and
+//limitations under the License.
+
 import UIKit
 import MapKit
 import GooglePlaces
@@ -35,7 +49,8 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
     var item: Item?
     var shopList: [Shop] = []
     
-    var shopData: UIPickerViewDataSource?
+    var isEdit: Bool = false
+    var currentGrocery: Grocery?
 
     
     
@@ -48,7 +63,7 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
         databaseController = appDelegate.databaseController
         autocompleteViewController.delegate = self as! GMSAutocompleteViewControllerDelegate
         autocompleteViewController.placeFields = self.fields!
-        
+
         self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         self.locationManager.distanceFilter = 10
         self.locationManager.delegate = self
@@ -66,6 +81,32 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
         databaseController?.addListener(listener: self)
         locationManager.startUpdatingLocation()
         
+        //Fill the details of a Grocery when the user wants to view or edit the Grocery
+        if let grocery = self.currentGrocery {
+            self.navigationItem.title = grocery.name
+            self.quantityTextField.text = "\(grocery.quantity)"
+            if grocery.unit == "Kg" {
+                self.unitSegment.selectedSegmentIndex = 0
+            }
+            else {
+                self.unitSegment.selectedSegmentIndex = 1
+            }
+            self.addressTextView.text = "Address: "
+            if let address = grocery.shopAddress, let placeId = grocery.shopPlaceId {
+                self.placeID = placeId
+                self.addressTextView.text = "Address: \(address)"
+                self.updateMap(neariest: true)
+            }
+            
+            if let shop = grocery.shops {
+                for row in 0..<self.shopList.count {
+                    if shop.name == self.shopList[row].name {
+                        self.shopPicker.selectRow(row+1, inComponent: 0, animated: true)
+                    }
+                }
+            }
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -74,6 +115,7 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
         locationManager.stopUpdatingLocation()
     }
     
+    //Record the details of a user selected location
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         self.addressTextView.text = "Address: " + place.formattedAddress!
         if (self.placeID != place.placeID) {
@@ -85,22 +127,18 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
         dismiss(animated: true, completion: nil)
     }
     
+    //display error when occur
     func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
-        
+        self.displayMessage(title: "ERROR", message: error.localizedDescription)
     }
     
+    //dismiss the UI control from Google's place autocomplete
     func wasCancelled(_ viewController: GMSAutocompleteViewController) {
         dismiss(animated: true, completion: nil)
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        //let location = locations.last!
-        //currentLocation = location.coordinate
-        
-        //var newLocation = LocationAnnotation(newTitle: "Your Location", newSubtitle: "You are here", lat: currentLocation!.latitude, long: currentLocation!.longitude)
-        //self.focusOn(annotation: newLocation)
-        //self.mapView.addAnnotation(newLocation)
-
+        //not used
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -111,8 +149,8 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
         return self.shopList.count + 1
     }
     
+    //Fill the UIPicker with shops from the Shop list
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        //print(self.shopList[row].name)
         return row == 0 ? "Select A Shop" : self.shopList[row - 1].name
     }
     
@@ -130,13 +168,20 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
         //not used
     }
     
+    //Fetch the Shop list from CoreData
     func onShopListChange(change: DatabaseChange, shopList: [Shop]) {
         self.shopList = shopList
         
     }
     
+    func onKeyChange(change: DatabaseChange, key: [BackupKey]) {
+        //not used
+    }
+    
+    //Search the neariest shop away from the user, the user must first select a preferred shop
     @IBAction func onSearchNearShop(_ sender: Any) {
         var fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.placeID.rawValue) | UInt(GMSPlaceField.formattedAddress.rawValue))!
+        //Locate the user
         placesClient.findPlaceLikelihoodsFromCurrentLocation(withPlaceFields: fields, callback: {
             (placeLikelihoodList: Array<GMSPlaceLikelihood>?, error: Error?) in
             if let error = error {
@@ -146,12 +191,19 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
             
             if let placeLikelihoodList = placeLikelihoodList {
                 let place = placeLikelihoodList[0].place
-                var searchString = "\(place.formattedAddress!)"
-                self.addressTextView.text = "Address: \(place.formattedAddress!)"
+                let selectedRow = self.shopPicker.selectedRow(inComponent: 0)
+                if selectedRow == 0 {
+                    DispatchQueue.main.async {
+                        self.displayMessage(title: "Warning", message: "You have not select a preferred shop!")
+                    }
+                    return
+                }
+                //Complete the url for fetching nearby shop
+                var searchString = "\(self.shopList[selectedRow-1].name!), \(place.formattedAddress!)"
                 searchString = searchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
                 searchString = searchString.replacingOccurrences(of: ",", with: "%2C", options: .literal, range: .none)
                 searchString = searchString.replacingOccurrences(of: "&", with: "%26", options: .literal, range: .none)
-                let jsonString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc&input=mcdonalds%2C%20\(searchString)&inputtype=textquery"
+                let jsonString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc&input=\(searchString)&inputtype=textquery"
                 print(jsonString)
                 let jsonURL = URL(string: jsonString)
                 let request = URLRequest(url: jsonURL!)
@@ -173,6 +225,7 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
                             }
                             
                         }
+                        //If at least one location returned, record the first location's details
                         if let placeIDs = candidateData.placeIDs {
                             if placeIDs.count > 0 {
                                 self.placeID = placeIDs[0].placeID
@@ -190,14 +243,40 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
         })
     }
     
+    //Present the Google's auto complete's UI control
     @IBAction func onSearchLocation(_ sender: Any) {
         self.present(self.autocompleteViewController, animated: true, completion: nil)
     }
     
+    //Add or edit a grocery to the list, a quantity is needed and bought grocery cannot be modified
     @IBAction func onAddGrocery(_ sender: Any) {
         let quantity = Float(self.quantityTextField.text!)
-        if quantity != nil && quantity != 0{
-            let _ = databaseController?.addGroceryToList(list: shoppingList!, quantity: quantity!, unit: unitSegment.titleForSegment(at: unitSegment.selectedSegmentIndex)!, item: item!, shopPlaceId: self.placeID!, shopAddress: self.address!)
+        let selectedRow = self.shopPicker.selectedRow(inComponent: 0)
+        var shop: Shop?
+        if selectedRow != 0 {
+            shop = self.shopList[selectedRow-1]
+        }
+        if quantity != nil && quantity != 0 {
+            
+            if let grocery = self.currentGrocery {
+                if grocery.isBought {
+                    DispatchQueue.main.async {
+                        self.displayMessage(title: "Error", message: "You cannot edit bought grocery!")
+                    }
+                    return
+                    
+                }
+                let name = self.navigationItem.title!
+                let unit = self.unitSegment.titleForSegment(at: unitSegment.selectedSegmentIndex)!
+                let shopPlaceId = self.placeID
+                let shopAddress = self.address
+                let _ = databaseController?.editGrocery(name: name, quantity: quantity!, unit: unit, shopPlaceId: shopPlaceId, shopAddress: shopAddress, preferShop: shop, grocery: grocery)
+                databaseController!.saveContext()
+                
+                navigationController?.popViewController(animated: true)
+                return
+            }
+            let _ = databaseController?.addGroceryToList(list: shoppingList!, quantity: quantity!, unit: unitSegment.titleForSegment(at: unitSegment.selectedSegmentIndex)!, item: item!, shopPlaceId: self.placeID, shopAddress: self.address , preferShop: shop)
             databaseController!.saveContext()
             
             navigationController?.popViewController(animated: true)
@@ -208,17 +287,14 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
         
     }
     
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-    }
-    
+    //Show user a message with the alert message box
     func displayMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
     
+    //When an address is recorded from the user's action, focus the map to the address with basic details
     private func updateMap(neariest: Bool) {
         if (mapView.annotations.count > 0) {
             mapView.removeAnnotations(mapView.annotations)
@@ -231,6 +307,7 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
                 placesClient.fetchPlace(fromPlaceID: placeID, placeFields: fields, sessionToken: nil, callback: {
                     (place, error) in
                     if let place = place {
+                        self.addressTextView.text = "Address: \(place.formattedAddress!)"
                         self.address = place.formattedAddress
                         let annotation = LocationAnnotation(newTitle: place.name ?? "neariest shop", newSubtitle: "", lat: place.coordinate.latitude, long: place.coordinate.longitude)
                         self.annotations.append(annotation)
@@ -262,6 +339,7 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
         
     }
     
+    //Auto-zoom into a location
     private func focusOn(annotation: MKAnnotation) {
         mapView.selectAnnotation(annotation, animated: true)
         

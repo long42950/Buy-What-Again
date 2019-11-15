@@ -18,6 +18,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     var allGroceriesFetchedResultsController: NSFetchedResultsController<Grocery>?
     var allItemFetchedResultsController: NSFetchedResultsController<Item>?
     var allShopFetchedResultsController: NSFetchedResultsController<Shop>?
+    var keyFetchedResultsController: NSFetchedResultsController<BackupKey>?
     
     override init() {
         persistantContainer = NSPersistentContainer(name: "ShoppingLists")
@@ -31,6 +32,10 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         
         if fetchAllItem().count == 0 {
             createDefaultitem()
+        }
+        
+        if fetchAllShop().count == 0 {
+            createDefaultShopList()
         }
     }
     
@@ -87,8 +92,8 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     
     func test() {}
 
-    func addGroceryToList(list: ShoppingList, quantity: Float, unit: String, item: Item, shopPlaceId: String, shopAddress: String) -> Bool {
-        let grocery = addGrocery(item.name!, quantity, unit, shopPlaceId, shopAddress)
+    func addGroceryToList(list: ShoppingList, quantity: Float, unit: String, item: Item, shopPlaceId: String?, shopAddress: String?, preferShop: Shop?) -> Bool {
+        let grocery = addGrocery(item.name!, quantity, unit, shopPlaceId, shopAddress, preferShop)
         saveContext()
         let _ = addItemToGrocery(item, grocery)
         saveContext()
@@ -96,7 +101,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         return true
     }
     
-    internal func addGrocery(_ name: String, _ quantity: Float, _ unit: String, _ shopPlaceId: String, _ shopAddress: String) -> Grocery {
+    internal func addGrocery(_ name: String, _ quantity: Float, _ unit: String, _ shopPlaceId: String?, _ shopAddress: String?, _ preferShop: Shop?) -> Grocery {
         let grocery = NSEntityDescription.insertNewObject(forEntityName: "Grocery", into:
             persistantContainer.viewContext) as! Grocery
         grocery.name = name
@@ -105,8 +110,47 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         grocery.isBought = false
         grocery.shopPlaceId = shopPlaceId
         grocery.shopAddress = shopAddress
+        if let preferShop = preferShop {
+            preferShop.addToGroceries(grocery)
+            grocery.shops = preferShop
+        }
         
         return grocery
+    }
+    
+    func editGrocery(name: String, quantity: Float, unit: String, shopPlaceId: String?, shopAddress: String?, preferShop: Shop?, grocery: Grocery) -> (Bool, Error?) {
+        do {
+            var oldGrocery = try persistantContainer.viewContext.existingObject(with: grocery.objectID) as! Grocery
+            oldGrocery.name = name
+            oldGrocery.quantity = quantity
+            oldGrocery.unit = unit
+            oldGrocery.isBought = false
+            oldGrocery.shopPlaceId = shopPlaceId
+            oldGrocery.shopAddress = shopAddress
+            if let preferShop = preferShop {
+                if let oldShop = oldGrocery.shops {
+                    oldShop.removeFromGroceries(oldGrocery)
+                }
+                preferShop.addToGroceries(oldGrocery)
+                grocery.shops = preferShop
+            }
+            return (true, nil)
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+            return (false, error)
+        }
+    }
+    
+    func editGroceryStatus(isBought: Bool, grocery: Grocery) -> (Grocery, Error?) {
+        do {
+            var editGrocery = try persistantContainer.viewContext.existingObject(with: grocery.objectID) as! Grocery
+            editGrocery.isBought = isBought
+            return (editGrocery, nil)
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+            return (grocery, error)
+        }
+        
     }
     
     func addShop(name: String) -> Shop {
@@ -121,7 +165,19 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         return true
     }
     
+    func addKey(key: String) -> BackupKey {
+        let backupKey = NSEntityDescription.insertNewObject(forEntityName: "BackupKey", into: persistantContainer.viewContext) as! BackupKey
+        backupKey.code = key
+        
+        return backupKey
+    }
+    
     func removeList(list: ShoppingList) {
+        if let groceries = list.groceries {
+            for grocery in groceries {
+                self.removeGrocery(grocery as! Grocery)
+            }
+        }
         persistantContainer.viewContext.delete(list)
     }
     
@@ -145,6 +201,10 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         removeGrocery(grocery)
     }
     
+    func removeKey(key: BackupKey) {
+        persistantContainer.viewContext.delete(key)
+    }
+    
     func addListener(listener: DatabaseListener) {
         listeners.addDelegate(listener)
         
@@ -155,8 +215,10 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
             listener.onGroceriesListChange(change: .update, groceriesList: fetchAllGrocery())
         case .item:
             listener.onItemListChange(change: .update, itemList: fetchAllItem())
+            listener.onKeyChange(change: .update, key: fetchBackupKey())
         case .shop:
             listener.onShopListChange(change: .update, shopList: fetchAllShop())
+            
         }
     }
     
@@ -256,6 +318,29 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         return shops
     }
     
+    func fetchBackupKey() -> [BackupKey] {
+        if keyFetchedResultsController == nil {
+            let fetchRequest: NSFetchRequest<BackupKey> = BackupKey.fetchRequest()
+            fetchRequest.sortDescriptors = []
+            keyFetchedResultsController = NSFetchedResultsController<BackupKey>(fetchRequest: fetchRequest, managedObjectContext: persistantContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+            keyFetchedResultsController?.delegate = self
+            
+            do {
+                try keyFetchedResultsController?.performFetch()
+            } catch {
+                print("Fetch Request failed: \(error)")
+            }
+        }
+        
+        var key = [BackupKey]()
+        if keyFetchedResultsController?.fetchedObjects != nil {
+            key = (keyFetchedResultsController?.fetchedObjects)!
+        }
+        
+        return key
+        
+    }
+    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         if controller == allListsFetchedResultsController {
             listeners.invoke { (listener) in
@@ -288,6 +373,16 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         let _ = addItem(name: "Canned fish")
         let _ = addItem(name: "Dog food")
         let _ = addItem(name: "Mountain Dew")
+        self.saveContext()
+    }
+    
+    func createDefaultShopList() {
+        let _ = addShop(name: "Coles")
+        let _ = addShop(name: "Woolworths")
+        let _ = addShop(name: "ALDI")
+        let _ = addShop(name: "IGA")
+        let _ = addShop(name: "Costco")
+        let _ = addShop(name: "7-Eleven")
         self.saveContext()
     }
     

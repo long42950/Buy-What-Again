@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18D109" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18D109" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="BackupKey" representedClassName="BackupKey" syncable="YES">
+        <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="Grocery" representedClassName="Grocery" syncable="YES">
         <attribute name="isBought" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -17,7 +20,7 @@
     </entity>
     <entity name="Shop" representedClassName="Shop" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="groceries" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Grocery" inverseName="shops" inverseEntity="Grocery" syncable="YES"/>
+        <relationship name="groceries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Grocery" inverseName="shops" inverseEntity="Grocery" syncable="YES"/>
     </entity>
     <entity name="ShoppingList" representedClassName="ShoppingList" syncable="YES">
         <attribute name="deadline" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -31,5 +34,6 @@
         <element name="Item" positionX="-18" positionY="54" width="128" height="75"/>
         <element name="Shop" positionX="-36" positionY="63" width="128" height="75"/>
         <element name="ShoppingList" positionX="-54" positionY="-9" width="128" height="120"/>
+        <element name="BackupKey" positionX="-36" positionY="90" width="128" height="60"/>
     </elements>
 </model>

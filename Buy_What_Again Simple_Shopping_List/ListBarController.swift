@@ -19,8 +19,6 @@ class ListBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        listTabBar.items![2].title = "Shopping List"
         
     }
 

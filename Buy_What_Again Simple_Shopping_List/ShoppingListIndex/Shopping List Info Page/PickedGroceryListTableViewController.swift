@@ -17,22 +17,19 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        //Set the navigation title to the name of the item when editing it
         self.navigationItem.title = shoppingList!.name
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         databaseController = appDelegate.databaseController
     }
 
-    // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return groceryList.count
     }
     
@@ -47,17 +44,33 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
         databaseController?.removeListener(listener: self)
     }
     
+    //Reset the status of all Groceries, only if all Groceries have been bought
+    @IBAction func onReset(_ sender: Any) {
+        for grocery in self.groceryList {
+            if !grocery.isBought {
+                self.displayMessage(title: "Warning", message: "You still have grocery to buy!")
+                return
+            }
+        }
+        for grocery in self.groceryList {
+            databaseController?.editGroceryStatus(isBought: false, grocery: grocery)
+            databaseController!.saveContext()
+            self.displayMessage(title: "Warning", message: "List reset!")
+        }
+    }
+    
     var listenerType = ListenerType.grocery
     
     func onItemListChange(change: DatabaseChange, itemList: [Item]) {
         //not used
     }
-    
+    //Fetch Groceries in the corresponding list from CoreData
     func onGroceriesListChange(change: DatabaseChange, groceriesList: [Grocery]) {
         self.groceryList = []
         for grocery in groceriesList {
             if grocery.shoppinglists!.isEqual(self.shoppingList!) {
                 groceryList.append(grocery)
+        
             }
         }
         tableView.reloadData()
@@ -70,8 +83,11 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
     func onShopListChange(change: DatabaseChange, shopList: [Shop]) {
         //not used
     }
-
     
+    func onKeyChange(change: DatabaseChange, key: [BackupKey]) {
+        //not used
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let groceryCell = tableView.dequeueReusableCell(withIdentifier: "groceryCell", for: indexPath) as! GroceryTableViewCell
 
@@ -80,6 +96,7 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
             let attrString = NSAttributedString(string: grocery.name!, attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue])
             groceryCell.groceryLabel.attributedText = attrString
             groceryCell.quantityLabel.text = "Bought!"
+            
         }
         else {
             groceryCell.groceryLabel.attributedText = nil
@@ -92,10 +109,7 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
         
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        displayMessage(title: "debug", message: "\(groceryList[indexPath.row].quantity)")
-    }
-    
+    //Create delete action for each cell to delete an Item, and either the done or undo action depending on the Grocery's status
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let delete = UITableViewRowAction(style: .normal, title: "delete", handler: {action, index in
             let deleteGrocery = self.groceryList[indexPath.row]
@@ -109,6 +123,7 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
         
         delete.backgroundColor = .red
         
+        //If the Grocery hasn't been bought include this as a possible action which turn the status to bought
         let done = UITableViewRowAction(style: .normal, title: "done", handler: {action, index in
             let broughtGrocery = self.groceryList[indexPath.row]
             broughtGrocery.isBought =  true
@@ -117,6 +132,7 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
         
         done.backgroundColor = .blue
         
+        //If the Grocery has been bought include this as a possible action which turn the status to un-bought
         let undo = UITableViewRowAction(style: .normal, title: "un-do", handler: {action, index in
             let broughtGrocery = self.groceryList[indexPath.row]
             broughtGrocery.isBought =  false
@@ -131,52 +147,19 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
         return [delete, done]
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    
-    // MARK: - Navigation
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "chooseGrocerySegue" {
             let desination = segue.destination as! GroceryListTableViewController
             desination.shoppingList = self.shoppingList
         }
+        else if segue.identifier == "editGrocerySegue" {
+            let destination = segue.destination as! QuantityViewController
+            destination.currentGrocery = groceryList[(self.tableView.indexPathForSelectedRow?.row)!]
+        }
     }
     
+    //Show user a message with the alert message box
     func displayMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default, handler: nil))

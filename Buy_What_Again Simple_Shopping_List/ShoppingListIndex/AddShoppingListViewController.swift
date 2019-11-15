@@ -30,6 +30,7 @@ class AddShoppingListViewController: UIViewController {
         
         deadlinePicker.minimumDate = TODAY
         
+        //Fill the details of the ShoppingList to be edited
         if let list = self.list {
             self.nameTextField.text = list.name
             if list.type == "Regular" {
@@ -47,6 +48,7 @@ class AddShoppingListViewController: UIViewController {
         }
     }
     
+    //Show and hide the data picker
     @IBAction func onActivated(_ sender: Any) {
         if killSwitch.isOn {
             deadlinePicker.isHidden = false
@@ -57,7 +59,7 @@ class AddShoppingListViewController: UIViewController {
     }
     
     
-    
+    //Add new ShoppingList to the ShoppingList list, a name is needed unless it is a temproary list
     @IBAction func onAddShoppingList(_ sender: Any) {
         if nameTextField.text != "" && listTypeSegment.selectedSegmentIndex == 0 {
             let name = nameTextField.text!
@@ -98,16 +100,7 @@ class AddShoppingListViewController: UIViewController {
         }
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
+    //Show user a message with the alert message box
     func displayMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
         alertController.addAction(UIAlertAction(title: "Understood master!", style:

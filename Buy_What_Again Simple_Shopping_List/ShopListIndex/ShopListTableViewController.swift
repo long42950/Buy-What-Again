@@ -31,10 +31,6 @@ class ShopListTableViewController: UITableViewController, DatabaseListener {
         databaseController?.removeListener(listener: self)
     }
     
-    @IBAction func onBeingLazy(_ sender: Any) {
-        self.displayMessage(title: "Well... 🤦🏻", message: "This feature will be available soon!")
-    }
-    
     var listenerType = ListenerType.shop
     
     func onItemListChange(change: DatabaseChange, itemList: [Item]) {
@@ -48,20 +44,20 @@ class ShopListTableViewController: UITableViewController, DatabaseListener {
     func onShoppingListChange(change: DatabaseChange, shoppList: [ShoppingList]) {
         //not used
     }
-    
+    //Fetch the Shop list from CoreData
     func onShopListChange(change: DatabaseChange, shopList: [Shop]) {
         self.allShop = shopList
     }
     
-    // MARK: - Table view data source
+    func onKeyChange(change: DatabaseChange, key: [BackupKey]) {
+        //not used
+    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return allShop.count
     }
 
@@ -74,7 +70,7 @@ class ShopListTableViewController: UITableViewController, DatabaseListener {
         return shopCell
     }
     
-
+    //Create a delete action for each cell to delete a Shop
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let delete = UITableViewRowAction(style: .normal, title: "delete", handler: {action, index in
             let deleteShop = self.allShop[indexPath.row]
@@ -91,54 +87,10 @@ class ShopListTableViewController: UITableViewController, DatabaseListener {
         return [delete]
     }
     
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
+    //Show user a message with the alert message box
     func displayMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        alertController.addAction(UIAlertAction(title: "Understood master!", style:
+        alertController.addAction(UIAlertAction(title: "Dismiss", style:
             UIAlertAction.Style.default, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }

@@ -21,6 +21,7 @@ class CustomItemViewController: UIViewController, DatabaseListener {
         databaseController = appDelegate.databaseController
     }
     
+    //Add new item to the Item list, a name is needed to add the custom item
     @IBAction func onAddCustomItem(_ sender: Any) {
         let name = nameTextField.text!
         if (name != "") {
@@ -60,20 +61,14 @@ class CustomItemViewController: UIViewController, DatabaseListener {
     func onShopListChange(change: DatabaseChange, shopList: [Shop]) {
         //not used
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func onKeyChange(change: DatabaseChange, key: [BackupKey]) {
+        //not used
     }
-    */
     
+    //Show user a message with the alert message box
     func displayMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        alertController.addAction(UIAlertAction(title: "Understood master!", style:
+        alertController.addAction(UIAlertAction(title: "Dismiss", style:
             UIAlertAction.Style.default, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }

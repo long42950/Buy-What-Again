@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xIQ-kk-P5W">
-    <device id="retina4_0" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xIQ-kk-P5W">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -40,7 +38,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="shopCell" id="giD-e4-MzY">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="giD-e4-MzY" id="hU4-Lz-qeX">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -54,6 +52,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Shop List" id="kH4-8r-vki">
+                        <barButtonItem key="leftBarButtonItem" title="About" id="i4F-kU-MJr">
+                            <connections>
+                                <segue destination="wpl-1F-9Ku" kind="show" identifier="showAboutSegue" id="hqB-Y8-nHu"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Naf-YK-yLz">
                             <connections>
                                 <segue destination="u22-2Q-fnD" kind="show" id="dHO-RW-f3C"/>
@@ -74,13 +77,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Shop name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dH2-Jm-F8e">
-                                <rect key="frame" x="16" y="80" width="288" height="30"/>
-                                <nil key="textColor"/>
+                                <rect key="frame" x="16" y="60" width="288" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Swn-Sh-F3B">
-                                <rect key="frame" x="121" y="126" width="79" height="30"/>
+                                <rect key="frame" x="121" y="110" width="79" height="30"/>
                                 <state key="normal" title="Create"/>
                                 <connections>
                                     <action selector="onAddShop:" destination="u22-2Q-fnD" eventType="touchUpInside" id="1dA-oX-Lwv"/>
@@ -107,6 +109,64 @@
             </objects>
             <point key="canvasLocation" x="6487.5" y="-155.28169014084509"/>
         </scene>
+        <!--External Source-->
+        <scene sceneID="Bm8-ax-fFp">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="y87-HV-G6S" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7iD-lq-qIK">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="yAZ-Dx-4tc">
+                                <rect key="frame" x="16" y="60" width="288" height="492"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <string key="text">Custom icon: https://icons8.com
+
+Technical Suggestion:
+https://stackoverflow.com/questions/30429844/swift-and-xcode-how-to-create-custom-tab-bar-icons
+
+https://stackoverflow.com/questions/7952576/xcode-tabbed-application-adding-new-tab-view
+
+https://www.ioscreator.com/tutorials/display-date-date-picker-ios-tutorial-ios10
+
+https://www.ioscreator.com/tutorials/picker-view-ios-tutorial-ios10
+
+https://developers.google.com/places/place-id
+
+https://developers.google.com/maps/documentation/javascript/examples/geocoding-place-id
+
+https://developers.google.com/places/ios-sdk/autocomplete
+
+https://stackoverflow.com/questions/19164188/custom-edit-view-in-uitableviewcell-while-swipe-left-objective-c-or-swift
+
+https://stackoverflow.com/questions/26345189/how-do-you-update-a-coredata-entry-that-has-already-been-saved-in-swift
+
+https://stackoverflow.com/questions/13133014/uilabel-with-text-struck-through
+
+https://stackoverflow.com/questions/24551816/swift-encode-url
+
+https://firebase.google.com/docs/firestore/query-data/get-data
+
+https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-character-in-swift</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="yAZ-Dx-4tc" firstAttribute="leading" secondItem="4RY-mD-yBE" secondAttribute="leading" constant="16" id="0f3-n0-4hf"/>
+                            <constraint firstItem="4RY-mD-yBE" firstAttribute="bottom" secondItem="yAZ-Dx-4tc" secondAttribute="bottom" constant="16" id="Ee6-yp-t6K"/>
+                            <constraint firstItem="yAZ-Dx-4tc" firstAttribute="top" secondItem="4RY-mD-yBE" secondAttribute="top" constant="16" id="XkE-yl-5rK"/>
+                            <constraint firstItem="4RY-mD-yBE" firstAttribute="trailing" secondItem="yAZ-Dx-4tc" secondAttribute="trailing" constant="16" id="yqi-Sl-FLV"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4RY-mD-yBE"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="External Source" id="ZcR-a2-ePe"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nIT-DY-ROg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5565" y="-1614"/>
+        </scene>
         <!--Shopping List Info Page-->
         <scene sceneID="S3K-J9-6Sg">
             <objects>
@@ -117,7 +177,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="groceryCell" id="PcH-6E-UFi" customClass="GroceryTableViewCell" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PcH-6E-UFi" id="epD-7K-tpg">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -142,6 +202,7 @@
                                 <connections>
                                     <outlet property="groceryLabel" destination="zOZ-c7-14f" id="dlK-sD-vwq"/>
                                     <outlet property="quantityLabel" destination="QDu-dL-whq" id="iI9-bP-7Ca"/>
+                                    <segue destination="fTZ-sp-x38" kind="show" identifier="editGrocerySegue" id="Fwn-zZ-Rzv"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -151,59 +212,23 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="This should not exist" id="O50-Pp-q8h">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="goX-oa-sld">
-                            <connections>
-                                <segue destination="evO-iz-APo" kind="show" identifier="chooseGrocerySegue" id="dR9-JV-RQN"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="goX-oa-sld">
+                                <connections>
+                                    <segue destination="evO-iz-APo" kind="show" identifier="chooseGrocerySegue" id="dR9-JV-RQN"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Reset" id="yij-gI-NAm">
+                                <connections>
+                                    <action selector="onReset:" destination="ECw-FH-7Uv" id="nBq-RR-0BI"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zbq-kq-RGa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5565" y="-1698.5915492957747"/>
-        </scene>
-        <!--Search View Controller-->
-        <scene sceneID="kvu-Ne-WhM">
-            <objects>
-                <viewController id="mlf-6C-nh1" customClass="SearchViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="e8X-C8-Lyi">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eFT-aQ-DCD">
-                                <rect key="frame" x="16" y="269" width="288" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xe7-kt-bs2">
-                                <rect key="frame" x="137" y="325" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="textFieldTapped:" destination="mlf-6C-nh1" eventType="touchUpInside" id="1ow-fb-EzU"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="eFT-aQ-DCD" firstAttribute="leading" secondItem="6Hg-ZC-iZ7" secondAttribute="leading" constant="16" id="G5u-1d-crM"/>
-                            <constraint firstItem="6Hg-ZC-iZ7" firstAttribute="trailing" secondItem="eFT-aQ-DCD" secondAttribute="trailing" constant="16" id="GAN-Fh-qIl"/>
-                            <constraint firstItem="xe7-kt-bs2" firstAttribute="leading" secondItem="6Hg-ZC-iZ7" secondAttribute="leading" constant="137" id="N7o-oo-DkX"/>
-                            <constraint firstItem="eFT-aQ-DCD" firstAttribute="top" secondItem="6Hg-ZC-iZ7" secondAttribute="top" constant="249" id="pLo-9s-K4r"/>
-                            <constraint firstItem="6Hg-ZC-iZ7" firstAttribute="bottom" secondItem="eFT-aQ-DCD" secondAttribute="bottom" constant="269" id="qvA-sA-fBr"/>
-                            <constraint firstItem="xe7-kt-bs2" firstAttribute="top" secondItem="eFT-aQ-DCD" secondAttribute="bottom" constant="26" id="y5z-Oj-ueB"/>
-                            <constraint firstItem="6Hg-ZC-iZ7" firstAttribute="bottom" secondItem="xe7-kt-bs2" secondAttribute="bottom" constant="213" id="ySo-Qk-Ki2"/>
-                            <constraint firstItem="6Hg-ZC-iZ7" firstAttribute="trailing" secondItem="xe7-kt-bs2" secondAttribute="trailing" constant="137" id="zQt-60-5Ab"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Hg-ZC-iZ7"/>
-                    </view>
-                    <connections>
-                        <outlet property="textField" destination="eFT-aQ-DCD" id="Jyf-Ld-4x9"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hjb-TR-MPw" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="7410" y="-3268"/>
+            <point key="canvasLocation" x="7560" y="-1698.5915492957747"/>
         </scene>
         <!--New Grocery-->
         <scene sceneID="gca-GB-KCu">
@@ -214,58 +239,57 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GBs-xE-iJG">
-                                <rect key="frame" x="0.0" y="64" width="320" height="936"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="956"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="79z-bI-glN">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="1000"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Amount" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IeZ-MR-RJc">
-                                                <rect key="frame" x="16" y="16" width="288" height="30"/>
-                                                <nil key="textColor"/>
+                                                <rect key="frame" x="16" y="16" width="288" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                             </textField>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Imh-4X-Dvc">
-                                                <rect key="frame" x="16" y="62" width="288" height="29"/>
+                                                <rect key="frame" x="16" y="66" width="288" height="32"/>
                                                 <segments>
                                                     <segment title="Kg"/>
                                                     <segment title="Pack"/>
                                                 </segments>
                                             </segmentedControl>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Any perferred shop?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jme-8a-NiV">
-                                                <rect key="frame" x="16" y="106" width="157" height="21"/>
+                                                <rect key="frame" x="16" y="113" width="157" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <pickerView contentMode="top" translatesAutoresizingMaskIntoConstraints="NO" id="WIH-Mv-lQE">
-                                                <rect key="frame" x="0.0" y="135" width="320" height="216"/>
+                                                <rect key="frame" x="0.0" y="142" width="320" height="216"/>
                                             </pickerView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where will you buy this?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BXd-D3-nL0">
-                                                <rect key="frame" x="16" y="367" width="185" height="21"/>
+                                                <rect key="frame" x="16" y="374" width="185" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7RT-x4-D5C">
-                                                <rect key="frame" x="227" y="404" width="77" height="30"/>
-                                                <state key="normal" title="Looks for it"/>
+                                                <rect key="frame" x="235" y="411" width="69" height="30"/>
+                                                <state key="normal" title="Look for it"/>
                                                 <connections>
                                                     <action selector="onSearchLocation:" destination="fTZ-sp-x38" eventType="touchUpInside" id="Oyn-Xw-oLd"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WZI-f0-3SD">
-                                                <rect key="frame" x="16" y="404" width="96" height="30"/>
+                                                <rect key="frame" x="16" y="411" width="96" height="30"/>
                                                 <state key="normal" title="Neariest shop"/>
                                                 <connections>
                                                     <action selector="onSearchNearShop:" destination="fTZ-sp-x38" eventType="touchUpInside" id="p2j-Eb-viP"/>
                                                 </connections>
                                             </button>
                                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iHy-K1-Xnw">
-                                                <rect key="frame" x="16" y="508" width="288" height="342"/>
+                                                <rect key="frame" x="16" y="515" width="288" height="335"/>
                                             </mapView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Address: " textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HmS-O4-WTJ">
-                                                <rect key="frame" x="16" y="450" width="288" height="42"/>
+                                                <rect key="frame" x="16" y="457" width="288" height="42"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="42" id="DMz-iT-nuC"/>
@@ -352,7 +376,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="itemCell" id="2Vx-hn-eqO">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2Vx-hn-eqO" id="myn-Gq-Q52">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -371,14 +395,14 @@
                     <navigationItem key="navigationItem" title="Pick what you need" id="lGk-Rn-tF7">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="tYC-Fa-Tww">
                             <connections>
-                                <segue destination="4Eh-9a-ARB" kind="show" id="KWe-gk-uYY"/>
+                                <segue destination="6i2-o9-DOq" kind="show" id="Hjj-Oa-lvN"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hOn-od-H3a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6488" y="-1699"/>
+            <point key="canvasLocation" x="8482.5" y="-1699.6478873239437"/>
         </scene>
         <!--Add custom item-->
         <scene sceneID="cz4-x3-9xc">
@@ -389,19 +413,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PWC-Ip-tK1">
-                                <rect key="frame" x="16" y="117" width="288" height="30"/>
-                                <nil key="textColor"/>
+                                <rect key="frame" x="16" y="97" width="288" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kyl-9G-6J9">
-                                <rect key="frame" x="16" y="80" width="52" height="21"/>
+                                <rect key="frame" x="16" y="60" width="52" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y3i-VJ-IYs">
-                                <rect key="frame" x="137" y="177" width="46" height="30"/>
+                                <rect key="frame" x="137" y="161" width="46" height="30"/>
                                 <state key="normal" title="Create"/>
                                 <connections>
                                     <action selector="onAddCustomItem:" destination="6i2-o9-DOq" eventType="touchUpInside" id="LSJ-BN-Uoy"/>
@@ -430,55 +453,6 @@
             </objects>
             <point key="canvasLocation" x="5565" y="562"/>
         </scene>
-        <!--Create Custom Item Page-->
-        <scene sceneID="VEa-eW-zV5">
-            <objects>
-                <viewController title="Create Custom Item Page" hidesBottomBarWhenPushed="YES" id="4Eh-9a-ARB" customClass="MapViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="aM0-Qt-qxB">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="vM6-fl-zdp">
-                                <rect key="frame" x="16" y="189" width="288" height="359"/>
-                            </mapView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xxF-bK-IjW">
-                                <rect key="frame" x="16" y="80" width="288" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xqx-mo-BIC">
-                                <rect key="frame" x="16" y="126" width="288" height="30"/>
-                                <state key="normal" title="Show me da way"/>
-                                <connections>
-                                    <action selector="showMe:" destination="4Eh-9a-ARB" eventType="touchUpInside" id="Jky-4T-gZh"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="ejK-Y0-cqT" firstAttribute="trailing" secondItem="vM6-fl-zdp" secondAttribute="trailing" constant="16" id="2bf-4c-djr"/>
-                            <constraint firstItem="ejK-Y0-cqT" firstAttribute="trailing" secondItem="xxF-bK-IjW" secondAttribute="trailing" constant="16" id="CUH-2a-c5x"/>
-                            <constraint firstItem="xqx-mo-BIC" firstAttribute="top" secondItem="xxF-bK-IjW" secondAttribute="bottom" constant="16" id="GNX-76-YsH"/>
-                            <constraint firstItem="xxF-bK-IjW" firstAttribute="top" secondItem="ejK-Y0-cqT" secondAttribute="top" constant="16" id="VHM-E9-8mA"/>
-                            <constraint firstItem="vM6-fl-zdp" firstAttribute="leading" secondItem="ejK-Y0-cqT" secondAttribute="leading" constant="16" id="Yco-cR-y9V"/>
-                            <constraint firstItem="xqx-mo-BIC" firstAttribute="leading" secondItem="ejK-Y0-cqT" secondAttribute="leading" constant="16" id="eh8-hf-Y4d"/>
-                            <constraint firstItem="ejK-Y0-cqT" firstAttribute="bottom" secondItem="vM6-fl-zdp" secondAttribute="bottom" constant="20" id="oUe-Dv-GCK"/>
-                            <constraint firstItem="ejK-Y0-cqT" firstAttribute="trailing" secondItem="xqx-mo-BIC" secondAttribute="trailing" constant="16" id="pTy-F4-Ixy"/>
-                            <constraint firstItem="vM6-fl-zdp" firstAttribute="top" secondItem="xqx-mo-BIC" secondAttribute="bottom" constant="33" id="rC0-Q7-mhr"/>
-                            <constraint firstItem="xxF-bK-IjW" firstAttribute="leading" secondItem="ejK-Y0-cqT" secondAttribute="leading" constant="16" id="s4h-Oc-a90"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="ejK-Y0-cqT"/>
-                    </view>
-                    <connections>
-                        <outlet property="locationTextField" destination="xxF-bK-IjW" id="LEP-jL-rF7"/>
-                        <outlet property="mapView" destination="vM6-fl-zdp" id="Jn9-OC-b3y"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Te4-zt-eax" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="7697" y="-1699"/>
-        </scene>
         <!--Shopping List Index Page-->
         <scene sceneID="qCb-LD-eNe">
             <objects>
@@ -492,7 +466,7 @@
                                 <rect key="frame" x="0.0" y="28" width="320" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OKC-DF-ybn" id="NIQ-4i-mSe">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="69.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="nameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CxW-Pk-6c4">
@@ -535,6 +509,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Your Item List" id="Ed2-iP-bmK">
+                        <barButtonItem key="leftBarButtonItem" title="About" id="rQl-bC-GBw">
+                            <connections>
+                                <segue destination="wpl-1F-9Ku" kind="show" identifier="showAboutSegue" id="Jim-XG-Y6w"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="N6S-sF-Csc">
                             <connections>
                                 <segue destination="sQZ-0T-FCn" kind="show" identifier="addShoppingListSegue" id="ANb-gl-WJO"/>
@@ -544,7 +523,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vaL-9Y-m2f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5565" y="-867.25352112676057"/>
+            <point key="canvasLocation" x="6562.5" y="-867.25352112676057"/>
         </scene>
         <!--Add New Shopping List Page-->
         <scene sceneID="HoF-nc-6NC">
@@ -555,43 +534,39 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name for the list:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RnS-O4-3Zo">
-                                <rect key="frame" x="16" y="80" width="131" height="21"/>
+                                <rect key="frame" x="16" y="60" width="131" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="List type:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="43P-kB-6BC">
-                                <rect key="frame" x="16" y="163" width="71" height="21"/>
+                                <rect key="frame" x="16" y="147" width="71" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="DtF-ep-vxx">
                                 <rect key="frame" x="0.0" y="352" width="320" height="216"/>
-                                <date key="date" timeIntervalSinceReferenceDate="578744056.27198601">
-                                    <!--2019-05-05 10:14:16 +0000-->
-                                </date>
                             </datePicker>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Need a deadline?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qGG-T6-RGp">
-                                <rect key="frame" x="16" y="244" width="133" height="21"/>
+                                <rect key="frame" x="16" y="231" width="133" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uO5-Kz-JUH">
-                                <rect key="frame" x="16" y="117" width="288" height="30"/>
-                                <nil key="textColor"/>
+                                <rect key="frame" x="16" y="97" width="288" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Fkk-yn-V26">
-                                <rect key="frame" x="169" y="241" width="51" height="31"/>
+                                <rect key="frame" x="169" y="228" width="51" height="31"/>
                                 <connections>
                                     <action selector="onActivated:" destination="sQZ-0T-FCn" eventType="valueChanged" id="Xho-n7-vyt"/>
                                 </connections>
                             </switch>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="WGX-Db-JaE">
-                                <rect key="frame" x="16" y="200" width="288" height="29"/>
+                                <rect key="frame" x="16" y="184" width="288" height="32"/>
                                 <segments>
                                     <segment title="Regular"/>
                                     <segment title="Temproary"/>
@@ -635,7 +610,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qSj-jU-znD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6488" y="-867"/>
+            <point key="canvasLocation" x="7485" y="-867.25352112676057"/>
         </scene>
         <!--Item List Index Page-->
         <scene sceneID="4bb-Bg-Yg9">
@@ -647,7 +622,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="itemCell" id="7us-lo-bOm">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7us-lo-bOm" id="h1r-K6-XTW">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -661,23 +636,81 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Item List" id="rCr-wE-RFr">
+                        <barButtonItem key="leftBarButtonItem" title="About" id="KXO-2f-dCu">
+                            <connections>
+                                <segue destination="wpl-1F-9Ku" kind="show" identifier="showAboutSegue" id="xC4-tX-5o4"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="T3L-mu-CWm">
                                 <connections>
                                     <segue destination="6i2-o9-DOq" kind="show" id="DuV-BB-P3D"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem image="huh" id="6HK-oL-bpz">
-                                <connections>
-                                    <action selector="onBackupList:" destination="pLb-x2-Nlk" id="E9b-b6-cZt"/>
-                                </connections>
-                            </barButtonItem>
+                            <barButtonItem image="huh" id="6HK-oL-bpz"/>
                         </rightBarButtonItems>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TAJ-Xg-eVi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4571.25" y="561.97183098591552"/>
+        </scene>
+        <!--About this app-->
+        <scene sceneID="uMJ-dd-fdE">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="wpl-1F-9Ku" customClass="AboutPageViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="B8x-mg-TLk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16D-NK-GxJ">
+                                <rect key="frame" x="16" y="60" width="288" height="492"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <string key="text">   Copyright 2019 Google
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sng-4s-2k4">
+                                <rect key="frame" x="106" y="498" width="108" height="54"/>
+                                <state key="normal" title="External Source"/>
+                                <connections>
+                                    <segue destination="y87-HV-G6S" kind="show" id="Enc-fR-2ja"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="1Rc-gq-mWG" firstAttribute="bottom" secondItem="16D-NK-GxJ" secondAttribute="bottom" constant="16" id="0wq-YC-Pca"/>
+                            <constraint firstItem="1Rc-gq-mWG" firstAttribute="trailing" secondItem="sng-4s-2k4" secondAttribute="trailing" constant="106" id="Abz-SI-IsA"/>
+                            <constraint firstItem="16D-NK-GxJ" firstAttribute="leading" secondItem="1Rc-gq-mWG" secondAttribute="leading" constant="16" id="Fvs-jP-TUT"/>
+                            <constraint firstItem="1Rc-gq-mWG" firstAttribute="trailing" secondItem="16D-NK-GxJ" secondAttribute="trailing" constant="16" id="JEB-YX-a8K"/>
+                            <constraint firstItem="sng-4s-2k4" firstAttribute="leading" secondItem="1Rc-gq-mWG" secondAttribute="leading" constant="106" id="QkM-VW-H9k"/>
+                            <constraint firstItem="16D-NK-GxJ" firstAttribute="top" secondItem="1Rc-gq-mWG" secondAttribute="top" constant="16" id="etO-Ul-mWB"/>
+                            <constraint firstItem="1Rc-gq-mWG" firstAttribute="bottom" secondItem="sng-4s-2k4" secondAttribute="bottom" constant="16" id="lvK-Tv-umF"/>
+                            <constraint firstItem="sng-4s-2k4" firstAttribute="top" secondItem="1Rc-gq-mWG" secondAttribute="top" constant="454" id="niQ-Af-1be"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="1Rc-gq-mWG"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="About this app" id="2Ve-5U-kyp"/>
+                    <connections>
+                        <outlet property="aboutTextView" destination="16D-NK-GxJ" id="t7H-0r-0hQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dTo-dV-ZyL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4541.25" y="-1071.1267605633802"/>
         </scene>
         <!--Item List-->
         <scene sceneID="9oQ-cu-eyE">
@@ -686,7 +719,7 @@
                     <tabBarItem key="tabBarItem" title="Item List" image="ItemListIcon" selectedImage="ItemListIcon" id="RVF-Jc-0oM"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yrN-Uw-uEu">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -705,7 +738,7 @@
                     <tabBarItem key="tabBarItem" title="Shopping List" image="ShoppingListIcon" selectedImage="ShoppingListIcon" id="BlP-Y3-he3"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="crI-oR-TYL">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -715,7 +748,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N58-po-nax" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4567.5" y="-867.25352112676057"/>
+            <point key="canvasLocation" x="5565" y="-867.25352112676057"/>
         </scene>
         <!--Shop List-->
         <scene sceneID="Rfw-5V-sZP">
@@ -724,7 +757,7 @@
                     <tabBarItem key="tabBarItem" title="Shop List" image="ShopListIcon" selectedImage="ShopListIcon" id="MvI-56-21q"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="btB-Zj-OpO">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -738,9 +771,14 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ItemListIcon" width="34.5" height="34.5"/>
-        <image name="ShopListIcon" width="36" height="36"/>
-        <image name="ShoppingListIcon" width="37.5" height="37.5"/>
-        <image name="huh" width="37.5" height="37.5"/>
+        <image name="ItemListIcon" width="23" height="23"/>
+        <image name="ShopListIcon" width="24" height="24"/>
+        <image name="ShoppingListIcon" width="25" height="25"/>
+        <image name="huh" width="25" height="25"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="xC4-tX-5o4"/>
+        <segue reference="DuV-BB-P3D"/>
+        <segue reference="soc-HQ-p0r"/>
+    </inferredMetricsTieBreakers>
 </document>
