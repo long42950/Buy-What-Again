@@ -70,11 +70,20 @@ class GroceryListTableViewController: UITableViewController, DatabaseListener {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let itemCell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath)
+        let itemCell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! GroceryListTableViewCell
         
         let list = allItem[indexPath.row]
         
         itemCell.textLabel?.text = list.name
+        if let glist = list.groceries {
+            for grocery in glist {
+                if (grocery as! Grocery).shoppinglists! == self.shoppingList {
+                    itemCell.chosenLabel?.text = "Chosen!"
+                    break
+                }
+            }
+        }
+        
         return itemCell
     }
     

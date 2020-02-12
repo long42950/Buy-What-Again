@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddShoppingListViewController: UIViewController {
+class AddShoppingListViewController: UIViewController, UITextFieldDelegate {
     
     weak var databaseController: DatabaseProtocol?
     
@@ -34,6 +34,8 @@ class AddShoppingListViewController: UIViewController {
         
         view.addGestureRecognizer(tap)
         
+        nameTextField.delegate = self
+        
         //Fill the details of the ShoppingList to be edited
         if let list = self.list {
             self.nameTextField.text = list.name
@@ -50,6 +52,11 @@ class AddShoppingListViewController: UIViewController {
                 self.deadlinePicker.isHidden = true
             }
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
     @objc func hideKeyboard() {

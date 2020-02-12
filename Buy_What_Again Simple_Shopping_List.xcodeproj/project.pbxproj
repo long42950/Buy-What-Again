@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		11F092F9EE16B8CC93CF2255 /* libPods-Buy_What_Again Simple_Shopping_List.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AEF942B77055668885DADC1 /* libPods-Buy_What_Again Simple_Shopping_List.a */; };
+		44861FB823F3C6A700C53A05 /* NewShoppingListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44861FB723F3C6A700C53A05 /* NewShoppingListTableViewController.swift */; };
+		44861FBC23F3CB8F00C53A05 /* TextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44861FBB23F3CB8F00C53A05 /* TextTableViewCell.swift */; };
+		44861FBE23F3CBBB00C53A05 /* SelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44861FBD23F3CBBB00C53A05 /* SelectionTableViewCell.swift */; };
+		44B7266B2387801200AC8C65 /* GroceryListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B7266A2387801200AC8C65 /* GroceryListTableViewCell.swift */; };
 		FA0C323E22B68500007CD918 /* BackupKey+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C323C22B68500007CD918 /* BackupKey+CoreDataClass.swift */; };
 		FA0C323F22B68500007CD918 /* BackupKey+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C323D22B68500007CD918 /* BackupKey+CoreDataProperties.swift */; };
 		FA0EEF5722B03074000FA533 /* PlaceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0EEF5622B03074000FA533 /* PlaceData.swift */; };
@@ -53,6 +57,10 @@
 
 /* Begin PBXFileReference section */
 		1AEF942B77055668885DADC1 /* libPods-Buy_What_Again Simple_Shopping_List.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Buy_What_Again Simple_Shopping_List.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		44861FB723F3C6A700C53A05 /* NewShoppingListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewShoppingListTableViewController.swift; path = "Buy_What_Again Simple_Shopping_List/ShoppingListIndex/NewShoppingListTableViewController.swift"; sourceTree = SOURCE_ROOT; };
+		44861FBB23F3CB8F00C53A05 /* TextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTableViewCell.swift; sourceTree = "<group>"; };
+		44861FBD23F3CBBB00C53A05 /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
+		44B7266A2387801200AC8C65 /* GroceryListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryListTableViewCell.swift; sourceTree = "<group>"; };
 		CD9532FAC59DBD1708069A64 /* Pods-Buy_What_Again Simple_Shopping_List.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Buy_What_Again Simple_Shopping_List.release.xcconfig"; path = "Target Support Files/Pods-Buy_What_Again Simple_Shopping_List/Pods-Buy_What_Again Simple_Shopping_List.release.xcconfig"; sourceTree = "<group>"; };
 		D07B214964423D6E5A46AAEB /* Pods-Buy_What_Again Simple_Shopping_List.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Buy_What_Again Simple_Shopping_List.debug.xcconfig"; path = "Target Support Files/Pods-Buy_What_Again Simple_Shopping_List/Pods-Buy_What_Again Simple_Shopping_List.debug.xcconfig"; sourceTree = "<group>"; };
 		FA0C323C22B68500007CD918 /* BackupKey+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BackupKey+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -120,6 +128,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		44861FBF23F3CBD400C53A05 /* TableCellPrototype */ = {
+			isa = PBXGroup;
+			children = (
+				44861FBD23F3CBBB00C53A05 /* SelectionTableViewCell.swift */,
+				44861FBB23F3CB8F00C53A05 /* TextTableViewCell.swift */,
+			);
+			path = TableCellPrototype;
+			sourceTree = "<group>";
+		};
 		5CFE64E913601306FA3B6E8B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,11 +150,13 @@
 			isa = PBXGroup;
 			children = (
 				FA4B966D22AAA19D009AB052 /* Shopping List Info Page */,
+				44861FB723F3C6A700C53A05 /* NewShoppingListTableViewController.swift */,
 				FA3D8EE0227EDF55000B0F23 /* ShoppingListTableViewController.swift */,
 				FA3D8EE2227EEA53000B0F23 /* ShoppingListTableViewCell.swift */,
 				FA3D8EE7227EF3F9000B0F23 /* AddShoppingListViewController.swift */,
 				FAF029C0228054F300F26883 /* GroceryListTableViewController.swift */,
 				FA73209D2281841D00F1F193 /* QuantityViewController.swift */,
+				44B7266A2387801200AC8C65 /* GroceryListTableViewCell.swift */,
 			);
 			path = ShoppingListIndex;
 			sourceTree = "<group>";
@@ -173,6 +192,7 @@
 		FA92E63822422A5C00EF363C /* Buy_What_Again Simple_Shopping_List */ = {
 			isa = PBXGroup;
 			children = (
+				44861FBF23F3CBD400C53A05 /* TableCellPrototype */,
 				FAF029B922803D2B00F26883 /* ItemListIndex */,
 				FAF029B822803D1300F26883 /* ShopListIndex */,
 				FA3D8EE4227EEA63000B0F23 /* ShoppingListIndex */,
@@ -393,15 +413,19 @@
 				FA92E63C22422A5C00EF363C /* ViewController.swift in Sources */,
 				FA0C323E22B68500007CD918 /* BackupKey+CoreDataClass.swift in Sources */,
 				FA3D8EE8227EF3F9000B0F23 /* AddShoppingListViewController.swift in Sources */,
+				44B7266B2387801200AC8C65 /* GroceryListTableViewCell.swift in Sources */,
 				FA92E63A22422A5C00EF363C /* AppDelegate.swift in Sources */,
 				FA7FE26E22B52F2100A0189A /* FirebaseController.swift in Sources */,
 				FA3D8EE1227EDF55000B0F23 /* ShoppingListTableViewController.swift in Sources */,
 				FA46DC2622AFBBD000987B6E /* Item+CoreDataClass.swift in Sources */,
 				FAA3097122B4385F008B38AB /* Shop+CoreDataClass.swift in Sources */,
+				44861FB823F3C6A700C53A05 /* NewShoppingListTableViewController.swift in Sources */,
 				FA3D8EC6227EA5B2000B0F23 /* CoreDataController.swift in Sources */,
 				FA7FE26A22B52DD400A0189A /* Item.swift in Sources */,
+				44861FBE23F3CBBB00C53A05 /* SelectionTableViewCell.swift in Sources */,
 				FAF029C1228054F300F26883 /* GroceryListTableViewController.swift in Sources */,
 				FA46DC2922AFBBD000987B6E /* ShoppingList+CoreDataProperties.swift in Sources */,
+				44861FBC23F3CB8F00C53A05 /* TextTableViewCell.swift in Sources */,
 				FA0EEF5722B03074000FA533 /* PlaceData.swift in Sources */,
 				FAF029C522805F9900F26883 /* LocationAnnotation.swift in Sources */,
 				FA7FE26C22B52DF000A0189A /* ItemList.swift in Sources */,
