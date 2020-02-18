@@ -114,7 +114,7 @@ class ShoppingListTableViewController: UITableViewController, DatabaseListener {
             let destination = segue.destination as! PickedGroceryListTableViewController
             destination.shoppingList = allList[self.tableView.indexPathForSelectedRow!.row]
         } else if segue.identifier == "addShoppingListSegue" && self.editRow != -1 {
-            let destination = segue.destination as! AddShoppingListViewController
+            let destination = segue.destination as! NewShoppingListTableViewController
             destination.list = self.allList[editRow]
         }
 

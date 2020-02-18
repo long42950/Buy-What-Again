@@ -1,17 +1,15 @@
 //
-//  TextTableViewCell.swift
+//  LabelTableViewCell.swift
 //  Buy_What_Again Simple_Shopping_List
 //
-//  Created by Long Lee on 12/2/2020.
+//  Created by Long Lee on 17/2/2020.
 //  Copyright © 2020 Chak Lee. All rights reserved.
 //
 
 import UIKit
 
-class TextTableViewCell: UITableViewCell {
+class LabelTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var textRef: UITextField!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

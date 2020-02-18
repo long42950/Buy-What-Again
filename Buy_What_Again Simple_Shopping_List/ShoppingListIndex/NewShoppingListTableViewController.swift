@@ -9,15 +9,31 @@
 import UIKit
 
 class NewShoppingListTableViewController: UITableViewController {
+    
+    weak var switchCell: UITableViewCell?
+    weak var selectCell: UITableViewCell?
+    weak var textCell: UITableViewCell?
+    weak var datePickerCell: UITableViewCell?
+    weak var databaseController: DatabaseProtocol?
+    
+    var regularList = true
+    var list: ShoppingList?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.tableView.tableFooterView = UIView()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        databaseController = appDelegate.databaseController
+        
+        if let list = self.list {
+            self.title = list.name
+        }
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -32,68 +48,172 @@ class NewShoppingListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-            case 1:
+            case 0:
                 return "List Detail"
-            case 2:
+            case 1:
                 return "Deadline"
             default:
                 return "Error"
         }
     }
-
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        // Configure the cell...
+        let currentCell = indexPath.row + indexPath.section * 2
+        
+        switch currentCell {
+            case 0:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "selectionCell", for: indexPath) as! SelectionTableViewCell
+                cell.accessoryType = .disclosureIndicator
+                cell.selectionRef.text = "List Type"
+                
+                if let list = self.list {
+                    if !(list.type == "Regular") && (self.selectCell == nil) {
+                        self.regularList = false
+                    }
+                }
+                if self.regularList {
+                    cell.decisionRef.text = "Regular"
+                }
+                else {
+                    cell.decisionRef.text = "Temproary"
+                }
+                self.selectCell = cell
 
-        return cell
+                return cell
+            case 1:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "textCell", for: indexPath) as! TextTableViewCell
+                cell.selectionStyle = .none
+                if self.regularList {
+                    cell.textRef.isEnabled = true
+                    cell.textRef.placeholder = "List Name"
+                    
+                    if let list = self.list {
+                        if (self.textCell == nil) || (cell.textRef.text == ""){
+                            cell.textRef.text = list.name
+                        }
+                    }
+                }
+                else {
+                    cell.textRef.isEnabled = false
+                    cell.textRef.placeholder = "Temproary List"
+                    cell.textRef.text = ""
+                }
+                self.textCell = cell
+
+                return cell
+            case 2:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "switchCell", for: indexPath) as! SwitchTableViewCell
+                cell.selectionStyle = .none
+                cell.newShoppingListRef(self)
+                
+                if let list = self.list {
+                    if (list.deadline != nil) && (self.switchCell == nil) {
+                        cell.switchRef.setOn(true, animated: true)
+                        var dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat =  "d MMM, yyy HH:mm"
+                        let date = dateFormatter.string(from: list.deadline as! Date)
+                        cell.dateLabelRef.text = date
+                        cell.dateLabelRef.isHidden = false
+                    }
+                }
+                self.switchCell = cell
+                return cell
+            default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "dateTimeCell", for: indexPath) as! DateTimeTableViewCell
+                cell.selectionStyle = .none
+                cell.newShoppingListRef(self)
+                
+                
+                if let list = self.list {
+                    if (list.deadline != nil) && (self.datePickerCell == nil) {
+                        cell.dateTimeRef.date = list.deadline as! Date
+                    }
+                }
+                self.datePickerCell = cell
+                return cell
+        }
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath.section == 1 && indexPath.row == 1) {
+            let cell = self.switchCell as! SwitchTableViewCell
+            if (cell.switchRef.isOn) {
+                return 200
+            }
+            return 0
+        }
+        
+        else {
+            return tableView.rowHeight
+        }
     }
-    */
+    
+    @IBAction func onAddShoppingList(_ sender: Any) {
+        let selectCellRef = self.selectCell as! SelectionTableViewCell
+        let textCellRef = self.textCell as! TextTableViewCell
+        let switchCellRef = self.switchCell as! SwitchTableViewCell
+        let datePickerCellRef = self.datePickerCell as! DateTimeTableViewCell
+        
+        if (textCellRef.textRef.text != "" && textCellRef.textRef.isEnabled) {
+            let name = textCellRef.textRef.text!
+            let listType = selectCellRef.decisionRef.text!
+            var deadline: Date? = nil
+            if switchCellRef.switchRef.isOn {
+                deadline = datePickerCellRef.dateTimeRef.date
+            }
+            if let list = self.list {
+                let result = databaseController!.editList(name: name, type: listType, deadLine: deadline, list: list)
+                databaseController!.saveContext()
+            } else {
+                let _ = databaseController!.addList(name: name, type: listType, deadLine: deadline)
+            }
+            
+            navigationController?.popViewController(animated: true)
+            return
+        } else if !(textCellRef.textRef.isEnabled) {
+            let name = "Temproary List"
+            let listType = selectCellRef.decisionRef.text!
+            var deadline: Date? = nil
+            if switchCellRef.switchRef.isOn {
+                deadline = datePickerCellRef.dateTimeRef.date
+            }
+            if let list = self.list {
+                let result = databaseController!.editList(name: name, type: listType, deadLine: deadline, list: list)
+                databaseController!.saveContext()
+            } else {
+                let test = databaseController!.addList(name: name, type: listType, deadLine: deadline)
+                databaseController!.saveContext()
+                print(test)
+            }
+            
+            navigationController?.popViewController(animated: true)
+        } else {
+            displayMessage(title: "Error", message: "You need a name for your regular list")
+        }
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if (segue.identifier == "listTypeSegue") {
+            let destination = segue.destination as! ListTypeTableViewController
+            let cell = self.selectCell as! SelectionTableViewCell
+            destination.listType = self.regularList
+            destination.tableViewController = self
+        }
     }
-    */
+    
+    func reloadDate() {
+        let cell = self.switchCell as! SwitchTableViewCell
+        cell.loadDate()
+    }
+    
+    func displayMessage(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style:
+            UIAlertAction.Style.default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
 
 }

@@ -10,6 +10,10 @@ import UIKit
 
 class SelectionTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var selectionRef: UILabel!
+    @IBOutlet weak var decisionRef: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
