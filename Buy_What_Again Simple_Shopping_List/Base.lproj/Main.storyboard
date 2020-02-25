@@ -367,22 +367,136 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
             </objects>
             <point key="canvasLocation" x="6511.875" y="-2690.4929577464791"/>
         </scene>
-        <!--Table View Controller-->
+        <!--New Grocery-->
         <scene sceneID="GnH-QE-bRB">
             <objects>
-                <tableViewController id="sNe-rd-iHt" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="XVT-tu-jIr">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                <tableViewController id="sNe-rd-iHt" customClass="QuantityTableViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="XVT-tu-jIr">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="903"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="dM4-hl-BCl">
-                                <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="textCell" id="dM4-hl-BCl" customClass="TextTableViewCell" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="55.5" width="320" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dM4-hl-BCl" id="oYb-Gk-0gC">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="text" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LBW-d7-1bZ">
+                                            <rect key="frame" x="16" y="5" width="288" height="34"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="textRef" destination="LBW-d7-1bZ" id="1Ld-Bj-08G"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="selectionCell" id="A20-Ch-wKF" customClass="SelectionTableViewCell" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="99" width="320" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="A20-Ch-wKF" id="dpc-g5-lfk">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selection" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y8y-yP-o8I">
+                                            <rect key="frame" x="16" y="11" width="71.5" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Regular" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d43-jg-R0o">
+                                            <rect key="frame" x="229.5" y="11" width="58.5" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Y8y-yP-o8I" firstAttribute="top" secondItem="dpc-g5-lfk" secondAttribute="topMargin" id="Get-ny-eCT"/>
+                                        <constraint firstItem="d43-jg-R0o" firstAttribute="top" secondItem="dpc-g5-lfk" secondAttribute="topMargin" id="Tvp-aB-mKU"/>
+                                        <constraint firstItem="Y8y-yP-o8I" firstAttribute="leading" secondItem="dpc-g5-lfk" secondAttribute="leadingMargin" id="YvD-SE-UcW"/>
+                                        <constraint firstItem="Y8y-yP-o8I" firstAttribute="leading" secondItem="dpc-g5-lfk" secondAttribute="leadingMargin" id="faq-BZ-U1L"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="d43-jg-R0o" secondAttribute="trailing" constant="16" id="jQC-oq-76Q"/>
+                                        <constraint firstItem="Y8y-yP-o8I" firstAttribute="top" secondItem="dpc-g5-lfk" secondAttribute="topMargin" id="jzT-aG-dM8"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="decisionRef" destination="d43-jg-R0o" id="t6v-cp-M5n"/>
+                                    <outlet property="selectionRef" destination="Y8y-yP-o8I" id="qeJ-Ia-F5l"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="pickerCell" rowHeight="216" id="H5U-8y-K3V" customClass="PickerTableViewCell" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="142.5" width="320" height="216"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="H5U-8y-K3V" id="Ddr-GB-ANI">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="216"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MSx-8n-T5B">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="216"/>
+                                        </pickerView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="MSx-8n-T5B" secondAttribute="bottom" id="Ag6-RG-tdz"/>
+                                        <constraint firstItem="MSx-8n-T5B" firstAttribute="leading" secondItem="Ddr-GB-ANI" secondAttribute="leading" id="dZj-cU-2fp"/>
+                                        <constraint firstAttribute="trailing" secondItem="MSx-8n-T5B" secondAttribute="trailing" id="w6m-CA-mLL"/>
+                                        <constraint firstItem="MSx-8n-T5B" firstAttribute="top" secondItem="Ddr-GB-ANI" secondAttribute="top" id="ybS-Oc-kgS"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="pickerRef" destination="MSx-8n-T5B" id="WQF-ME-RQj"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="buttonCell" id="qmH-Uk-dkY" customClass="ButtonTableViewCell" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="358.5" width="320" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qmH-Uk-dkY" id="5IV-he-19r">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lTA-qK-vnB">
+                                            <rect key="frame" x="16" y="7" width="288" height="30"/>
+                                            <state key="normal" title="Find it yourself!"/>
+                                            <connections>
+                                                <action selector="onPressed:" destination="qmH-Uk-dkY" eventType="touchUpInside" id="tq3-FK-7Fm"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="lTA-qK-vnB" firstAttribute="top" secondItem="5IV-he-19r" secondAttribute="top" constant="7" id="ccU-LF-7Xu"/>
+                                        <constraint firstItem="lTA-qK-vnB" firstAttribute="leading" secondItem="5IV-he-19r" secondAttribute="leading" constant="16" id="nxE-Ui-e3p"/>
+                                        <constraint firstAttribute="trailing" secondItem="lTA-qK-vnB" secondAttribute="trailing" constant="16" id="xXY-cH-4x1"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="buttonRef" destination="lTA-qK-vnB" id="FGt-0N-dY9"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="mapCell" rowHeight="335" id="FWo-O2-A1V" customClass="MapTableViewCell" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="402" width="320" height="335"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FWo-O2-A1V" id="t2N-El-pPa">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="335"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="aeQ-Gt-fAR">
+                                            <rect key="frame" x="16" y="11" width="288" height="313"/>
+                                        </mapView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="aeQ-Gt-fAR" firstAttribute="trailing" secondItem="t2N-El-pPa" secondAttribute="trailingMargin" id="0EG-ij-jM1"/>
+                                        <constraint firstItem="aeQ-Gt-fAR" firstAttribute="bottom" secondItem="t2N-El-pPa" secondAttribute="bottomMargin" id="Ah0-nZ-OX7"/>
+                                        <constraint firstItem="aeQ-Gt-fAR" firstAttribute="leading" secondItem="t2N-El-pPa" secondAttribute="leadingMargin" id="MoD-Mb-vld"/>
+                                        <constraint firstItem="aeQ-Gt-fAR" firstAttribute="top" secondItem="t2N-El-pPa" secondAttribute="topMargin" id="hrh-gy-sZW"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="mapRef" destination="aeQ-Gt-fAR" id="8S0-XS-LjT"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -390,10 +504,18 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                             <outlet property="delegate" destination="sNe-rd-iHt" id="M48-jZ-oXR"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="New Grocery" id="E4b-X8-NvZ">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="ZN0-TR-yqV">
+                            <connections>
+                                <action selector="onAddGrocery:" destination="sNe-rd-iHt" id="0rL-j7-iy3"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <size key="freeformSize" width="320" height="903"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2tJ-Zz-dRV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7652" y="-2898"/>
+            <point key="canvasLocation" x="7282.5" y="-2920.2464788732395"/>
         </scene>
         <!--Select New Grocery Page-->
         <scene sceneID="oYE-wL-e3G">
@@ -425,7 +547,7 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="chosenLabel" destination="7ME-tG-KYm" id="QK6-p4-EIU"/>
-                                    <segue destination="fTZ-sp-x38" kind="show" identifier="addGrocerySegue" id="soc-HQ-p0r"/>
+                                    <segue destination="sNe-rd-iHt" kind="show" identifier="addGrocerySegue" id="4Ff-OZ-8nK"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -811,7 +933,6 @@ limitations under the License.</string>
         <!--Add new list-->
         <scene sceneID="M5C-mY-fYj">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WIC-YS-GXh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tableViewController id="CCY-hH-NZk" customClass="NewShoppingListTableViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Ck7-Y0-7vu">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -929,6 +1050,7 @@ limitations under the License.</string>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Rfh-8V-lS8" firstAttribute="top" secondItem="Ce6-9D-J34" secondAttribute="top" id="BBw-Yr-ZZZ"/>
+                                        <constraint firstAttribute="trailing" secondItem="Rfh-8V-lS8" secondAttribute="trailing" id="Bpb-4T-rlq"/>
                                         <constraint firstItem="Rfh-8V-lS8" firstAttribute="leading" secondItem="Ce6-9D-J34" secondAttribute="leading" id="DbU-pJ-zNM"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -950,6 +1072,7 @@ limitations under the License.</string>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WIC-YS-GXh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="8344" y="-884"/>
         </scene>
@@ -991,6 +1114,5 @@ limitations under the License.</string>
     <inferredMetricsTieBreakers>
         <segue reference="Jim-XG-Y6w"/>
         <segue reference="Hjj-Oa-lvN"/>
-        <segue reference="Fwn-zZ-Rzv"/>
     </inferredMetricsTieBreakers>
 </document>

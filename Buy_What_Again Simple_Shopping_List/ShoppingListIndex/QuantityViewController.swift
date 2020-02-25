@@ -217,7 +217,7 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
                     
                     do {
                         let decoder = JSONDecoder()
-                        print("\(data!)")
+                        //print("\(data!)")
                         let candidateData = try decoder.decode(CandidateData.self, from: data!)
                         if candidateData.status! == "ZERO_RESULTS" {
                             DispatchQueue.main.async {

@@ -90,7 +90,7 @@ class GroceryListTableViewController: UITableViewController, DatabaseListener {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addGrocerySegue" {
-            let destination = segue.destination as! QuantityViewController
+            let destination = segue.destination as! QuantityTableViewController	
             destination.shoppingList = self.shoppingList
             destination.item = allItem[tableView.indexPathForSelectedRow!.row]
         }
