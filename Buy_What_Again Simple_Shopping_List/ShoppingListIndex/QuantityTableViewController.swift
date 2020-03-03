@@ -25,27 +25,28 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
     weak var button1Cell: UITableViewCell?
     weak var button2Cell: UITableViewCell?
     weak var mapCell: UITableViewCell?
-    
 
     var shoppingList: ShoppingList?
     var item: Item?
     var shopList: [Shop] = []
     
     var isEdit: Bool = false
+    var unitType = "Kg"
     var currentGrocery: Grocery?
     
     weak var databaseController: DatabaseProtocol?
     
     
     //Variables and Constant for Maps
-    let fields = GMSPlaceField(rawValue: UInt(GMSPlaceField.formattedAddress.rawValue) | UInt(GMSPlaceField.placeID.rawValue) | UInt(GMSPlaceField.coordinate.rawValue) | UInt(GMSPlaceField.name.rawValue))
+    var autocompleteViewController = GMSAutocompleteViewController()
+    let fields = GMSPlaceField(rawValue: UInt(GMSPlaceField.addressComponents.rawValue) | UInt(GMSPlaceField.placeID.rawValue) | UInt(GMSPlaceField.coordinate.rawValue) | UInt(GMSPlaceField.name.rawValue) | UInt(GMSPlaceField.formattedAddress.rawValue))
     var locationManager: CLLocationManager = CLLocationManager()
     var places: [GMSPlace] = []
     var currentLocation: CLLocationCoordinate2D?
     var annotations: [LocationAnnotation] = []
     var placesClient = GMSPlacesClient()
     var placeID: String?
-    var address: String?
+    var address: [GMSAddressComponent] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,10 +54,14 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         databaseController = appDelegate.databaseController
         
+        autocompleteViewController.delegate = self as! GMSAutocompleteViewControllerDelegate
+        autocompleteViewController.placeFields = self.fields!
+        
         self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         self.locationManager.distanceFilter = 10
         self.locationManager.delegate = self
         self.locationManager.requestAlwaysAuthorization()
+        
 
     }
     
@@ -64,6 +69,15 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
         super.viewWillAppear(animated)
         databaseController?.addListener(listener: self)
         locationManager.startUpdatingLocation()
+        if let grocery = self.currentGrocery {
+            if let place = grocery.shopPlaceId {
+                self.placeID = place
+            }
+            if let unit = grocery.unit {
+                self.unitType = unit
+            }
+        }
+        self.updateMap(neariest: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -76,9 +90,18 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
     
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         if (self.placeID != place.placeID) {
+            
+            if let addressComponent = place.addressComponents {
+                for component in addressComponent {
+                    self.address.append(component)
+                    print("name: \(component.name) type: \(component.types)")
+                }
+            }
+            self.addressAutoFill()
+            print(String(place.formattedAddress!))
+            
             self.placeID = place.placeID
             self.places = [place]
-            self.address = place.formattedAddress!
             self.updateMap(neariest: false)
         }
         dismiss(animated: true, completion: nil)
@@ -130,15 +153,7 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                 bCell.buttonRef.isEnabled = false
                 
                 //Reset map annotation
-                if let ref = self.mapCell {
-                    let mapView = ref as! MapTableViewCell
-                    let map = mapView.mapRef!
-                    if (map.annotations.count > 0) {
-                        print(map.annotations)
-                        map.removeAnnotations(map.annotations)
-                        self.annotations = []
-                    }
-                }
+                self.resetMap()
                 
                 //Complete the url for fetching nearby shop
                 var searchString = "\(self.shopList[selectedRow-1].name!), \(place.formattedAddress!)"
@@ -194,6 +209,7 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
         if let ref = self.mapCell {
             let mapView = ref as! MapTableViewCell
             let map = mapView.mapRef!
+            self.resetMap()
 
             if neariest {
                 if let placeID = self.placeID {
@@ -201,7 +217,7 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                     placesClient.fetchPlace(fromPlaceID: placeID, placeFields: fields, sessionToken: nil, callback: {
                         (place, error) in
                         if let place = place {
-                            self.address = place.formattedAddress
+                            //self.address = place.formattedAddress
                             let annotation = LocationAnnotation(newTitle: place.name ?? "neariest shop", newSubtitle: "", lat: place.coordinate.latitude, long: place.coordinate.longitude)
                             self.annotations.append(annotation)
                             map.addAnnotations(self.annotations)
@@ -228,6 +244,22 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
             }
         }
     }
+    
+    func searchShop() {
+        self.present(self.autocompleteViewController, animated: true, completion: nil)
+    }
+    
+    private func resetMap() {
+        if let ref = self.mapCell {
+            let mapView = ref as! MapTableViewCell
+            let map = mapView.mapRef!
+            if (map.annotations.count > 0) {
+                print(map.annotations)
+                map.removeAnnotations(map.annotations)
+                self.annotations = []
+            }
+        }
+    }
 
 
     //Auto-zoom into a location
@@ -248,6 +280,42 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
             let map = mapView.mapRef!
             let zoomRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
             map.setRegion(map.regionThatFits(zoomRegion), animated: true)
+        }
+    }
+    
+    private func addressAutoFill() {
+        let count = self.address.count
+        if count > 0 {
+            
+            let streetCellRef = self.streetTextCell as! TextTableViewCell
+            let suburbCellRef = self.suburbTextCell as! TextTableViewCell
+            let stateCellRef = self.stateTextCell as! TextTableViewCell
+            let postcodeCellRef = self.postcodeTextCell as! TextTableViewCell
+            
+            for component in self.address {
+                
+                switch component.types[0] {
+                    case"street_number":
+                        streetCellRef.textRef.text = "\(component.name)"
+                        break
+                    case"route":
+                        streetCellRef.textRef.text! += ", \(component.name)"
+                        break
+                    case "locality", "neighborhood":
+                        suburbCellRef.textRef.text = "\(component.name)"
+                        break
+                    case"administrative_area_level_1":
+                        stateCellRef.textRef.text = "\(component.name)"
+                        break
+                    case"postal_code":
+                        postcodeCellRef.textRef.text = "\(component.name)"
+                        break
+                    default:
+                        break
+                }
+            }
+            let shopAddress = "\(streetCellRef.textRef.text), \(suburbCellRef.textRef.text), \(stateCellRef.textRef.text) \(postcodeCellRef.textRef.text)"
+            print(String(shopAddress))
         }
     }
     
@@ -293,7 +361,6 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
     
     @IBAction func onAddGrocery(_ sender: Any) {
         let amountCellRef = self.amountTextCell as! TextTableViewCell
-        let selectionCellRef = self.selectionCell as! SelectionTableViewCell
         let pickerCellRef = self.pickerCell as! PickerTableViewCell
         let streetCellRef = self.streetTextCell as! TextTableViewCell
         let suburbCellRef = self.suburbTextCell as! TextTableViewCell
@@ -301,7 +368,6 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
         let postcodeCellRef = self.postcodeTextCell as! TextTableViewCell
         
         let quantity = Float(amountCellRef.textRef.text!)
-        let unit = selectionCellRef.decisionRef.text
         let selectedRow = pickerCellRef.pickerRef.selectedRow(inComponent: 0)
         var shop: Shop?
         if (selectedRow != 0) {
@@ -311,9 +377,15 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
         if (quantity != nil) && (quantity != 0) {
             
             let name = self.navigationItem.title!
-            let unit = selectionCellRef.decisionRef.text!
+            let unit = self.unitType
             let shopPlaceId = self.placeID
-            let shopAddress = self.address
+            var shopAddress = ""
+            if let postcode = postcodeCellRef.textRef.text {
+                shopAddress = "\(streetCellRef.textRef.text!), \(suburbCellRef.textRef.text!), \(stateCellRef.textRef.text!) \(postcode)"
+            } else {
+                shopAddress = "\(streetCellRef.textRef.text!), \(suburbCellRef.textRef.text!), \(stateCellRef.textRef.text!)"
+            }
+            
             
             //If the user is here to edit a picked grocery
             if let grocery = self.currentGrocery {
@@ -378,7 +450,14 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "selectionCell", for: indexPath) as! SelectionTableViewCell
                 cell.selectionRef.text = "Unit"
-                cell.decisionRef.text = "kg"
+                
+                //Fill-in textfield for editing
+                if let grocery = self.currentGrocery {
+                    cell.decisionRef.text = grocery.unit
+                    self.unitType = grocery.unit!
+                } else {
+                    cell.decisionRef.text = self.unitType
+                }
                 cell.accessoryType = .disclosureIndicator
                 
                 self.selectionCell = cell
@@ -387,6 +466,18 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                 let cell = tableView.dequeueReusableCell(withIdentifier: "pickerCell", for: indexPath) as! PickerTableViewCell
                 cell.pickerRef.delegate = self
                 cell.pickerRef.dataSource = self
+                cell.selectionStyle = .none
+                
+                //Select row for editing
+                if let grocery = self.currentGrocery {
+                    if let shop = grocery.shops {
+                        for row in 0..<self.shopList.count {
+                            if (shop.name == self.shopList[row].name) {
+                                cell.pickerRef.selectRow(row+1, inComponent: 0, animated: true)
+                            }
+                        }
+                    }
+                }
 
                 self.pickerCell = cell
                 return cell
@@ -394,12 +485,14 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                 let cell = tableView.dequeueReusableCell(withIdentifier: "buttonCell", for: indexPath) as! ButtonTableViewCell
                 cell.buttonRef.setTitle("Search Nearby Shop", for: .normal)
                 cell.quantityTableViewControllerRef(self)
+                cell.selectionStyle = .none
             
                 self.button2Cell = cell
                 return cell
             case 4:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "mapCell", for: indexPath) as! MapTableViewCell
                 cell.mapRef.showsUserLocation = true
+                cell.selectionStyle = .none
                 
                 self.mapCell = cell
                 return cell
@@ -407,11 +500,13 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                 let cell = tableView.dequeueReusableCell(withIdentifier: "buttonCell", for: indexPath) as! ButtonTableViewCell
                 cell.buttonRef.setTitle("Find it yourself", for: .normal)
                 cell.quantityTableViewControllerRef(self)
+                cell.selectionStyle = .none
                 
                 self.button1Cell = cell
                 return cell
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "textCell", for: indexPath) as! TextTableViewCell
+                cell.selectionStyle = .none
                 switch currentCell {
                     case 6:
                         cell.textRef.placeholder = "Street"
@@ -466,6 +561,15 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                 return 335
             default:
                 return tableView.rowHeight
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "unitTypeSegue") {
+            let destination = segue.destination as! UnitTypeTableViewController
+            let cell = self.selectionCell as! SelectionTableViewCell
+            destination.unitType = self.unitType
+            destination.tableViewController = self
         }
     }
     

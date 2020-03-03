@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		11F092F9EE16B8CC93CF2255 /* libPods-Buy_What_Again Simple_Shopping_List.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AEF942B77055668885DADC1 /* libPods-Buy_What_Again Simple_Shopping_List.a */; };
+		4411C8002404FB6400479B8F /* UnitTypeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4411C7FF2404FB6400479B8F /* UnitTypeTableViewController.swift */; };
 		442A1FFE23FAB1C80070E2A1 /* ListTypeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442A1FFD23FAB1C80070E2A1 /* ListTypeTableViewController.swift */; };
 		442A200023FAB8750070E2A1 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442A1FFF23FAB8750070E2A1 /* LabelTableViewCell.swift */; };
 		44326FCE23F3DE2A001DA8CF /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44326FCD23F3DE2A001DA8CF /* SwitchTableViewCell.swift */; };
@@ -64,6 +65,7 @@
 
 /* Begin PBXFileReference section */
 		1AEF942B77055668885DADC1 /* libPods-Buy_What_Again Simple_Shopping_List.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Buy_What_Again Simple_Shopping_List.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4411C7FF2404FB6400479B8F /* UnitTypeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTypeTableViewController.swift; sourceTree = "<group>"; };
 		442A1FFD23FAB1C80070E2A1 /* ListTypeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTypeTableViewController.swift; sourceTree = "<group>"; };
 		442A1FFF23FAB8750070E2A1 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
 		44326FCD23F3DE2A001DA8CF /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				FA4B966D22AAA19D009AB052 /* Shopping List Info Page */,
 				44861FB723F3C6A700C53A05 /* NewShoppingListTableViewController.swift */,
 				442A1FFD23FAB1C80070E2A1 /* ListTypeTableViewController.swift */,
+				4411C7FF2404FB6400479B8F /* UnitTypeTableViewController.swift */,
 				FA3D8EE0227EDF55000B0F23 /* ShoppingListTableViewController.swift */,
 				FA3D8EE2227EEA53000B0F23 /* ShoppingListTableViewCell.swift */,
 				FAF029C0228054F300F26883 /* GroceryListTableViewController.swift */,
@@ -421,6 +424,7 @@
 				FAF029BB22803D6200F26883 /* ShopListTableViewController.swift in Sources */,
 				44861FC523F3DC2300C53A05 /* TextTableViewCell.swift in Sources */,
 				FA53DA27228AB8FD00952547 /* KeyCode.swift in Sources */,
+				4411C8002404FB6400479B8F /* UnitTypeTableViewController.swift in Sources */,
 				FA3D8EE3227EEA53000B0F23 /* ShoppingListTableViewCell.swift in Sources */,
 				FA3D8EC8227EA738000B0F23 /* MulticastDelegate.swift in Sources */,
 				FADE9024227C3F8100BCAE33 /* ShoppingLists.xcdatamodeld in Sources */,

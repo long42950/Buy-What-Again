@@ -37,6 +37,7 @@ class ButtonTableViewCell: UITableViewCell {
             controller.searchNearByShop()
             break
         case "Find it yourself":
+            controller.searchShop()
             break
         default:
             break

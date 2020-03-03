@@ -307,7 +307,7 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
                 placesClient.fetchPlace(fromPlaceID: placeID, placeFields: fields, sessionToken: nil, callback: {
                     (place, error) in
                     if let place = place {
-                        self.addressTextView.text = "Address: \(place.formattedAddress!)"
+                        //self.addressTextView.text = "Address: \(place.formattedAddress!)"
                         self.address = place.formattedAddress
                         let annotation = LocationAnnotation(newTitle: place.name ?? "neariest shop", newSubtitle: "", lat: place.coordinate.latitude, long: place.coordinate.longitude)
                         self.annotations.append(annotation)

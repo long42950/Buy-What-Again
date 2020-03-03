@@ -177,10 +177,10 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="groceryCell" id="PcH-6E-UFi" customClass="GroceryTableViewCell" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PcH-6E-UFi" id="epD-7K-tpg">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="grocery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zOZ-c7-14f">
@@ -190,7 +190,7 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="unit" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QDu-dL-whq">
-                                            <rect key="frame" x="281" y="11" width="29" height="21"/>
+                                            <rect key="frame" x="281" y="11" width="29" height="21.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -427,6 +427,7 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                                 <connections>
                                     <outlet property="decisionRef" destination="d43-jg-R0o" id="t6v-cp-M5n"/>
                                     <outlet property="selectionRef" destination="Y8y-yP-o8I" id="qeJ-Ia-F5l"/>
+                                    <segue destination="afp-du-kKJ" kind="show" identifier="unitTypeSegue" id="P8e-wb-ZUJ"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="pickerCell" rowHeight="216" id="H5U-8y-K3V" customClass="PickerTableViewCell" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target">
@@ -516,6 +517,35 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2tJ-Zz-dRV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7282.5" y="-2920.2464788732395"/>
+        </scene>
+        <!--Unit Type-->
+        <scene sceneID="F25-pm-5xu">
+            <objects>
+                <tableViewController id="afp-du-kKJ" customClass="UnitTypeTableViewController" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="X7i-5W-qF7">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="unitType" id="jkv-em-JXI" customClass="LabelTableViewCell" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="55.5" width="320" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jkv-em-JXI" id="DSe-qB-FmU">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="afp-du-kKJ" id="c3P-7a-dN9"/>
+                            <outlet property="delegate" destination="afp-du-kKJ" id="d0V-BB-1lC"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Unit Type" id="5z6-lk-Djz"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EXY-ox-A3z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8164" y="-3097"/>
         </scene>
         <!--Select New Grocery Page-->
         <scene sceneID="oYE-wL-e3G">
