@@ -92,9 +92,9 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
                 self.unitSegment.selectedSegmentIndex = 1
             }
             self.addressTextView.text = "Address: "
-            if let address = grocery.shopAddress, let placeId = grocery.shopPlaceId {
+            if let placeId = grocery.shopPlaceId {
                 self.placeID = placeId
-                self.addressTextView.text = "Address: \(address)"
+                self.addressTextView.text = "Address: \(currentGrocery?.street), \(currentGrocery?.suburb), \(currentGrocery?.state), \(currentGrocery?.postcode)"
                 self.updateMap(neariest: true)
             }
             
@@ -270,13 +270,13 @@ class QuantityViewController: UIViewController, DatabaseListener, GMSAutocomplet
                 let unit = self.unitSegment.titleForSegment(at: unitSegment.selectedSegmentIndex)!
                 let shopPlaceId = self.placeID
                 let shopAddress = self.address
-                let _ = databaseController?.editGrocery(name: name, quantity: quantity!, unit: unit, shopPlaceId: shopPlaceId, shopAddress: shopAddress, preferShop: shop, grocery: grocery)
+                //let _ = databaseController?.editGrocery(name: name, quantity: quantity!, unit: unit, shopPlaceId: shopPlaceId, shopAddress: shopAddress, preferShop: shop, grocery: grocery)
                 databaseController!.saveContext()
                 
                 navigationController?.popViewController(animated: true)
                 return
             }
-            let _ = databaseController?.addGroceryToList(list: shoppingList!, quantity: quantity!, unit: unitSegment.titleForSegment(at: unitSegment.selectedSegmentIndex)!, item: item!, shopPlaceId: self.placeID, shopAddress: self.address , preferShop: shop)
+            //let _ = databaseController?.addGroceryToList(list: shoppingList!, quantity: quantity!, unit: unitSegment.titleForSegment(at: unitSegment.selectedSegmentIndex)!, item: item!, shopPlaceId: self.placeID, shopAddress: self.address , preferShop: shop)
             databaseController!.saveContext()
             
             navigationController?.popViewController(animated: true)

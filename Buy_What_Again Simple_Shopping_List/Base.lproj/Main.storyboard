@@ -177,10 +177,10 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="groceryCell" id="PcH-6E-UFi" customClass="GroceryTableViewCell" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PcH-6E-UFi" id="epD-7K-tpg">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="grocery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zOZ-c7-14f">
@@ -190,7 +190,7 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="unit" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QDu-dL-whq">
-                                            <rect key="frame" x="281" y="11" width="29" height="21.5"/>
+                                            <rect key="frame" x="281" y="11" width="29" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -207,7 +207,7 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                                 <connections>
                                     <outlet property="groceryLabel" destination="zOZ-c7-14f" id="dlK-sD-vwq"/>
                                     <outlet property="quantityLabel" destination="QDu-dL-whq" id="iI9-bP-7Ca"/>
-                                    <segue destination="fTZ-sp-x38" kind="show" identifier="editGrocerySegue" id="Fwn-zZ-Rzv"/>
+                                    <segue destination="sNe-rd-iHt" kind="show" identifier="editGrocerySegue" id="LvA-hR-gcB"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -240,7 +240,7 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GBs-xE-iJG">
-                                <rect key="frame" x="0.0" y="44" width="320" height="956"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="1000"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="79z-bI-glN">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="1000"/>
@@ -1144,5 +1144,6 @@ limitations under the License.</string>
     <inferredMetricsTieBreakers>
         <segue reference="Jim-XG-Y6w"/>
         <segue reference="Hjj-Oa-lvN"/>
+        <segue reference="LvA-hR-gcB"/>
     </inferredMetricsTieBreakers>
 </document>

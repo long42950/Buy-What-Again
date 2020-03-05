@@ -92,8 +92,8 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     
     func test() {}
 
-    func addGroceryToList(list: ShoppingList, quantity: Float, unit: String, item: Item, shopPlaceId: String?, shopAddress: String?, preferShop: Shop?) -> Bool {
-        let grocery = addGrocery(item.name!, quantity, unit, shopPlaceId, shopAddress, preferShop)
+    func addGroceryToList(list: ShoppingList, quantity: Float, unit: String, item: Item, shopPlaceId: String?, street: String?, suburb: String?, state: String?, postcode: String?, preferShop: Shop?) -> Bool {
+        let grocery = addGrocery(item.name!, quantity, unit, shopPlaceId, street, suburb, state, postcode, preferShop)
         saveContext()
         let _ = addItemToGrocery(item, grocery)
         saveContext()
@@ -101,7 +101,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         return true
     }
     
-    internal func addGrocery(_ name: String, _ quantity: Float, _ unit: String, _ shopPlaceId: String?, _ shopAddress: String?, _ preferShop: Shop?) -> Grocery {
+    internal func addGrocery(_ name: String, _ quantity: Float, _ unit: String, _ shopPlaceId: String?, _ street: String?, _ suburb: String?, _ state: String?, _ postcode: String?, _ preferShop: Shop?) -> Grocery {
         let grocery = NSEntityDescription.insertNewObject(forEntityName: "Grocery", into:
             persistantContainer.viewContext) as! Grocery
         grocery.name = name
@@ -109,7 +109,10 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         grocery.unit = unit
         grocery.isBought = false
         grocery.shopPlaceId = shopPlaceId
-        grocery.shopAddress = shopAddress
+        grocery.street = street
+        grocery.suburb = suburb
+        grocery.state = state
+        grocery.postcode = postcode
         if let preferShop = preferShop {
             preferShop.addToGroceries(grocery)
             grocery.shops = preferShop
@@ -118,15 +121,18 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         return grocery
     }
     
-    func editGrocery(name: String, quantity: Float, unit: String, shopPlaceId: String?, shopAddress: String?, preferShop: Shop?, grocery: Grocery) -> (Bool, Error?) {
+    func editGrocery(name: String, quantity: Float, unit: String, shopPlaceId: String?,  street: String?,  suburb: String?,  state: String?,  postcode: String?, preferShop: Shop?, grocery: Grocery) -> (Bool, Error?) {
         do {
-            var oldGrocery = try persistantContainer.viewContext.existingObject(with: grocery.objectID) as! Grocery
+            let oldGrocery = try persistantContainer.viewContext.existingObject(with: grocery.objectID) as! Grocery
             oldGrocery.name = name
             oldGrocery.quantity = quantity
             oldGrocery.unit = unit
             oldGrocery.isBought = false
             oldGrocery.shopPlaceId = shopPlaceId
-            oldGrocery.shopAddress = shopAddress
+            oldGrocery.street = street
+            oldGrocery.suburb = suburb
+            oldGrocery.state = state
+            oldGrocery.postcode = postcode
             if let preferShop = preferShop {
                 if let oldShop = oldGrocery.shops {
                     oldShop.removeFromGroceries(oldGrocery)
@@ -143,7 +149,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     
     func editGroceryStatus(isBought: Bool, grocery: Grocery) -> (Grocery, Error?) {
         do {
-            var editGrocery = try persistantContainer.viewContext.existingObject(with: grocery.objectID) as! Grocery
+            let editGrocery = try persistantContainer.viewContext.existingObject(with: grocery.objectID) as! Grocery
             editGrocery.isBought = isBought
             return (editGrocery, nil)
         } catch let error {

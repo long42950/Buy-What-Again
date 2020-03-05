@@ -47,6 +47,8 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
     var placesClient = GMSPlacesClient()
     var placeID: String?
     var address: [GMSAddressComponent] = []
+    var tempAddress: TempAddress = TempAddress()
+    var tempQuantity: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -161,10 +163,12 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                 searchString = searchString.replacingOccurrences(of: ",", with: "%2C", options: .literal, range: .none)
                 searchString = searchString.replacingOccurrences(of: "&", with: "%26", options: .literal, range: .none)
                 let jsonString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc&input=\(searchString)&inputtype=textquery"
-                print(jsonString)
+                //print(jsonString)
                 let jsonURL = URL(string: jsonString)
                 let request = URLRequest(url: jsonURL!)
-                let task = URLSession.shared.dataTask(with: request) {
+                
+                //Task for searching the placeID for the nearby shop
+                let task1 = URLSession.shared.dataTask(with: request) {
                     (data, response, error) in
                     
                     if let error = error {
@@ -178,7 +182,7 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                         let candidateData = try decoder.decode(CandidateData.self, from: data!)
                         if candidateData.status! == "ZERO_RESULTS" {
                             DispatchQueue.main.async {
-                                self.displayMessage(title: "Sorry", message: "What you're looking for doesn't exist near your location.")
+                                self.displayMessage(title: "Sorry", message: "What you're looking for doesn't exist near you.")
                             }
                             
                         }
@@ -195,7 +199,41 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                     }
                     self.updateMap(neariest: true)
                 }
-                task.resume()
+                task1.resume()
+                
+                //Task for searching the place details with the returned placeID
+                if let placeID = self.placeID {
+                    let urlString = "https://maps.googleapis.com/maps/api/place/details/json?place_id=\(placeID)&fields=address_components&key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc"
+                    let url = URL(string: urlString)
+                    let request2 = URLRequest(url: url!)
+                    let task2 = URLSession.shared.dataTask(with: request2) {
+                        (data, response, error) in
+                        
+                        if let error = error {
+                            self.displayMessage(title: "Error", message: error.localizedDescription)
+                            return
+                        }
+                        
+                        do {
+                            let decoder = JSONDecoder()
+                            //print("\(data!)")
+                            let candidateData = try decoder.decode(CandidateData.self, from: data!)
+                            if candidateData.status! == "ZERO_RESULTS" {
+                                print("huh?")
+                                
+                            }
+                            //If at least one location returned, record the first location's details
+//                            if let addressComponent = candidateData {
+//
+//                            } else {
+//                                self.placeID = nil
+//                            }
+                        } catch let error {
+                            print(error.localizedDescription)
+                        }
+                    }
+                    task2.resume()
+                }
                 
                 
                 //Re-Enable search button
@@ -295,20 +333,25 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
             for component in self.address {
                 
                 switch component.types[0] {
-                    case"street_number":
+                    case "street_number":
                         streetCellRef.textRef.text = "\(component.name)"
+                        self.tempAddress.street = "\(component.name)"
                         break
-                    case"route":
+                    case "route":
                         streetCellRef.textRef.text! += ", \(component.name)"
+                        self.tempAddress.street! += ", \(component.name)"
                         break
                     case "locality", "neighborhood":
                         suburbCellRef.textRef.text = "\(component.name)"
+                        self.tempAddress.suburb = "\(component.name)"
                         break
-                    case"administrative_area_level_1":
+                    case "administrative_area_level_1":
                         stateCellRef.textRef.text = "\(component.name)"
+                        self.tempAddress.state = "\(component.name)"
                         break
-                    case"postal_code":
+                    case "postal_code":
                         postcodeCellRef.textRef.text = "\(component.name)"
+                        self.tempAddress.postcode = "\(component.name)"
                         break
                     default:
                         break
@@ -362,12 +405,11 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
     @IBAction func onAddGrocery(_ sender: Any) {
         let amountCellRef = self.amountTextCell as! TextTableViewCell
         let pickerCellRef = self.pickerCell as! PickerTableViewCell
-        let streetCellRef = self.streetTextCell as! TextTableViewCell
-        let suburbCellRef = self.suburbTextCell as! TextTableViewCell
-        let stateCellRef = self.stateTextCell as! TextTableViewCell
-        let postcodeCellRef = self.postcodeTextCell as! TextTableViewCell
         
-        let quantity = Float(amountCellRef.textRef.text!)
+        var quantity: Float?
+        if let tempQuantity = self.tempQuantity {
+            quantity = Float(tempQuantity)
+        }
         let selectedRow = pickerCellRef.pickerRef.selectedRow(inComponent: 0)
         var shop: Shop?
         if (selectedRow != 0) {
@@ -379,12 +421,25 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
             let name = self.navigationItem.title!
             let unit = self.unitType
             let shopPlaceId = self.placeID
-            var shopAddress = ""
-            if let postcode = postcodeCellRef.textRef.text {
-                shopAddress = "\(streetCellRef.textRef.text!), \(suburbCellRef.textRef.text!), \(stateCellRef.textRef.text!) \(postcode)"
-            } else {
-                shopAddress = "\(streetCellRef.textRef.text!), \(suburbCellRef.textRef.text!), \(stateCellRef.textRef.text!)"
+            var street: String?
+            var suburb: String?
+            var state: String?
+            var postcode: String?
+            if let tempStreet = self.tempAddress.street {
+                street = tempStreet
             }
+            if let tempSuburb = self.tempAddress.suburb {
+                suburb = tempSuburb
+            }
+            
+            if let tempState = self.tempAddress.state {
+                state = tempState
+            }
+            
+            if let tempPostcode = self.tempAddress.postcode {
+                postcode = tempPostcode
+            }
+            
             
             
             //If the user is here to edit a picked grocery
@@ -396,13 +451,13 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                     return
                 }
                 
-                let _ = databaseController?.editGrocery(name: name, quantity: quantity!, unit: unit, shopPlaceId: shopPlaceId, shopAddress: shopAddress, preferShop: shop, grocery: grocery)
+                let _ = databaseController?.editGrocery(name: name, quantity: quantity!, unit: unit, shopPlaceId: shopPlaceId, street: street, suburb: suburb, state: state, postcode: postcode, preferShop: shop, grocery: grocery)
                 databaseController!.saveContext()
                 
                 navigationController?.popViewController(animated: true)
                 return
             }
-            let _ = databaseController?.addGroceryToList(list: shoppingList!, quantity: quantity!, unit: unit, item: item!, shopPlaceId: shopPlaceId, shopAddress: shopAddress, preferShop: shop)
+            let _ = databaseController?.addGroceryToList(list: shoppingList!, quantity: quantity!, unit: unit, item: item!, shopPlaceId: shopPlaceId, street: street, suburb: suburb, state: state, postcode: postcode, preferShop: shop)
             databaseController?.saveContext()
             
             navigationController?.popViewController(animated: true)
@@ -493,8 +548,14 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                 let cell = tableView.dequeueReusableCell(withIdentifier: "mapCell", for: indexPath) as! MapTableViewCell
                 cell.mapRef.showsUserLocation = true
                 cell.selectionStyle = .none
+                if let grocery = self.currentGrocery {
+                    if let place = grocery.shopPlaceId {
+                        self.placeID = place
+                    }
+                }
                 
                 self.mapCell = cell
+                self.updateMap(neariest: true)
                 return cell
             case 5:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "buttonCell", for: indexPath) as! ButtonTableViewCell
@@ -507,21 +568,85 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "textCell", for: indexPath) as! TextTableViewCell
                 cell.selectionStyle = .none
+                
+                cell.quantityTableViewControllerRef(self)
+                let count = self.address.count
                 switch currentCell {
+                    case 0:
+                        cell.textRef.placeholder = "Amount"
+                        if let grocery = self.currentGrocery {
+                            self.tempQuantity = String(grocery.quantity)
+                        }
+                        if let amount = self.tempQuantity {
+                            cell.textRef.text = amount
+                        }
+                        else {
+                            cell.textRef.text = ""
+                        }
+                        self.amountTextCell = cell
+                        break
                     case 6:
                         cell.textRef.placeholder = "Street"
+                        if let grocery = self.currentGrocery {
+                            if let street = grocery.street {
+                                cell.textRef.text = "\(street)"
+                            }
+                        }
+                        else if count > 0, let street = self.tempAddress.street {
+                            cell.textRef.text = "\(street)"
+                        }
+                        else {
+                            cell.textRef.text = ""
+                        }
                         self.streetTextCell = cell
+                        break
                     case 7:
                         cell.textRef.placeholder = "Suburb"
+                        if let grocery = self.currentGrocery {
+                            if let suburb = grocery.suburb {
+                                cell.textRef.text = "\(suburb)"
+                            }
+                        }
+                        else if count > 0, let suburb = self.tempAddress.suburb {
+                            cell.textRef.text = "\(suburb)"
+                        }
+                        else {
+                            cell.textRef.text = ""
+                        }
                         self.suburbTextCell = cell
+                        break
                     case 8:
                         cell.textRef.placeholder = "State"
+                        if let grocery = self.currentGrocery {
+                            if let state = grocery.state {
+                                cell.textRef.text = "\(state)"
+                            }
+                        }
+                        else if count > 0, let state = self.tempAddress.state {
+                            cell.textRef.text = "\(state)"
+                        }
+                        else {
+                            cell.textRef.text = ""
+                        }
                         self.stateTextCell = cell
+                        break
                     case 9:
                         cell.textRef.placeholder = "Postcode"
+                        if let grocery = self.currentGrocery {
+                            if let postcode = grocery.postcode {
+                                cell.textRef.text = "\(postcode)"
+                            }
+                        }
+                        else if count > 0, let postcode = self.tempAddress.postcode {
+                            cell.textRef.text = "\(postcode)"
+                        }
+                        else {
+                            cell.textRef.text = ""
+                        }
                         self.postcodeTextCell = cell
+                        break
                     default:
-                        cell.textRef.placeholder = "Amount"
+                        cell.textRef.placeholder = "ERROR"
                         self.amountTextCell = cell
                 }
 

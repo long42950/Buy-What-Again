@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="18F203" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="18G103" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="BackupKey" representedClassName="BackupKey" syncable="YES">
         <attribute name="code" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Grocery" representedClassName="Grocery" syncable="YES">
         <attribute name="isBought" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="postcode" optional="YES" attributeType="String"/>
         <attribute name="quantity" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="shopAddress" optional="YES" attributeType="String"/>
         <attribute name="shopPlaceId" optional="YES" attributeType="String"/>
+        <attribute name="state" optional="YES" attributeType="String"/>
+        <attribute name="street" optional="YES" attributeType="String"/>
+        <attribute name="suburb" optional="YES" attributeType="String"/>
         <attribute name="unit" optional="YES" attributeType="String"/>
         <relationship name="items" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Item" inverseName="groceries" inverseEntity="Item"/>
         <relationship name="shoppinglists" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ShoppingList" inverseName="groceries" inverseEntity="ShoppingList"/>
@@ -31,7 +34,7 @@
     </entity>
     <elements>
         <element name="BackupKey" positionX="-36" positionY="90" width="128" height="60"/>
-        <element name="Grocery" positionX="-36" positionY="36" width="128" height="178"/>
+        <element name="Grocery" positionX="-36" positionY="36" width="128" height="223"/>
         <element name="Item" positionX="-18" positionY="54" width="128" height="75"/>
         <element name="Shop" positionX="-36" positionY="63" width="128" height="75"/>
         <element name="ShoppingList" positionX="-54" positionY="-9" width="128" height="120"/>

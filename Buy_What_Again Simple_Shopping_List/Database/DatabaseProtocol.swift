@@ -44,9 +44,9 @@ protocol DatabaseProtocol: AnyObject {
     //Add an item to CoreData
     func addItem(name: String) -> Item
     //Add a grocery to CoreData
-    func addGrocery(_ name: String, _ quantity: Float, _ unit: String, _ shopPlaceId: String?, _ shopAddress: String?, _ preferShop: Shop?) -> Grocery
+    func addGrocery(_ name: String, _ quantity: Float, _ unit: String, _ shopPlaceId: String?, _ street: String?, _ suburb: String?, _ state: String?, _ postcode: String?, _ preferShop: Shop?) -> Grocery
     //Edit an existing grocery inside CoreData
-    func editGrocery(name: String, quantity: Float, unit: String, shopPlaceId: String?, shopAddress: String?, preferShop: Shop?, grocery: Grocery) -> (Bool, Error?)
+    func editGrocery(name: String, quantity: Float, unit: String, shopPlaceId: String?, street: String?, suburb: String?, state: String?, postcode: String?, preferShop: Shop?, grocery: Grocery) -> (Bool, Error?)
     //Edit an exisiting grocery's status inside CoreData
     func editGroceryStatus(isBought: Bool, grocery: Grocery) -> (Grocery, Error?)
     //Add a shop to CoreData
@@ -54,7 +54,7 @@ protocol DatabaseProtocol: AnyObject {
     //Assign an existing item to an existing grocery inside CoreData
     func addItemToGrocery(_ item: Item, _ grocery: Grocery) -> Bool
     //Assign an existing grocery to an existing shopping list inside CoreData
-    func addGroceryToList(list: ShoppingList, quantity: Float, unit: String, item: Item, shopPlaceId: String?, shopAddress: String?, preferShop: Shop?) -> Bool
+    func addGroceryToList(list: ShoppingList, quantity: Float, unit: String, item: Item, shopPlaceId: String?, street: String?, suburb: String?, state: String?, postcode: String?, preferShop: Shop?) -> Bool
     //Add a backup key to CoreData
     func addKey(key: String) -> BackupKey
     //Remove an existing shopping list inside CoreData
