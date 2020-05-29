@@ -370,6 +370,14 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
                 }
             }
         }
+        
+        else if controller == allShopFetchedResultsController {
+            listeners.invoke { (listener) in
+                if listener.listenerType == .shop {
+                    listener.onShopListChange(change: .update, shopList: fetchAllShop())
+                }
+            }
+        }
     }
     
     func createDefaultitem() {

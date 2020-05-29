@@ -173,6 +173,7 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
         else if segue.identifier == "editGrocerySegue" {
             let destination = segue.destination as! QuantityTableViewController
             destination.currentGrocery = groceryList[(self.tableView.indexPathForSelectedRow?.row)!]
+            destination.title = destination.currentGrocery?.name
         }
     }
     

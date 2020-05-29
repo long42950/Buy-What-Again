@@ -11,7 +11,7 @@ import UIKit
 class GroceryListTableViewController: UITableViewController, DatabaseListener {
 
     
-    
+    var newItem = false
     var shoppingList: ShoppingList?
     
     var allItem: [Item] = []
@@ -27,6 +27,7 @@ class GroceryListTableViewController: UITableViewController, DatabaseListener {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        newItem = false
         databaseController?.addListener(listener: self)
         self.tableView.reloadData()
         
@@ -87,12 +88,54 @@ class GroceryListTableViewController: UITableViewController, DatabaseListener {
         return itemCell
     }
     
+    @IBAction func onAddItem(_ sender: Any) {
+        let alertController = UIAlertController(title: "New Item", message: "", preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Add", style: UIAlertAction.Style.default, handler: {(action: UIAlertAction) in
+            if let textField = alertController.textFields {
+                let name = textField[0].text
+                if name != "" {
+
+                    let _ = self.databaseController?.addItem(name: name!)
+                    self.databaseController!.saveContext()
+                    self.newItem = true
+                    self.performSegue(withIdentifier: "addGrocerySegue", sender: nil)
+                } else {
+                    self.displayMessage(title: "Error", message: "Invalid item name")
+                }
+            }
+
+            
+        }))
+        alertController.addTextField { textField in
+            textField.placeholder = "Item Name"
+        }
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style:
+            UIAlertAction.Style.destructive, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    //Show user a message with the alert message box
+    func displayMessage(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style:
+            UIAlertAction.Style.default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addGrocerySegue" {
             let destination = segue.destination as! QuantityTableViewController	
             destination.shoppingList = self.shoppingList
-            destination.item = allItem[tableView.indexPathForSelectedRow!.row]
+            if newItem {
+                destination.item = allItem[allItem.count-1]
+            } else {
+                destination.item = allItem[tableView.indexPathForSelectedRow!.row]
+            }
+            destination.title = destination.item!.name
         }
     }
     

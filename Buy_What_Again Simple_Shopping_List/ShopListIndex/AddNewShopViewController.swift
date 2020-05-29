@@ -23,14 +23,7 @@ class AddNewShopViewController: UIViewController, DatabaseListener {
     
     //Add new shop to the Shop list, a name is needed to add the custom shop
     @IBAction func onAddShop(_ sender: Any) {
-        let name = nameTextField.text
-        if name != "" {
-            let _ = databaseController?.addShop(name: name!)
-            databaseController!.saveContext()
-            navigationController?.popViewController(animated: true)
-        } else {
-            self.displayMessage(title: "Error", message: "Invalid shop name")
-        }
+        self.addNewShop()
         
     }
     
@@ -71,7 +64,31 @@ class AddNewShopViewController: UIViewController, DatabaseListener {
     func displayMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
         alertController.addAction(UIAlertAction(title: "Dismiss", style:
-            UIAlertAction.Style.default, handler: nil))
+            UIAlertAction.Style.cancel, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func addNewShop() {
+        let alertController = UIAlertController(title: "New Shop", message: "", preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Add", style: UIAlertAction.Style.default, handler: {(action: UIAlertAction) in
+            if let textField = alertController.textFields {
+                let name = textField[0].text
+                if name != "" {
+                    let _ = self.databaseController?.addShop(name: name!)
+                    self.databaseController!.saveContext()
+                    self.navigationController?.popViewController(animated: true)
+                } else {
+                    self.displayMessage(title: "Error", message: "Invalid shop name")
+                }
+            }
+        }))
+        alertController.addTextField { textField in
+            textField.placeholder = "Shop Name"
+        }
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style:
+            UIAlertAction.Style.destructive, handler: nil))
+        
         self.present(alertController, animated: true, completion: nil)
     }
 

@@ -108,7 +108,36 @@ class ItemListTableViewController: UITableViewController, DatabaseListener {
         
         return [delete]
     }
+    
+    @IBAction func onAddItem(_ sender: Any) {
+        let alertController = UIAlertController(title: "New Item", message: "", preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Add", style: UIAlertAction.Style.default, handler: {(action: UIAlertAction) in
+            if let textField = alertController.textFields {
+                let name = textField[0].text
+                if name != "" {
 
+                    let _ = self.databaseController?.addItem(name: name!)
+                    self.databaseController!.saveContext()
+                    self.navigationController?.popViewController(animated: true)
+                } else {
+                    self.displayMessage(title: "Error", message: "Invalid item name")
+                }
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            
+        }))
+        alertController.addTextField { textField in
+            textField.placeholder = "Item Name"
+        }
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style:
+            UIAlertAction.Style.destructive, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     //Show user a message with the alert message box
     func displayMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
@@ -117,6 +146,7 @@ class ItemListTableViewController: UITableViewController, DatabaseListener {
         self.present(alertController, animated: true, completion: nil)
     }
     
+// MARK: - Unused content
     //Show user the backup key of the Item list if exist
     func backupMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)

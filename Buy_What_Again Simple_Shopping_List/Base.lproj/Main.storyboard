@@ -59,7 +59,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Naf-YK-yLz">
                             <connections>
-                                <segue destination="u22-2Q-fnD" kind="show" id="dHO-RW-f3C"/>
+                                <action selector="onAddShop:" destination="8KY-7G-KEA" id="V1E-Ph-pEH"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -77,12 +77,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Shop name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dH2-Jm-F8e">
-                                <rect key="frame" x="16" y="60" width="288" height="34"/>
+                                <rect key="frame" x="16" y="16" width="288" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Swn-Sh-F3B">
-                                <rect key="frame" x="121" y="110" width="79" height="30"/>
+                                <rect key="frame" x="121" y="66" width="79" height="30"/>
                                 <state key="normal" title="Create"/>
                                 <connections>
                                     <action selector="onAddShop:" destination="u22-2Q-fnD" eventType="touchUpInside" id="1dA-oX-Lwv"/>
@@ -177,10 +177,10 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="groceryCell" id="PcH-6E-UFi" customClass="GroceryTableViewCell" customModule="Buy_What_Again_Simple_Shopping_List" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PcH-6E-UFi" id="epD-7K-tpg">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="grocery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zOZ-c7-14f">
@@ -190,7 +190,7 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="unit" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QDu-dL-whq">
-                                            <rect key="frame" x="281" y="11" width="29" height="21"/>
+                                            <rect key="frame" x="281" y="11" width="29" height="21.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -589,7 +589,7 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                     <navigationItem key="navigationItem" title="Pick what you need" id="lGk-Rn-tF7">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="tYC-Fa-Tww">
                             <connections>
-                                <segue destination="6i2-o9-DOq" kind="show" id="Hjj-Oa-lvN"/>
+                                <action selector="onAddItem:" destination="evO-iz-APo" id="k1l-47-Z6B"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -607,18 +607,18 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PWC-Ip-tK1">
-                                <rect key="frame" x="16" y="97" width="288" height="34"/>
+                                <rect key="frame" x="16" y="53" width="288" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kyl-9G-6J9">
-                                <rect key="frame" x="16" y="60" width="52" height="21"/>
+                                <rect key="frame" x="16" y="16" width="52" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y3i-VJ-IYs">
-                                <rect key="frame" x="137" y="161" width="46" height="30"/>
+                                <rect key="frame" x="137" y="117" width="46" height="30"/>
                                 <state key="normal" title="Create"/>
                                 <connections>
                                     <action selector="onAddCustomItem:" destination="6i2-o9-DOq" eventType="touchUpInside" id="LSJ-BN-Uoy"/>
@@ -837,7 +837,7 @@ https://stackoverflow.com/questions/34259425/how-to-convert-an-int-to-a-characte
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="T3L-mu-CWm">
                             <connections>
-                                <segue destination="6i2-o9-DOq" kind="show" id="DuV-BB-P3D"/>
+                                <action selector="onAddItem:" destination="pLb-x2-Nlk" id="wvR-PZ-um6"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1142,8 +1142,7 @@ limitations under the License.</string>
         <image name="ShoppingListIcon" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Jim-XG-Y6w"/>
-        <segue reference="Hjj-Oa-lvN"/>
-        <segue reference="LvA-hR-gcB"/>
+        <segue reference="xC4-tX-5o4"/>
+        <segue reference="4Ff-OZ-8nK"/>
     </inferredMetricsTieBreakers>
 </document>
