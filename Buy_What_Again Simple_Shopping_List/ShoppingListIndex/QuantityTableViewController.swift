@@ -129,7 +129,9 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
     
     func searchNearByShop() {
         
-        var fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.placeID.rawValue) | UInt(GMSPlaceField.formattedAddress.rawValue))!
+        var fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.placeID.rawValue))!
+        var placeFields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.addressComponents.rawValue))!
+//        var formattedAddress = ""
         
         placesClient.findPlaceLikelihoodsFromCurrentLocation(withPlaceFields: fields, callback: {
             (placeLikelihoodList: Array<GMSPlaceLikelihood>?, error: Error?) in
@@ -141,6 +143,26 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
             
             if let placeLikelihoodList = placeLikelihoodList {
                 let place = placeLikelihoodList[0].place
+                let id = place.placeID
+                
+//                self.placesClient.fetchPlace(fromPlaceID: id!, placeFields: placeFields, sessionToken: nil, callback: {
+//                    (place, error) in
+//                    if let place = place {
+//                        self.address = place.addressComponents!
+//                        for component in self.address {
+//                            switch component.types[0] {
+//
+//                                case "administrative_area_level_1", "postal_code":
+//                                    formattedAddress += "\(component.name) "
+//                                    break
+//                                default:
+//                                    formattedAddress += "\(component.name), "
+//                                    break
+//                            }
+//                        }
+//                    }
+//                })
+                
                 let cell = self.pickerCell as! PickerTableViewCell
                 let selectedRow = cell.pickerRef.selectedRow(inComponent: 0)
                 if selectedRow == 0 {
@@ -158,12 +180,12 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                 self.resetMap()
                 
                 //Complete the url for fetching nearby shop
-                var searchString = "\(self.shopList[selectedRow-1].name!), \(place.formattedAddress!)"
+                var searchString = "\(self.shopList[selectedRow-1].name!), Hong Kong"
                 searchString = searchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
                 searchString = searchString.replacingOccurrences(of: ",", with: "%2C", options: .literal, range: .none)
                 searchString = searchString.replacingOccurrences(of: "&", with: "%26", options: .literal, range: .none)
                 let jsonString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc&input=\(searchString)&inputtype=textquery"
-                //print(jsonString)
+                print(jsonString)
                 let jsonURL = URL(string: jsonString)
                 let request = URLRequest(url: jsonURL!)
                 
@@ -201,45 +223,12 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                 }
                 task1.resume()
                 
-                //Task for searching the place details with the returned placeID
-                if let placeID = self.placeID {
-                    let urlString = "https://maps.googleapis.com/maps/api/place/details/json?place_id=\(placeID)&fields=address_components&key=AIzaSyClbus3OOrycPW8bHq-7BUwbUK6uTYdjFc"
-                    let url = URL(string: urlString)
-                    let request2 = URLRequest(url: url!)
-                    let task2 = URLSession.shared.dataTask(with: request2) {
-                        (data, response, error) in
-                        
-                        if let error = error {
-                            self.displayMessage(title: "Error", message: error.localizedDescription)
-                            return
-                        }
-                        
-                        do {
-                            let decoder = JSONDecoder()
-                            //print("\(data!)")
-                            let candidateData = try decoder.decode(CandidateData.self, from: data!)
-                            if candidateData.status! == "ZERO_RESULTS" {
-                                print("huh?")
-                                
-                            }
-                            //If at least one location returned, record the first location's details
-//                            if let addressComponent = candidateData {
-//
-//                            } else {
-//                                self.placeID = nil
-//                            }
-                        } catch let error {
-                            print(error.localizedDescription)
-                        }
-                    }
-                    task2.resume()
-                }
-                
                 
                 //Re-Enable search button
                 bCell.buttonRef.isEnabled = true
             }
         })
+        
     }
     
     //When an address is recorded from the user's action, focus the map to the address with basic details
@@ -251,22 +240,31 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
 
             if neariest {
                 if let placeID = self.placeID {
-                    let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.coordinate.rawValue) | UInt(GMSPlaceField.name.rawValue) | UInt(GMSPlaceField.formattedAddress.rawValue))!
+                    let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.coordinate.rawValue) | UInt(GMSPlaceField.name.rawValue) | UInt(GMSPlaceField.formattedAddress.rawValue) | UInt(GMSPlaceField.addressComponents.rawValue))!
                     placesClient.fetchPlace(fromPlaceID: placeID, placeFields: fields, sessionToken: nil, callback: {
                         (place, error) in
                         if let place = place {
-                            //self.address = place.formattedAddress
+                            if let addressComponents = place.addressComponents {
+                                for component in addressComponents {
+                                    self.address.append(component)
+                                }
+                            }
                             let annotation = LocationAnnotation(newTitle: place.name ?? "neariest shop", newSubtitle: "", lat: place.coordinate.latitude, long: place.coordinate.longitude)
                             self.annotations.append(annotation)
                             map.addAnnotations(self.annotations)
+                            print(map.annotations.count)
+                            for an in map.annotations {
+                                print(an.title)
+                            }
 
-                            self.focusOn(annotation: self.annotations[0])
+                            map.showAnnotations(map.annotations, animated: true)
                         }
 
                         if let error = error {
                             print("\(error.localizedDescription)")
                             return
                         }
+                        self.addressAutoFill()
                     })
 
                 }
@@ -357,8 +355,8 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                         break
                 }
             }
-            let shopAddress = "\(streetCellRef.textRef.text), \(suburbCellRef.textRef.text), \(stateCellRef.textRef.text) \(postcodeCellRef.textRef.text)"
-            print(String(shopAddress))
+//            let shopAddress = "\(streetCellRef.textRef.text), \(suburbCellRef.textRef.text), \(stateCellRef.textRef.text) \(postcodeCellRef.textRef.text)"
+//            print(String(shopAddress))
         }
     }
     

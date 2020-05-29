@@ -388,7 +388,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         let _ = addShop(name: "ALDI")
         let _ = addShop(name: "IGA")
         let _ = addShop(name: "Costco")
-        let _ = addShop(name: "7-Eleven")
+        let _ = addShop(name: "7-11")
         self.saveContext()
     }
     
