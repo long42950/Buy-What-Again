@@ -8,9 +8,10 @@
 
 import UIKit
 
-class ShopListTableViewController: UITableViewController, DatabaseListener {
+class ShopListTableViewController: UITableViewController, DatabaseListener, UISearchResultsUpdating {
     
     var allShop: [Shop] = []
+    var filteredShop: [Shop] = []
     weak var databaseController: DatabaseProtocol?
 
     override func viewDidLoad() {
@@ -18,6 +19,26 @@ class ShopListTableViewController: UITableViewController, DatabaseListener {
 
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         databaseController = appDelegate.databaseController
+        
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Shop"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text?.lowercased(), searchText.count > 0 {
+            filteredShop = allShop.filter({(shop: Shop) -> Bool in
+                return shop.name!.lowercased().contains(searchText)
+            })
+        }
+        else {
+            filteredShop = allShop
+        }
+        
+        tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,6 +68,7 @@ class ShopListTableViewController: UITableViewController, DatabaseListener {
     //Fetch the Shop list from CoreData
     func onShopListChange(change: DatabaseChange, shopList: [Shop]) {
         self.allShop = shopList
+        self.filteredShop = allShop
     }
     
     func onKeyChange(change: DatabaseChange, key: [BackupKey]) {
@@ -58,14 +80,14 @@ class ShopListTableViewController: UITableViewController, DatabaseListener {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allShop.count
+        return filteredShop.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let shopCell = tableView.dequeueReusableCell(withIdentifier: "shopCell", for: indexPath)
 
-        shopCell.textLabel?.text = allShop[indexPath.row].name
+        shopCell.textLabel?.text = filteredShop[indexPath.row].name
 
         return shopCell
     }
@@ -85,6 +107,56 @@ class ShopListTableViewController: UITableViewController, DatabaseListener {
         delete.backgroundColor = .red
         
         return [delete]
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let alertController = UIAlertController(title: "Change name", message: "", preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Edit", style: UIAlertAction.Style.default, handler: {(action: UIAlertAction) in
+            if let textField = alertController.textFields {
+                let name = textField[0].text!
+                if name != "" {
+                    let chars = Array(name)
+                    if (name.count > 32) {
+                        self.displayMessage(title: "Nice Item!", message: "Sorry but please name the item with no longer than 32 characters.")
+                        tableView.deselectRow(at: indexPath, animated: true)
+                        return
+                    }
+                    else {
+                        for char in chars {
+                            switch char {
+                            case "<", ">", "\"", "/", "|", "?", "*", "$":
+                                self.displayMessage(title: "Invalid Item name", message: "Make sure the name doesn't contain these character: <>|/|?*$")
+                                tableView.deselectRow(at: indexPath, animated: true)
+                                return
+                            default:
+                                continue
+                            }
+                        }
+                    }
+                    let shop = self.filteredShop[indexPath.row]
+                    let _ = self.databaseController?.editShop(name: name, shop: shop)
+                    self.databaseController!.saveContext()
+                    self.navigationController?.popViewController(animated: true)
+                } else {
+                    self.displayMessage(title: "Error", message: "Invalid item name")
+                }
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            
+        }))
+        alertController.addTextField { textField in
+            textField.placeholder = "Item Name"
+            textField.text = self.filteredShop[indexPath.row].name
+        }
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style:
+            UIAlertAction.Style.destructive, handler: {(action: UIAlertAction) in
+                tableView.deselectRow(at: indexPath, animated: true)
+        }))
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func onAddShop(_ sender: Any) {

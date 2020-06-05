@@ -8,10 +8,11 @@
 
 import UIKit
 
-class PickedGroceryListTableViewController: UITableViewController, DatabaseListener {
+class PickedGroceryListTableViewController: UITableViewController, DatabaseListener, UISearchResultsUpdating {
     
     var shoppingList: ShoppingList?
     var groceryList: [Grocery] = []
+    var filteredList: [Grocery] = []
     
     weak var databaseController: DatabaseProtocol?
 
@@ -23,6 +24,27 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         databaseController = appDelegate.databaseController
+        
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Grocery"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text?.lowercased(), searchText.count > 0 {
+            filteredList = groceryList.filter({(grocery: Grocery) -> Bool in
+                return grocery.name!.lowercased().contains(searchText)
+            })
+        }
+        else {
+            filteredList = groceryList
+        }
+        
+        tableView.reloadData()
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -30,7 +52,7 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groceryList.count
+        return filteredList.count
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,6 +112,7 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
         
             }
         }
+        filteredList = groceryList
         tableView.reloadData()
     }
     
@@ -108,7 +131,7 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let groceryCell = tableView.dequeueReusableCell(withIdentifier: "groceryCell", for: indexPath) as! GroceryTableViewCell
 
-        let grocery = groceryList[indexPath.row]
+        let grocery = filteredList[indexPath.row]
         if grocery.isBought {
             let attrString = NSAttributedString(string: grocery.name!, attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue])
             groceryCell.groceryLabel.attributedText = attrString

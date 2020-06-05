@@ -73,9 +73,20 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         return item
     }
     
+    func editItem(name: String, item: Item) -> (Bool, Error?) {
+        do {
+            let oldItem = try persistantContainer.viewContext.existingObject(with: item.objectID) as! Item
+            oldItem.name = name
+            return (true, nil)
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+            return (false, error)
+        }
+    }
+    
     func editList(name: String, type: String, deadLine: Date?, list: ShoppingList) -> (Bool, Error?) {
         do {
-            var oldList = try persistantContainer.viewContext.existingObject(with: list.objectID) as! ShoppingList
+            let oldList = try persistantContainer.viewContext.existingObject(with: list.objectID) as! ShoppingList
             oldList.name = name
             oldList.type = type
             if let deadline = deadLine {
@@ -164,6 +175,17 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         shop.name = name
         
         return shop
+    }
+    
+    func editShop(name: String, shop: Shop) -> (Bool, Error?) {
+        do {
+            let oldShop = try persistantContainer.viewContext.existingObject(with: shop.objectID) as! Shop
+            oldShop.name = name
+            return (true, nil)
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+            return (false, error)
+        }
     }
     
     internal func addItemToGrocery(_ item: Item, _ grocery: Grocery) -> Bool {

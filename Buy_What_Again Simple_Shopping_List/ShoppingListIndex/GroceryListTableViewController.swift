@@ -8,13 +8,14 @@
 
 import UIKit
 
-class GroceryListTableViewController: UITableViewController, DatabaseListener {
+class GroceryListTableViewController: UITableViewController, DatabaseListener, UISearchResultsUpdating {
 
     
     var newItem = false
     var shoppingList: ShoppingList?
     
     var allItem: [Item] = []
+    var filteredItem: [Item] = []
     weak var databaseController: DatabaseProtocol?
 
     override func viewDidLoad() {
@@ -23,6 +24,26 @@ class GroceryListTableViewController: UITableViewController, DatabaseListener {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         databaseController = appDelegate.databaseController
         
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Grocery"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text?.lowercased(), searchText.count > 0 {
+            filteredItem = allItem.filter({(item: Item) -> Bool in
+                return item.name!.lowercased().contains(searchText)
+            })
+        }
+        else {
+            filteredItem = allItem
+        }
+        
+        tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,6 +68,7 @@ class GroceryListTableViewController: UITableViewController, DatabaseListener {
     //Fetch the Item list from CoreData
     func onItemListChange(change: DatabaseChange, itemList: [Item]) {
         allItem = itemList
+        filteredItem = allItem
     }
     
     func onGroceriesListChange(change: DatabaseChange, groceriesList: [Grocery]) {
@@ -66,23 +88,25 @@ class GroceryListTableViewController: UITableViewController, DatabaseListener {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allItem.count
+        return filteredItem.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let itemCell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! GroceryListTableViewCell
         
-        let list = allItem[indexPath.row]
-        
-        itemCell.textLabel?.text = list.name
-        if let glist = list.groceries {
+        let item = filteredItem[indexPath.row]
+        itemCell.textLabel?.text = item.name
+        if let glist = item.groceries, glist.count > 0 {
             for grocery in glist {
                 if (grocery as! Grocery).shoppinglists! == self.shoppingList {
                     itemCell.chosenLabel?.text = "Chosen!"
                     break
                 }
             }
+        }
+        else {
+            itemCell.chosenLabel?.text = ""
         }
         
         return itemCell

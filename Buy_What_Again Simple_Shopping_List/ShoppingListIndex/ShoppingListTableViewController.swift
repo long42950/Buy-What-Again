@@ -8,9 +8,10 @@
 
 import UIKit
 
-class ShoppingListTableViewController: UITableViewController, DatabaseListener {
+class ShoppingListTableViewController: UITableViewController, DatabaseListener, UISearchResultsUpdating {
 
     var allList: [ShoppingList] = []
+    var filteredList: [ShoppingList] = []
     var chosenList: String?
     var editRow: Int = -1
     weak var databaseController: DatabaseProtocol?
@@ -21,7 +22,29 @@ class ShoppingListTableViewController: UITableViewController, DatabaseListener {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         databaseController = appDelegate.databaseController
         self.tableView.rowHeight = 70
+        
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search List"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        
     }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text?.lowercased(), searchText.count > 0 {
+            filteredList = allList.filter({(list: ShoppingList) -> Bool in
+                return list.name!.lowercased().contains(searchText)
+            })
+        }
+        else {
+            filteredList = allList
+        }
+        
+        tableView.reloadData()
+    }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -39,6 +62,7 @@ class ShoppingListTableViewController: UITableViewController, DatabaseListener {
     //Fetch all ShoppingList from CoreData
     func onShoppingListChange(change: DatabaseChange, shoppList: [ShoppingList]) {
         allList = shoppList
+        filteredList = allList
     }
     
     func onItemListChange(change: DatabaseChange, itemList: [Item]) {
@@ -61,13 +85,13 @@ class ShoppingListTableViewController: UITableViewController, DatabaseListener {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allList.count
+        return filteredList.count
     }
     
     //Configure what information to be shown from the ShoppingList
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let shoppingListCell = tableView.dequeueReusableCell(withIdentifier: "listCell", for: indexPath) as! ShoppingListTableViewCell
-        let shoppingList = allList[indexPath.row]
+        let shoppingList = filteredList[indexPath.row]
         shoppingListCell.nameLabel.text = shoppingList.name!
         if shoppingList.deadline != nil {
             let dateFormatter = DateFormatter()

@@ -22,9 +22,10 @@
 
 import UIKit
 
-class ItemListTableViewController: UITableViewController, DatabaseListener {
+class ItemListTableViewController: UITableViewController, DatabaseListener, UISearchResultsUpdating {
     
     var allItem: [Item] = []
+    var filteredItem: [Item] = []
     var key: [BackupKey] = []
     weak var databaseController: DatabaseProtocol?
     var firebaseController: FirebaseController?
@@ -36,11 +37,27 @@ class ItemListTableViewController: UITableViewController, DatabaseListener {
         databaseController = appDelegate.databaseController
         firebaseController = appDelegate.firebaseController
         
-
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Item"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
         
     }
     
-
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text?.lowercased(), searchText.count > 0 {
+            filteredItem = allItem.filter({(item: Item) -> Bool in
+                return item.name!.lowercased().contains(searchText)
+            })
+        }
+        else {
+            filteredItem = allItem
+        }
+        
+        tableView.reloadData()
+    }
     
     //Call the display menu method when the ? icon was pressed
     @IBAction func onBackupList(_ sender: Any) {
@@ -66,6 +83,7 @@ class ItemListTableViewController: UITableViewController, DatabaseListener {
     //Fetch the Item list from CoreData
     func onItemListChange(change: DatabaseChange, itemList: [Item]) {
         allItem = itemList
+        filteredItem = allItem
     }
     
     func onGroceriesListChange(change: DatabaseChange, groceriesList: [Grocery]) {
@@ -85,15 +103,15 @@ class ItemListTableViewController: UITableViewController, DatabaseListener {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allItem.count
+        return filteredItem.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let itemCell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath)
         
-        let list = allItem[indexPath.row]
+        let item = filteredItem[indexPath.row]
 
-        itemCell.textLabel?.text = list.name
+        itemCell.textLabel?.text = item.name
         return itemCell
     }
     
@@ -111,6 +129,56 @@ class ItemListTableViewController: UITableViewController, DatabaseListener {
         delete.backgroundColor = .red
         
         return [delete]
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let alertController = UIAlertController(title: "Change name", message: "", preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Edit", style: UIAlertAction.Style.default, handler: {(action: UIAlertAction) in
+            if let textField = alertController.textFields {
+                let name = textField[0].text!
+                if name != "" {
+                    let chars = Array(name)
+                    if (name.count > 25) {
+                        self.displayMessage(title: "Nice Item!", message: "Sorry but please name the item with no longer than 25 characters.")
+                        tableView.deselectRow(at: indexPath, animated: true)
+                        return
+                    }
+                    else {
+                        for char in chars {
+                            switch char {
+                            case "<", ">", "\"", "/", "|", "?", "*", "$":
+                                self.displayMessage(title: "Invalid Item name", message: "Make sure the name doesn't contain these character: <>|/|?*$")
+                                tableView.deselectRow(at: indexPath, animated: true)
+                                return
+                            default:
+                                continue
+                            }
+                        }
+                    }
+                    let item = self.filteredItem[indexPath.row]
+                    let _ = self.databaseController?.editItem(name: name, item: item)
+                    self.databaseController!.saveContext()
+                    self.navigationController?.popViewController(animated: true)
+                } else {
+                    self.displayMessage(title: "Error", message: "Invalid item name")
+                }
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            
+        }))
+        alertController.addTextField { textField in
+            textField.placeholder = "Item Name"
+            textField.text = self.filteredItem[indexPath.row].name
+        }
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style:
+            UIAlertAction.Style.destructive, handler: {(action: UIAlertAction) in
+                    tableView.deselectRow(at: indexPath, animated: true)
+            }))
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func onAddItem(_ sender: Any) {

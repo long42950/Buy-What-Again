@@ -43,6 +43,8 @@ protocol DatabaseProtocol: AnyObject {
     func editList(name: String, type: String, deadLine: Date?, list: ShoppingList) -> (Bool, Error?)
     //Add an item to CoreData
     func addItem(name: String) -> Item
+    //Edit an existing item name
+    func editItem(name: String, item: Item) -> (Bool, Error?)
     //Add a grocery to CoreData
     func addGrocery(_ name: String, _ quantity: Float, _ unit: String, _ shopPlaceId: String?, _ street: String?, _ suburb: String?, _ state: String?, _ postcode: String?, _ preferShop: Shop?) -> Grocery
     //Edit an existing grocery inside CoreData
@@ -51,6 +53,8 @@ protocol DatabaseProtocol: AnyObject {
     func editGroceryStatus(isBought: Bool, grocery: Grocery) -> (Grocery, Error?)
     //Add a shop to CoreData
     func addShop(name: String) -> Shop
+    //Edit a shop name
+    func editShop(name: String, shop: Shop) -> (Bool, Error?)
     //Assign an existing item to an existing grocery inside CoreData
     func addItemToGrocery(_ item: Item, _ grocery: Grocery) -> Bool
     //Assign an existing grocery to an existing shopping list inside CoreData
