@@ -36,7 +36,11 @@ class ItemListTableViewController: UITableViewController, DatabaseListener {
         databaseController = appDelegate.databaseController
         firebaseController = appDelegate.firebaseController
         
+
+        
     }
+    
+
     
     //Call the display menu method when the ? icon was pressed
     @IBAction func onBackupList(_ sender: Any) {
@@ -113,10 +117,26 @@ class ItemListTableViewController: UITableViewController, DatabaseListener {
         let alertController = UIAlertController(title: "New Item", message: "", preferredStyle: UIAlertController.Style.alert)
         alertController.addAction(UIAlertAction(title: "Add", style: UIAlertAction.Style.default, handler: {(action: UIAlertAction) in
             if let textField = alertController.textFields {
-                let name = textField[0].text
+                let name = textField[0].text!
                 if name != "" {
+                    let chars = Array(name)
+                    if (name.count > 25) {
+                        self.displayMessage(title: "Nice Item!", message: "Sorry but please name the item with no longer than 25 characters.")
+                        return
+                    }
+                    else {
+                        for char in chars {
+                            switch char {
+                            case "<", ">", "\"", "/", "|", "?", "*", "$":
+                                self.displayMessage(title: "Invalid Item name", message: "Make sure the name doesn't contain these character: <>|/|?*$")
+                                return
+                            default:
+                                continue
+                            }
+                        }
+                    }
 
-                    let _ = self.databaseController?.addItem(name: name!)
+                    let _ = self.databaseController?.addItem(name: name)
                     self.databaseController!.saveContext()
                     self.navigationController?.popViewController(animated: true)
                 } else {
@@ -136,6 +156,10 @@ class ItemListTableViewController: UITableViewController, DatabaseListener {
             UIAlertAction.Style.destructive, handler: nil))
         
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc func dismisskeyboard() {
+        view.endEditing(true)
     }
     
     //Show user a message with the alert message box

@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import GooglePlaces
 
-class QuantityTableViewController: UITableViewController, DatabaseListener, UIPickerViewDataSource, UIPickerViewDelegate, CLLocationManagerDelegate, GMSAutocompleteViewControllerDelegate {
+class QuantityTableViewController: UITableViewController, DatabaseListener, UIPickerViewDataSource, UIPickerViewDelegate, CLLocationManagerDelegate, GMSAutocompleteViewControllerDelegate, UITextFieldDelegate {
     
     
     
@@ -65,6 +65,41 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
         self.locationManager.requestAlwaysAuthorization()
         
 
+            let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismisskeyboard")
+            view.addGestureRecognizer(tap)
+            
+    }
+    
+    @objc func dismisskeyboard() {
+        view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let placeHolder = textField.placeholder, let text = textField.text {
+            switch placeHolder {
+                case "Amount":
+                    self.tempQuantity = text
+                    break
+                case "Street":
+                    self.tempAddress.street = text
+                    break
+                case "Suburb":
+                    self.tempAddress.suburb = text
+                    break
+                case "State":
+                    self.tempAddress.state = text
+                    break
+                case "PostCode":
+                    self.tempAddress.postcode = text
+                    break
+                default:
+                    break
+            }
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -180,7 +215,7 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                 self.resetMap()
                 
                 //Complete the url for fetching nearby shop
-                var searchString = "\(self.shopList[selectedRow-1].name!), Hong Kong"
+                var searchString = "\(self.shopList[selectedRow-1].name!)"
                 searchString = searchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
                 searchString = searchString.replacingOccurrences(of: ",", with: "%2C", options: .literal, range: .none)
                 searchString = searchString.replacingOccurrences(of: "&", with: "%26", options: .literal, range: .none)
@@ -425,17 +460,33 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
             var postcode: String?
             if let tempStreet = self.tempAddress.street {
                 street = tempStreet
+                if (!self.validateAddress(address: street!)) {
+                    self.displayMessage(title: "Invalid Street address", message: "Please make sure the address is no longer than 50 characters and does not contain these characters: <>|/|?*$")
+                    return
+                }
             }
             if let tempSuburb = self.tempAddress.suburb {
                 suburb = tempSuburb
+                if (!self.validateAddress(address: suburb!)) {
+                    self.displayMessage(title: "Invalid Suburb address", message: "Please make sure the address is no longer than 50 characters and does not contain these characters: <>|/|?*$")
+                    return
+                }
             }
             
             if let tempState = self.tempAddress.state {
                 state = tempState
+                if (!self.validateAddress(address: state!)) {
+                    self.displayMessage(title: "Invalid State address", message: "Please make sure the address is no longer than 50 characters and does not contain these characters: <>|/|?*$")
+                    return
+                }
             }
             
             if let tempPostcode = self.tempAddress.postcode {
                 postcode = tempPostcode
+                if (!self.validateAddress(address: postcode!)) {
+                    self.displayMessage(title: "Invalid Postcode address", message: "Please make sure the address is no longer than 50 characters and does not contain these characters: <>|/|?*$")
+                    return
+                }
             }
             
             
@@ -466,6 +517,26 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
             amountCellRef.textRef.attributedPlaceholder = NSAttributedString(string: "Amount",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemRed])
         }
+    }
+    
+    private func validateAddress(address: String) -> Bool {
+        if address != "" {
+            let chars = Array(address)
+            if (address.count > 50) {
+                return false
+            }
+            else {
+                for char in chars {
+                    switch char {
+                    case "<", ">", "\"", "/", "|", "?", "*", "$":
+                        return false
+                    default:
+                        continue
+                    }
+                }
+            }
+        }
+        return true
     }
     
 
@@ -568,7 +639,7 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                 cell.selectionStyle = .none
                 
                 cell.quantityTableViewControllerRef(self)
-                let count = self.address.count
+                print(currentCell)
                 switch currentCell {
                     case 0:
                         cell.textRef.placeholder = "Amount"
@@ -581,73 +652,78 @@ class QuantityTableViewController: UITableViewController, DatabaseListener, UIPi
                         else {
                             cell.textRef.text = ""
                         }
+                        cell.textRef.keyboardType = UIKeyboardType.decimalPad
                         self.amountTextCell = cell
                         break
                     case 6:
                         cell.textRef.placeholder = "Street"
                         if let grocery = self.currentGrocery {
                             if let street = grocery.street {
-                                cell.textRef.text = "\(street)"
+                                self.tempAddress.street = "\(street)"
                             }
                         }
-                        else if count > 0, let street = self.tempAddress.street {
+                        if let street = self.tempAddress.street {
                             cell.textRef.text = "\(street)"
                         }
                         else {
                             cell.textRef.text = ""
                         }
+                        cell.textRef.keyboardType = UIKeyboardType.asciiCapable
                         self.streetTextCell = cell
                         break
                     case 7:
                         cell.textRef.placeholder = "Suburb"
                         if let grocery = self.currentGrocery {
                             if let suburb = grocery.suburb {
-                                cell.textRef.text = "\(suburb)"
+                                self.tempAddress.suburb = "\(suburb)"
                             }
                         }
-                        else if count > 0, let suburb = self.tempAddress.suburb {
+                        if let suburb = self.tempAddress.suburb {
                             cell.textRef.text = "\(suburb)"
                         }
                         else {
                             cell.textRef.text = ""
                         }
+                        cell.textRef.keyboardType = UIKeyboardType.asciiCapable
                         self.suburbTextCell = cell
                         break
                     case 8:
                         cell.textRef.placeholder = "State"
                         if let grocery = self.currentGrocery {
                             if let state = grocery.state {
-                                cell.textRef.text = "\(state)"
+                                self.tempAddress.state = "\(state)"
                             }
                         }
-                        else if count > 0, let state = self.tempAddress.state {
+                        if let state = self.tempAddress.state {
                             cell.textRef.text = "\(state)"
                         }
                         else {
                             cell.textRef.text = ""
                         }
+                        cell.textRef.keyboardType = UIKeyboardType.asciiCapable
                         self.stateTextCell = cell
                         break
                     case 9:
                         cell.textRef.placeholder = "Postcode"
                         if let grocery = self.currentGrocery {
                             if let postcode = grocery.postcode {
-                                cell.textRef.text = "\(postcode)"
+                                self.tempAddress.postcode = "\(postcode)"
                             }
                         }
-                        else if count > 0, let postcode = self.tempAddress.postcode {
+                        if let postcode = self.tempAddress.postcode {
                             cell.textRef.text = "\(postcode)"
                         }
                         else {
                             cell.textRef.text = ""
                         }
+                        cell.textRef.keyboardType = UIKeyboardType.asciiCapable
                         self.postcodeTextCell = cell
                         break
                     default:
                         cell.textRef.placeholder = "ERROR"
                         self.amountTextCell = cell
                 }
-
+                cell.textRef.delegate = self
                 return cell
         }
     }

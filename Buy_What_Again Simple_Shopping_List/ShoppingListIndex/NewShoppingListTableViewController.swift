@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewShoppingListTableViewController: UITableViewController {
+class NewShoppingListTableViewController: UITableViewController, UITextFieldDelegate {
     
     weak var switchCell: UITableViewCell?
     weak var selectCell: UITableViewCell?
@@ -30,6 +30,17 @@ class NewShoppingListTableViewController: UITableViewController {
             self.title = list.name
         }
         
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismisskeyboard")
+        view.addGestureRecognizer(tap)
+        
+    }
+    
+    @objc func dismisskeyboard() {
+        view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -100,7 +111,7 @@ class NewShoppingListTableViewController: UITableViewController {
                     cell.textRef.text = ""
                 }
                 self.textCell = cell
-
+                cell.textRef.delegate = self
                 return cell
             case 2:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "switchCell", for: indexPath) as! SwitchTableViewCell
@@ -157,6 +168,22 @@ class NewShoppingListTableViewController: UITableViewController {
         
         if (textCellRef.textRef.text != "" && textCellRef.textRef.isEnabled) {
             let name = textCellRef.textRef.text!
+            let chars = Array(name)
+            if (name.count > 25) {
+                self.displayMessage(title: "Long name huh?", message: "Please name your list with no longer than 25 characters.")
+                return
+            }
+            else {
+                for char in chars {
+                    switch char {
+                    case "<", ">", "\"", "/", "|", "?", "*", "$":
+                        self.displayMessage(title: "Invalid list name", message: "Make sure the name doesn't contain these character: <>|/|?*$")
+                        return
+                    default:
+                        continue
+                    }
+                }
+            }
             let listType = selectCellRef.decisionRef.text!
             var deadline: Date? = nil
             if switchCellRef.switchRef.isOn {

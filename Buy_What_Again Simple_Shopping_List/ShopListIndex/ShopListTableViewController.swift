@@ -91,10 +91,26 @@ class ShopListTableViewController: UITableViewController, DatabaseListener {
         let alertController = UIAlertController(title: "New Shop", message: "", preferredStyle: UIAlertController.Style.alert)
         alertController.addAction(UIAlertAction(title: "Add", style: UIAlertAction.Style.default, handler: {(action: UIAlertAction) in
             if let textField = alertController.textFields {
-                let name = textField[0].text
+                let name = textField[0].text!
                 if name != "" {
+                    let chars = Array(name)
+                    if (name.count > 32) {
+                        self.displayMessage(title: "Nice name!", message: "Sorry but please name the shop with no longer than 32 characters.")
+                        return
+                    }
+                    else {
+                        for char in chars {
+                            switch char {
+                            case "<", ">", "\"", "/", "|", "?", "*", "$":
+                                self.displayMessage(title: "Invalid shop name", message: "Make sure the name doesn't contain these character: <>|/|?*$")
+                                return
+                            default:
+                                continue
+                            }
+                        }
+                    }
 
-                    let _ = self.databaseController?.addShop(name: name!)
+                    let _ = self.databaseController?.addShop(name: name)
                     self.databaseController!.saveContext()
                     self.navigationController?.popViewController(animated: true)
                 } else {
