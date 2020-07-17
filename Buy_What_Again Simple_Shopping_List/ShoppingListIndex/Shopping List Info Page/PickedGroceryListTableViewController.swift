@@ -13,6 +13,7 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
     var shoppingList: ShoppingList?
     var groceryList: [Grocery] = []
     var filteredList: [Grocery] = []
+    var rowAtSectionZ = 0
     
     weak var databaseController: DatabaseProtocol?
 
@@ -39,20 +40,37 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
             filteredList = groceryList.filter({(grocery: Grocery) -> Bool in
                 return grocery.name!.lowercased().contains(searchText)
             })
+            self.rowAtSectionZ = self.sortFilteredList(method: .isBought)
         }
         else {
             filteredList = groceryList
+            self.rowAtSectionZ = self.sortFilteredList(method: .isBought)
         }
         
         tableView.reloadData()
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if filteredList.count == 0 {
+            return ""
+        }
+        if section	== 0 {
+            return "unbought"
+        } else {
+            return "bought"
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredList.count
+        if section == 0 {
+            return self.rowAtSectionZ
+        } else {
+            return filteredList.count - self.rowAtSectionZ
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -113,6 +131,7 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
             }
         }
         filteredList = groceryList
+        self.rowAtSectionZ = self.sortFilteredList(method: .isBought)
         tableView.reloadData()
     }
     
@@ -131,17 +150,17 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let groceryCell = tableView.dequeueReusableCell(withIdentifier: "groceryCell", for: indexPath) as! GroceryTableViewCell
 
-        let grocery = filteredList[indexPath.row]
-        if grocery.isBought {
-            let attrString = NSAttributedString(string: grocery.name!, attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue])
-            groceryCell.groceryLabel.attributedText = attrString
-            groceryCell.quantityLabel.text = "Bought!"
-            
-        }
-        else {
+        if indexPath.section == 0 {
+            let grocery = filteredList[indexPath.row]
             groceryCell.groceryLabel.attributedText = nil
             groceryCell.groceryLabel.text = grocery.name
             groceryCell.quantityLabel.text = "\(grocery.quantity) \(grocery.unit!)"
+        } else {
+            let boughtIndex = self.rowAtSectionZ
+            let grocery = filteredList[indexPath.row + boughtIndex]
+            let attrString = NSAttributedString(string: grocery.name!, attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue])
+            groceryCell.groceryLabel.attributedText = attrString
+            groceryCell.quantityLabel.text = "Bought!"
         }
         
 
@@ -152,20 +171,24 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
     //Create delete action for each cell to delete an Item, and either the done or undo action depending on the Grocery's status
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let delete = UITableViewRowAction(style: .normal, title: "delete", handler: {action, index in
-            let deleteGrocery = self.groceryList[indexPath.row]
+            var deleteGrocery = self.filteredList[indexPath.row]
+            if indexPath.section != 0 {
+                deleteGrocery = self.filteredList[indexPath.row + self.rowAtSectionZ]
+            }
             self.groceryList.remove(at: indexPath.row)
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .fade)
-            tableView.endUpdates()
             let _ = self.databaseController?.removeGroceryFromList(grocery: deleteGrocery, list: self.shoppingList!)
             self.databaseController?.saveContext()
+            tableView.endUpdates()
+            
         })
         
         delete.backgroundColor = .red
         
         //If the Grocery hasn't been bought include this as a possible action which turn the status to bought
         let done = UITableViewRowAction(style: .normal, title: "done", handler: {action, index in
-            let broughtGrocery = self.groceryList[indexPath.row]
+            let broughtGrocery = self.filteredList[indexPath.row]
             broughtGrocery.isBought =  true
             self.databaseController?.saveContext()
         })
@@ -174,13 +197,13 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
         
         //If the Grocery has been bought include this as a possible action which turn the status to un-bought
         let undo = UITableViewRowAction(style: .normal, title: "un-do", handler: {action, index in
-            let broughtGrocery = self.groceryList[indexPath.row]
+            let broughtGrocery = self.filteredList[indexPath.row + self.rowAtSectionZ]
             broughtGrocery.isBought =  false
             self.databaseController?.saveContext()
         })
         
         undo.backgroundColor = .darkGray
-        if groceryList[indexPath.row].isBought {
+        if indexPath.section == 1 {
             return [delete, undo]
         }
         
@@ -198,6 +221,28 @@ class PickedGroceryListTableViewController: UITableViewController, DatabaseListe
             destination.currentGrocery = groceryList[(self.tableView.indexPathForSelectedRow?.row)!]
             destination.title = destination.currentGrocery?.name
         }
+    }
+    
+    //Sort Grocery list
+    private func sortFilteredList(method: ListSorting) -> Int {
+        var sortedList = filteredList
+        var i = 0
+        var j = 0
+        switch method {
+            case .isBought:
+                for grocery in filteredList {
+                    if !grocery.isBought {
+                        sortedList.swapAt(i, j)
+                        i += 1
+                    }
+                    j += 1
+                }
+                break
+            default:
+                break
+        }
+        self.filteredList = sortedList
+        return i
     }
     
     //Show user a message with the alert message box
